@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import Card from "./Card";
+import React from "react";
 
 const Questions = () => {
-  const [data, setData] = useState([{}]);
+  // const [data, setData] = useState([{}]);
 
   /* useEffect(() => {
     fetch("/questions")
