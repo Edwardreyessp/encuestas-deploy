@@ -1,0 +1,23 @@
+.Navbar {
+  width: 100vw;
+  height: 89px;
+  background: $color-background;
+  @include ajustar;
+  @include centrar;
+  justify-content: space-between;
+
+  a {
+    text-decoration: none;
+    color: $color-letter;
+  }
+
+  .Routes {
+    width: 200px;
+    @include centrar;
+    justify-content: space-between;
+
+    a:hover {
+      opacity: 0.5;
+    }
+  }
+}

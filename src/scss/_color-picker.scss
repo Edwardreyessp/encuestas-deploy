@@ -1,0 +1,17 @@
+.Color-picker {
+  position: absolute;
+  left: 180px;
+  .Button-color {
+    background: white;
+    @include centrar;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid rgb(0, 0, 0, 0.3);
+    margin-top: 2px;
+    font-size: small;
+  }
+
+  .Button-color:hover {
+    opacity: 0.8;
+  }
+}

@@ -1,0 +1,31 @@
+.Files {
+  @include centrar;
+  justify-content: space-between;
+  margin-top: 98px;
+  @include ajustar;
+
+  .Upload-files {
+    .Button-validate {
+      @include centrar;
+
+      .Button {
+        margin: 20px;
+        background: $color-background;
+        width: 393px;
+        height: 64px;
+        border-radius: 10px;
+        @include centrar;
+      }
+
+      .Button:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+
+      .material-symbols-outlined {
+        font-size: 40px;
+        font-weight: 600;
+      }
+    }
+  }
+}

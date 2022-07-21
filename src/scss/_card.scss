@@ -1,0 +1,78 @@
+.Card {
+  margin-right: 20px;
+  .Statement {
+    background: $color-background;
+    width: 950px;
+    height: 85px;
+    border-radius: 5px;
+    @include between;
+    padding-left: 38px;
+    cursor: pointer;
+  }
+
+  .Statement-no-answers {
+    background: $color-background;
+    width: 950px;
+    height: 85px;
+    border-radius: 5px;
+    @include between;
+    padding-left: 38px;
+    cursor: pointer;
+    margin-bottom: 28px;
+  }
+
+  .Hide-answers {
+    opacity: 0.8;
+  }
+
+  .Answers {
+    background: $color-background-answers;
+    margin-left: 40px;
+    margin-bottom: 28px;
+    padding: 22px 26px;
+    border-radius: 5px;
+
+    .Individual-answer {
+      @include between;
+      margin: 15px 0;
+
+      span {
+        cursor: pointer;
+      }
+
+      section {
+        display: flex;
+        align-items: center;
+
+        .Color-answer {
+          width: 30px;
+          height: 30px;
+          background: #fff;
+          margin-right: 22px;
+          cursor: pointer;
+        }
+      }
+
+      @import "./color-picker";
+    }
+
+    .edit-answer {
+      @include between;
+
+      span {
+        cursor: pointer;
+      }
+
+      input {
+        height: 30px;
+        border: 0;
+        border-radius: 2px;
+        width: 90%;
+        padding-left: 15px;
+        font-family: "Montserrat";
+        margin: 8px 0;
+        outline: none;
+      }
+    }
+  }
+}

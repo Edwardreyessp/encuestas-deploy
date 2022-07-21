@@ -1,0 +1,57 @@
+.Questions {
+  @include ajustar;
+  @include between;
+  align-items: flex-start;
+  margin-top: 49px;
+
+  .Graphics {
+    background: $color-background;
+    width: 493px;
+    height: 245px;
+    border-radius: 10px;
+    padding: 24px 36px;
+
+    h1 {
+      margin-bottom: 19px;
+      font-family: "Bebas Neue", cursive;
+      font-size: 36px;
+    }
+
+    .nameGraphic {
+      @include between;
+
+      .Name {
+        width: 650px;
+      }
+
+      p,
+      input {
+        margin-bottom: 18px;
+      }
+
+      input {
+        border: 0;
+        border-radius: 5px;
+        outline: none;
+        height: 27px;
+        padding-left: 10px;
+        font-family: "Montserrat";
+        font-size: 20px;
+        max-width: 180px;
+      }
+    }
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    width: 493px;
+    height: 64px;
+    background: $color-background;
+    margin-top: 19px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: "Montserrat";
+  }
+}
