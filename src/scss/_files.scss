@@ -8,12 +8,17 @@
     .Button-validate {
       @include centrar;
 
+      input[type="file"] {
+        display: none;
+      }
+
       .Button {
         margin: 20px;
         background: $color-background;
         width: 393px;
         height: 64px;
         border-radius: 10px;
+        font-weight: 600;
         @include centrar;
       }
 
@@ -25,6 +30,11 @@
       .material-symbols-outlined {
         font-size: 40px;
         font-weight: 600;
+      }
+
+      .hide-done {
+        width: 40px;
+        height: 40px;
       }
     }
   }
