@@ -1,5 +1,6 @@
 import { useState } from "react";
 import logo from "../images/logo.png";
+import axios from "axios";
 
 const Files = ({ setDone }) => {
   const [files, setFiles] = useState(null);
@@ -8,15 +9,36 @@ const Files = ({ setDone }) => {
     setFiles(e.target.files);
   };
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    for (let index = 0; index < 2; index++) {
+      const formData = new FormData();
+      formData.append("uploadFile", files[index]);
+
+      axios
+        .post("/questions", formData)
+        .then((res) => console.log(res))
+        .catch((err) => console.warn(err));
+    }
+
+    // setDone(true);
+  };
+
   return (
     <main className="Files">
       <img src={logo} alt="Logo de la empresa" />
       <section className="Upload-files">
         <form className="Button-validate">
-          <label htmlFor="file" className="Button">
+          <label htmlFor="uploadFile" className="Button">
             Subir archivos
           </label>
-          <input type="file" id="file" multiple onChange={subirArchivo} />
+          <input
+            type="file"
+            id="uploadFile"
+            name="uploadFile"
+            multiple
+            onChange={subirArchivo}
+          />
           {files !== null ? (
             <span className="material-symbols-outlined">done</span>
           ) : (
@@ -25,9 +47,9 @@ const Files = ({ setDone }) => {
         </form>
         {files !== null ? (
           <div className="Button-validate">
-            <label className="Button" onClick={() => setDone(true)}>
+            <div className="Button" onClick={handleSubmit}>
               Aceptar
-            </label>
+            </div>
             <span className="hide-done" />
           </div>
         ) : (

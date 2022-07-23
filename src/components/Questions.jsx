@@ -1,9 +1,12 @@
-// import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "./Card";
-import React from "react";
 
 const Questions = () => {
   // const [data, setData] = useState([{}]);
+  const [editedBarras, setEditedBarras] = useState("");
+  const [editedHistograma, setEditedHistograma] = useState("");
+  const [editedBarras2, setEditedBarras2] = useState("");
+  const [graphics, setGraphics] = useState({});
 
   /* useEffect(() => {
     fetch("/questions")
@@ -178,6 +181,17 @@ const Questions = () => {
     },
   };
 
+  const createGraphic = () => {
+    const updateGrapgics = {
+      barras: editedBarras,
+      histograma: editedHistograma,
+      barras2: editedBarras2,
+    };
+
+    setGraphics(updateGrapgics);
+    console.log(graphics);
+  };
+
   return (
     <main className="Questions">
       <section className="Cards">
@@ -216,13 +230,25 @@ const Questions = () => {
               <p>Gráfico de barras</p>
             </div>
             <div>
-              <input type="text" />
-              <input type="text" />
-              <input type="text" />
+              <input
+                type="text"
+                value={editedBarras}
+                onChange={(e) => setEditedBarras(e.target.value)}
+              />
+              <input
+                type="text"
+                value={editedHistograma}
+                onChange={(e) => setEditedHistograma(e.target.value)}
+              />
+              <input
+                type="text"
+                value={editedBarras2}
+                onChange={(e) => setEditedBarras2(e.target.value)}
+              />
             </div>
           </section>
         </section>
-        <button>Crear gráficas</button>
+        <button onClick={createGraphic}>Crear gráficas</button>
       </section>
     </main>
   );
