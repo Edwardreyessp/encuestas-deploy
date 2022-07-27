@@ -1,23 +1,54 @@
+import axios from "axios";
 import { useState } from "react";
 import { SketchPicker } from "react-color";
 
-const Answers = ({ answer, id, currentID, setCurrentID }) => {
+const Answers = ({ color, answer, idQuestion, id, setLoading }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedAnswer, setEditedAnswer] = useState(answer);
-  const [showColor, setShowColor] = useState(false);
-  const [sketchPickerColor, setSketchPickerColor] = useState({
-    r: "255",
-    g: "255",
-    b: "255",
-    a: "1",
-  });
-  const { r, g, b, a } = sketchPickerColor;
 
-  const ClickColor = () => {
+  const [showColor, setShowColor] = useState(false);
+  const [sketchPickerColor, setSketchPickerColor] = useState(color);
+
+  const saveColor = (event) => {
     setShowColor(!showColor);
+    if (showColor) {
+      event.preventDefault();
+
+      const newColor = {
+        color: sketchPickerColor,
+      };
+
+      const url = "/colors/" + idQuestion + "-" + id;
+
+      setLoading(true);
+      axios
+        .put(url, newColor)
+        .then((res) => {
+          console.log(res);
+          setLoading(false);
+        })
+        .catch((err) => console.warn(err));
+    }
   };
 
-  const saveAnswer = () => {
+  const saveAnswer = (event) => {
+    event.preventDefault();
+
+    const newAnswer = {
+      respuesta: editedAnswer,
+    };
+
+    const url = "/questions/" + idQuestion + "-" + id;
+
+    setLoading(true);
+    axios
+      .put(url, newAnswer)
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => console.warn(err));
+
     setIsEditing(false);
   };
 
@@ -30,11 +61,11 @@ const Answers = ({ answer, id, currentID, setCurrentID }) => {
             value={editedAnswer}
             onChange={(e) => setEditedAnswer(e.target.value)}
           />
-          <span class="material-symbols-outlined" onClick={saveAnswer}>
+          <span className="material-symbols-outlined" onClick={saveAnswer}>
             save
           </span>
           <span
-            class="material-symbols-outlined"
+            className="material-symbols-outlined"
             onClick={() => setIsEditing(false)}
           >
             close
@@ -49,18 +80,18 @@ const Answers = ({ answer, id, currentID, setCurrentID }) => {
       <section>
         <div
           className="Color-answer"
-          onClick={ClickColor}
-          style={{ background: `rgba(${r},${g},${b},${a})` }}
+          onClick={saveColor}
+          style={{ background: sketchPickerColor }}
         ></div>
         {showColor ? (
           <div className="Color-picker">
             <SketchPicker
               onChange={(color) => {
-                setSketchPickerColor(color.rgb);
+                setSketchPickerColor(color.hex);
               }}
               color={sketchPickerColor}
             />
-            <p className="Button-color" onClick={ClickColor}>
+            <p className="Button-color" onClick={saveColor}>
               Aceptar
             </p>
           </div>
@@ -70,7 +101,7 @@ const Answers = ({ answer, id, currentID, setCurrentID }) => {
         <p>{answer}</p>
       </section>
       <span
-        class="material-symbols-outlined"
+        className="material-symbols-outlined"
         onClick={() => setIsEditing(true)}
       >
         edit

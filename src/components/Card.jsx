@@ -1,9 +1,8 @@
 import { useState } from "react";
 import Answers from "./Answers";
 
-const Card = ({ enunciado, respuestas }) => {
+const Card = ({ idQuestion, enunciado, respuestas, setLoading }) => {
   const [statement, setStatement] = useState(false);
-  const [currentID, setCurrentID] = useState("");
 
   const ClickStatement = () => {
     setStatement(!statement);
@@ -23,10 +22,11 @@ const Card = ({ enunciado, respuestas }) => {
               return (
                 <div key={index}>
                   <Answers
-                    answer={answer}
+                    color={answer.color}
+                    answer={answer.respuesta}
+                    idQuestion={idQuestion}
                     id={Object.keys(respuestas)[index]}
-                    currentID={currentID}
-                    setCurrentID={setCurrentID}
+                    setLoading={setLoading}
                   />
                 </div>
               );

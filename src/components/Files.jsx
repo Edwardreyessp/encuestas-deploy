@@ -15,13 +15,15 @@ const Files = ({ setDone }) => {
       const formData = new FormData();
       formData.append("uploadFile", files[index]);
 
+      const url = "/files";
+
       axios
-        .post("/questions", formData)
+        .post(url, formData)
         .then((res) => console.log(res))
         .catch((err) => console.warn(err));
     }
 
-    // setDone(true);
+    setDone(true);
   };
 
   return (
