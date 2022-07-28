@@ -1,26 +1,35 @@
 import { useState } from "react";
 import logo from "../images/logo.png";
-import axios from "axios";
+// import axios from "axios";
+import { uploadFile } from "../firebase/config";
+import ReactLoading from "react-loading";
 
 const Files = ({ setDone }) => {
   const [files, setFiles] = useState(null);
 
   const subirArchivo = (e) => {
-    setFiles(e.target.files);
+    for (let index = 0; index < Object.keys(e.target.files).length; index++) {
+      if (
+        e.target.files[index].type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        e.target.files[index].type === "text/csv"
+      ) {
+        setFiles(e.target.files);
+      }
+    }
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    for (let index = 0; index < 2; index++) {
-      const formData = new FormData();
-      formData.append("uploadFile", files[index]);
-
-      const url = "/files";
-
-      axios
-        .post(url, formData)
-        .then((res) => console.log(res))
-        .catch((err) => console.warn(err));
+    for (let index = 0; index < Object.keys(files).length; index++) {
+      uploadFile(files[index], files[index].name);
+      //   const formData = new FormData();
+      //   formData.append("uploadFile", files[index]);
+      //   const url = "/files";
+      //   axios
+      //     .post(url, formData)
+      //     .then((res) => console.log(res))
+      //     .catch((err) => console.warn(err));
     }
 
     setDone(true);
@@ -58,6 +67,12 @@ const Files = ({ setDone }) => {
           ""
         )}
       </section>
+      <ReactLoading
+        type={"spinningBubbles"}
+        color={"#000000"}
+        height={50}
+        width={50}
+      />
     </main>
   );
 };

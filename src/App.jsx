@@ -8,7 +8,7 @@ const App = () => {
 
   return (
     <>
-      <Navbar setDone={setDone}/>
+      <Navbar setDone={setDone} />
       {done ? <Questions /> : <Files setDone={setDone} />}
     </>
   );
