@@ -5,6 +5,15 @@
   @include ajustar;
 
   .Upload-files {
+    .isLoading {
+      @include centrar;
+
+      .hide-done {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
     .Button-validate {
       @include centrar;
 
@@ -27,13 +36,17 @@
         cursor: pointer;
       }
 
-      .material-symbols-outlined {
+      .document {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
         font-size: 40px;
         font-weight: 600;
+        width: 70px;
       }
 
       .hide-done {
-        width: 40px;
+        width: 70px;
         height: 40px;
       }
     }

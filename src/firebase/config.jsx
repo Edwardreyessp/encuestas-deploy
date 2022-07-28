@@ -15,9 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-export const uploadFile = (file, fileName) => {
+export const uploadFile = async (file, fileName) => {
   const storageRef = ref(storage, fileName);
-  uploadBytes(storageRef, file).then((snaphot) => {
-    console.log(snaphot);
-  });
+  return await uploadBytes(storageRef, file);
 };
