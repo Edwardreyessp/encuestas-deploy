@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import logo from "../images/logo.png";
-// import axios from "axios";
+import axios from "axios";
 import { uploadFile } from "../firebase/config";
 import ReactLoading from "react-loading";
 import { faFileWord, faFileCsv } from "@fortawesome/free-solid-svg-icons";
@@ -58,26 +58,34 @@ const Files = ({ setDone }) => {
     event.preventDefault();
     setIsLoading(true);
 
+    let wordName, excelName;
+
     for (let index = 0; index < files.length; index++) {
       if (
         files[index].type ===
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       ) {
-        await uploadFile(files[index], "word");
+        await uploadFile(files[index], files[index].name);
+        wordName = files[index].name;
       } else {
-        await uploadFile(files[index], "excel");
+        const urlE = await uploadFile(files[index], files[index].name);
+        console.log(urlE);
+        excelName = files[index].name;
       }
     }
     setIsLoading(false);
     setDone(true);
 
-    //   const formData = new FormData();
-    //   formData.append("uploadFile", files[index]);
-    //   const url = "/files";
-    //   axios
-    //     .post(url, formData)
-    //     .then((res) => console.log(res))
-    //     .catch((err) => console.warn(err));
+    const filesName = {
+      word: wordName,
+      excel: excelName,
+    };
+
+    const urlFiles = "/files";
+    axios
+      .post(urlFiles, filesName)
+      .then((res) => console.log(res))
+      .catch((err) => console.warn(err));
   };
 
   return (

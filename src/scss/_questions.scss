@@ -4,6 +4,18 @@
   align-items: flex-start;
   margin-top: 49px;
 
+  .isLoading {
+    @include centrar;
+    width: 493px;
+    height: 64px;
+    margin-top: 19px;
+  }
+
+  .isLoadingQuestions {
+    width: 60%;
+    @include centrar;
+  }
+
   .Graphics {
     background: $color-background;
     width: 493px;
