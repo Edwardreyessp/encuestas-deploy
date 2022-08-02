@@ -17,7 +17,6 @@ const storage = getStorage(app);
 
 export const uploadFile = async (file, fileName) => {
   const storageRef = ref(storage, fileName);
-  console.log(file);
   await uploadBytes(storageRef, file);
   const url = await getDownloadURL(storageRef);
   return url;

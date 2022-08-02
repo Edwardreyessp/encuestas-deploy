@@ -68,8 +68,7 @@ const Files = ({ setDone }) => {
         await uploadFile(files[index], files[index].name);
         wordName = files[index].name;
       } else {
-        const urlE = await uploadFile(files[index], files[index].name);
-        console.log(urlE);
+        await uploadFile(files[index], files[index].name);
         excelName = files[index].name;
       }
     }
@@ -82,10 +81,7 @@ const Files = ({ setDone }) => {
     };
 
     const urlFiles = "/files";
-    axios
-      .post(urlFiles, filesName)
-      .then((res) => console.log(res))
-      .catch((err) => console.warn(err));
+    axios.post(urlFiles, filesName).catch((err) => console.warn(err));
   };
 
   return (

@@ -8,23 +8,29 @@ const Answers = ({ color, answer, idQuestion, id, setLoading }) => {
 
   const [showColor, setShowColor] = useState(false);
   const [sketchPickerColor, setSketchPickerColor] = useState(color);
+  const [cancelColor, setCancelColor] = useState(color);
+
+  const cancelNewColor = () => {
+    setShowColor(false);
+    setSketchPickerColor(cancelColor);
+  };
 
   const saveColor = (event) => {
     setShowColor(!showColor);
     if (showColor) {
+      setCancelColor(sketchPickerColor);
       event.preventDefault();
 
       const newColor = {
         color: sketchPickerColor,
+        respuesta: editedAnswer,
       };
 
-      const url = "/colors/" + idQuestion + "-" + id;
+      const url = "/questions/" + idQuestion + "-" + id;
 
-      setLoading(true);
       axios
         .put(url, newColor)
         .then((res) => {
-          console.log(res);
           setLoading(false);
         })
         .catch((err) => console.warn(err));
@@ -36,15 +42,14 @@ const Answers = ({ color, answer, idQuestion, id, setLoading }) => {
 
     const newAnswer = {
       respuesta: editedAnswer,
+      color: sketchPickerColor,
     };
 
     const url = "/questions/" + idQuestion + "-" + id;
 
-    setLoading(true);
     axios
       .put(url, newAnswer)
       .then((res) => {
-        console.log(res);
         setLoading(false);
       })
       .catch((err) => console.warn(err));
@@ -94,11 +99,14 @@ const Answers = ({ color, answer, idQuestion, id, setLoading }) => {
             <p className="Button-color" onClick={saveColor}>
               Aceptar
             </p>
+            <p className="Button-color" onClick={cancelNewColor}>
+              Cancelar
+            </p>
           </div>
         ) : (
           ""
         )}
-        <p>{answer}</p>
+        <p>{editedAnswer}</p>
       </section>
       <span
         className="material-symbols-outlined"

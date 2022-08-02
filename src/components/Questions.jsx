@@ -31,7 +31,6 @@ const Questions = () => {
       barras2: editedBarras2,
     };
 
-    console.log(updateGrapgics);
     setLoadingUrl(true);
 
     axios
