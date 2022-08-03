@@ -4,14 +4,15 @@ import axios from "axios";
 import ReactLoading from "react-loading";
 
 const Questions = () => {
+  const url = "/questions";
   const [data, setData] = useState([{}]);
   const [editedBarras, setEditedBarras] = useState("");
   const [editedHistograma, setEditedHistograma] = useState("");
   const [editedBarras2, setEditedBarras2] = useState("");
   const [loading, setLoading] = useState(true);
-  const url = "/questions";
   const [loadingUrl, setLoadingUrl] = useState(false);
   const [download, setDownload] = useState(null);
+  const [currentAnswer, setCurrentAnswer] = useState([0, 0, "", ""]);
 
   /* https://backend-encuestas-api.herokuapp.com */
 
@@ -57,6 +58,8 @@ const Questions = () => {
                     enunciado={question.enunciado}
                     respuestas={question.respuestas}
                     setLoading={setLoading}
+                    currentAnswer={currentAnswer}
+                    setCurrentAnswer={setCurrentAnswer}
                   />
                 </section>
               );

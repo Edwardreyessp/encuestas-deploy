@@ -1,7 +1,14 @@
 import { useState } from "react";
 import Answers from "./Answers";
 
-const Card = ({ idQuestion, enunciado, respuestas, setLoading }) => {
+const Card = ({
+  idQuestion,
+  enunciado,
+  respuestas,
+  setLoading,
+  currentAnswer,
+  setCurrentAnswer,
+}) => {
   const [statement, setStatement] = useState(false);
 
   const ClickStatement = () => {
@@ -27,6 +34,8 @@ const Card = ({ idQuestion, enunciado, respuestas, setLoading }) => {
                     idQuestion={idQuestion}
                     id={Object.keys(respuestas)[index]}
                     setLoading={setLoading}
+                    currentAnswer={currentAnswer}
+                    setCurrentAnswer={setCurrentAnswer}
                   />
                 </div>
               );
