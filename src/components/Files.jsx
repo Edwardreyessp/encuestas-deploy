@@ -80,7 +80,7 @@ const Files = ({ setDone }) => {
       excel: excelName,
     };
 
-    const urlFiles = "/files";
+    const urlFiles = "https://backend-encuestas-api.herokuapp.com/files";
     axios.post(urlFiles, filesName).catch((err) => console.warn(err));
   };
 

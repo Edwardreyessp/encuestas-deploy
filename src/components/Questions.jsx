@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactLoading from "react-loading";
 
 const Questions = () => {
-  const url = "/questions";
+  const url = "https://backend-encuestas-api.herokuapp.com/questions";
   const [data, setData] = useState([{}]);
   const [editedBarras, setEditedBarras] = useState("");
   const [editedHistograma, setEditedHistograma] = useState("");
@@ -14,10 +14,8 @@ const Questions = () => {
   const [download, setDownload] = useState(null);
   const [currentAnswer, setCurrentAnswer] = useState([null, null, ""]);
 
-  /* https://backend-encuestas-api.herokuapp.com */
-
   useEffect(() => {
-    fetch(url)
+    fetch(url, { mode: "cors" })
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -40,7 +38,6 @@ const Questions = () => {
     axios
       .post(url, dbAnswer)
       .then((res) => {
-        console.log(res.data);
         setDownload(res.data);
         setLoadingUrl(false);
       })
