@@ -2,6 +2,8 @@ import { useState } from "react";
 import Answers from "./Answers";
 
 const Card = ({
+  data,
+  setData,
   idQuestion,
   enunciado,
   respuestas,
@@ -29,6 +31,8 @@ const Card = ({
               return (
                 <div key={index}>
                   <Answers
+                    data={data}
+                    setData={setData}
                     color={answer.color}
                     answer={answer.respuesta}
                     idQuestion={idQuestion}

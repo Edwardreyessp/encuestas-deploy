@@ -1,8 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { SketchPicker } from "react-color";
 
 const Answers = ({
+  data,
+  setData,
   color,
   answer,
   idQuestion,
@@ -19,80 +20,54 @@ const Answers = ({
   const [cancelColor, setCancelColor] = useState(color);
 
   useEffect(() => {
-    if (currentAnswer[0] !== idQuestion || currentAnswer[1] !== id) {
-      setShowColor(false);
-    } else if (currentAnswer[0] === idQuestion && currentAnswer[1] === id) {
+    if (currentAnswer[0] === idQuestion && currentAnswer[1] === id - 1) {
       setShowColor(true);
+    } else {
+      setShowColor(false);
     }
     // eslint-disable-next-line
   }, [currentAnswer]);
 
   const cancelNewColor = () => {
-    setCurrentAnswer([0, 0, "", ""]);
+    setCurrentAnswer([null, null, ""]);
     setShowColor(false);
     setSketchPickerColor(cancelColor);
   };
 
   const onColor = () => {
     if (currentAnswer[2] !== "") {
-      const updateAnswer = {
-        color: currentAnswer[2],
-        respuesta: currentAnswer[3],
-      };
-
-      const url = "/questions/" + currentAnswer[0] + "-" + currentAnswer[1];
-
-      axios
-        .put(url, updateAnswer)
-        .then((res) => {
-          setLoading(false);
-        })
-        .catch((err) => console.warn(err));
+      let a = data;
+      Object.values(Object.values(a)[currentAnswer[0]].respuestas)[
+        currentAnswer[1]
+      ].color = currentAnswer[2];
+      setData(a);
     }
-    setCurrentAnswer([idQuestion, id, sketchPickerColor, editedAnswer]);
+    if (!showColor) setCurrentAnswer([idQuestion, id - 1, sketchPickerColor]);
+    setShowColor(!showColor);
+    setCancelColor(sketchPickerColor);
   };
 
   const saveColor = (event) => {
-    setCurrentAnswer([0, 0, "", ""]);
-    setShowColor(!showColor);
-    if (showColor) {
-      setCancelColor(sketchPickerColor);
-      event.preventDefault();
+    event.preventDefault();
+    setShowColor(false);
+    setCurrentAnswer([null, null, ""]);
 
-      const newColor = {
-        color: sketchPickerColor,
-        respuesta: editedAnswer,
-      };
-
-      const url = "/questions/" + idQuestion + "-" + id;
-
-      axios
-        .put(url, newColor)
-        .then((res) => {
-          setLoading(false);
-        })
-        .catch((err) => console.warn(err));
-    }
+    let a = data;
+    Object.values(Object.values(a)[idQuestion].respuestas)[id - 1].color =
+      sketchPickerColor;
+    setCancelColor(sketchPickerColor);
+    setData(a);
   };
 
   const saveAnswer = (event) => {
-    setRealAnswer(editedAnswer);
     event.preventDefault();
 
-    const newAnswer = {
-      respuesta: editedAnswer,
-      color: sketchPickerColor,
-    };
+    let a = data;
+    Object.values(Object.values(a)[idQuestion].respuestas)[id - 1].respuesta =
+      editedAnswer;
+    setData(a);
 
-    const url = "/questions/" + idQuestion + "-" + id;
-
-    axios
-      .put(url, newAnswer)
-      .then((res) => {
-        setLoading(false);
-      })
-      .catch((err) => console.warn(err));
-
+    setRealAnswer(editedAnswer);
     setIsEditing(false);
   };
 
@@ -132,12 +107,7 @@ const Answers = ({
             <SketchPicker
               onChange={(color) => {
                 setSketchPickerColor(color.hex);
-                setCurrentAnswer([
-                  idQuestion,
-                  id,
-                  sketchPickerColor,
-                  editedAnswer,
-                ]);
+                setCurrentAnswer([idQuestion, id - 1, sketchPickerColor]);
               }}
               color={sketchPickerColor}
             />

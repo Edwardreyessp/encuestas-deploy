@@ -12,7 +12,7 @@ const Questions = () => {
   const [loading, setLoading] = useState(true);
   const [loadingUrl, setLoadingUrl] = useState(false);
   const [download, setDownload] = useState(null);
-  const [currentAnswer, setCurrentAnswer] = useState([0, 0, "", ""]);
+  const [currentAnswer, setCurrentAnswer] = useState([null, null, ""]);
 
   /* https://backend-encuestas-api.herokuapp.com */
 
@@ -26,17 +26,21 @@ const Questions = () => {
   }, [loading]);
 
   const createGraphic = () => {
-    const updateGrapgics = {
-      barras: editedBarras,
-      histograma: editedHistograma,
-      barras2: editedBarras2,
+    const dbAnswer = {
+      questions: data,
+      graficas: {
+        barras: editedBarras,
+        histograma: editedHistograma,
+        barras2: editedBarras2,
+      },
     };
 
     setLoadingUrl(true);
 
     axios
-      .post(url, updateGrapgics)
+      .post(url, dbAnswer)
       .then((res) => {
+        console.log(res.data);
         setDownload(res.data);
         setLoadingUrl(false);
       })
@@ -54,7 +58,9 @@ const Questions = () => {
               return (
                 <section key={index}>
                   <Card
-                    idQuestion={Object.keys(data)[index]}
+                    data={data}
+                    setData={setData}
+                    idQuestion={index}
                     enunciado={question.enunciado}
                     respuestas={question.respuestas}
                     setLoading={setLoading}
