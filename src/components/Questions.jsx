@@ -4,7 +4,7 @@ import axios from "axios";
 import ReactLoading from "react-loading";
 
 const Questions = () => {
-  const url = "https://encuestas1.herokuapp.com/questions";
+  const url = "https://backend-encuestas-api.herokuapp.com/questions";
   const [data, setData] = useState([{}]);
   const [editedBarras, setEditedBarras] = useState("");
   const [editedHistograma, setEditedHistograma] = useState("");

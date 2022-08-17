@@ -1,8 +1,47 @@
 .Files {
   @include centrar;
+  @include ajustar;
   justify-content: space-between;
   margin-top: 98px;
-  @include ajustar;
+
+  .Upload-buttons {
+    .hide-done {
+      width: 69px;
+      height: 40px;
+    }
+
+    .Button {
+      margin: 10px;
+      background: $color-background;
+      width: 393px;
+      height: 64px;
+      border-radius: 10px;
+      font-weight: 600;
+      @include centrar;
+    }
+
+    .Button:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .Upload-files {
+      @include centrar;
+
+      .document {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        font-size: 40px;
+        font-weight: 600;
+        width: 70px;
+      }
+    }
+  }
 
   .Upload-files {
     .isLoading {
@@ -15,7 +54,14 @@
     }
 
     .Button-validate {
-      @include centrar;
+      .hide-done {
+        width: 100px;
+        height: 40px;
+      }
+
+      .Files-button {
+        @include centrar;
+      }
 
       input[type="file"] {
         display: none;
@@ -43,11 +89,6 @@
         font-size: 40px;
         font-weight: 600;
         width: 70px;
-      }
-
-      .hide-done {
-        width: 70px;
-        height: 40px;
       }
     }
   }

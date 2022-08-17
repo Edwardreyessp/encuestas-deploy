@@ -3,14 +3,20 @@ import logo from "../images/logo.png";
 import axios from "axios";
 import { uploadFile } from "../firebase/config";
 import ReactLoading from "react-loading";
-import { faFileWord, faFileCsv } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFileWord,
+  faFileCsv,
+  faFilePowerpoint,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Files = ({ setDone }) => {
   const [files, setFiles] = useState(null);
+  const [template, setTemplate] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [wordFile, setWordFile] = useState(false);
   const [csvFile, setCsvFile] = useState(false);
+  const [pptFile, setPptFile] = useState(false);
 
   const subirArchivo = (e) => {
     let result = null;
@@ -37,6 +43,11 @@ const Files = ({ setDone }) => {
     }
   };
 
+  const subirPlantilla = (e) => {
+    setTemplate(e.target.files[0]);
+    setPptFile(true);
+  };
+
   useEffect(() => {
     if (files != null) {
       setWordFile(false);
@@ -44,7 +55,8 @@ const Files = ({ setDone }) => {
       for (let index = 0; index < files.length; index++) {
         if (
           files[index].type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+          files[index].type === "text/plain"
         ) {
           setWordFile(true);
         } else {
@@ -58,37 +70,47 @@ const Files = ({ setDone }) => {
     event.preventDefault();
     setIsLoading(true);
 
-    let wordName, excelName;
+    let urlWord,
+      urlExcel,
+      urlPower = null;
 
     for (let index = 0; index < files.length; index++) {
       if (
         files[index].type ===
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        files[index].type === "text/plain"
       ) {
-        await uploadFile(files[index], files[index].name);
-        wordName = files[index].name;
+        urlWord = await uploadFile(files[index], files[index].name);
       } else {
-        await uploadFile(files[index], files[index].name);
-        excelName = files[index].name;
+        urlExcel = await uploadFile(files[index], files[index].name);
       }
     }
+
+    if (template !== null) {
+      urlPower = await uploadFile(template, template.name);
+    }
+
     setIsLoading(false);
     setDone(true);
 
     const filesName = {
-      word: wordName,
-      excel: excelName,
+      word: urlWord,
+      excel: urlExcel,
+      powerPoint: urlPower,
     };
 
-    const urlFiles = "https://encuestas1.herokuapp.com/files";
+    console.log(filesName);
+
+    // const urlFiles = "https://encuestas1.herokuapp.com/files";
+    const urlFiles = "https://backend-encuestas-api.herokuapp.com/files";
     axios.post(urlFiles, filesName).catch((err) => console.warn(err));
   };
 
   return (
     <main className="Files">
       <img src={logo} alt="Logo de la empresa" />
-      <section className="Upload-files">
-        <form className="Button-validate">
+      <section className="Upload-buttons">
+        <form className="Upload-files">
           <label htmlFor="uploadFile" className="Button">
             Subir archivos
           </label>
@@ -98,7 +120,7 @@ const Files = ({ setDone }) => {
             name="uploadFile"
             multiple
             onChange={subirArchivo}
-            accept=".doc,.docx,.csv,.xlsx"
+            accept=".doc,.docx,.txt,.csv,.xlsx,.xlsm,.xlsb,.xltx"
           />
           {files !== null ? (
             <div className="document">
@@ -109,18 +131,38 @@ const Files = ({ setDone }) => {
             <span className="hide-done" />
           )}
         </form>
-        {wordFile && csvFile && !isLoading ? (
-          <div className="Button-validate">
-            <div className="Button" onClick={handleSubmit}>
-              Aceptar
+        <form className="Upload-files">
+          <label htmlFor="uploadTemplate" className="Button">
+            Subir plantilla
+          </label>
+          <input
+            type="file"
+            id="uploadTemplate"
+            name="uploadTemplate"
+            onChange={subirPlantilla}
+            accept=".pptx,.pptm,.ppt,.potx,.potm,.pot,.ppsx,.ppsm"
+          />
+          {template !== null ? (
+            <div className="document">
+              {pptFile ? <FontAwesomeIcon icon={faFilePowerpoint} /> : ""}
             </div>
+          ) : (
             <span className="hide-done" />
-          </div>
+          )}
+        </form>
+        {!isLoading ? (
+          wordFile && csvFile ? (
+            <form className="Upload-files">
+              <div className="Button" onClick={handleSubmit}>
+                Aceptar
+              </div>
+              <span className="hide-done" />
+            </form>
+          ) : (
+            ""
+          )
         ) : (
-          ""
-        )}
-        {isLoading ? (
-          <div className="isLoading">
+          <form className="Upload-files">
             <ReactLoading
               type={"spinningBubbles"}
               color={"#000000"}
@@ -128,9 +170,7 @@ const Files = ({ setDone }) => {
               width={50}
             />
             <span className="hide-done" />
-          </div>
-        ) : (
-          ""
+          </form>
         )}
       </section>
     </main>
