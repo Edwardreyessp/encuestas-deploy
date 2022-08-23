@@ -101,8 +101,8 @@ const Files = ({ setDone }) => {
 
     console.log(filesName);
 
-    // const urlFiles = "https://encuestas1.herokuapp.com/files";
-    const urlFiles = "https://backend-encuestas-api.herokuapp.com/files";
+    const urlFiles = "https://encuestas1.herokuapp.com/files";
+    // const urlFiles = "https://backend-encuestas-api.herokuapp.com/files";
     axios.post(urlFiles, filesName).catch((err) => console.warn(err));
   };
 
