@@ -1,0 +1,53 @@
+import { useState } from "react";
+import Answers from "./Answers";
+
+const Card = ({
+  data,
+  setData,
+  idQuestion,
+  enunciado,
+  respuestas,
+  setLoading,
+  currentAnswer,
+  setCurrentAnswer,
+}) => {
+  const [statement, setStatement] = useState(false);
+
+  const ClickStatement = () => {
+    setStatement(!statement);
+  };
+
+  return (
+    <main className="Card">
+      <div
+        className={statement ? "Statement" : "Statement-no-answers"}
+        onClick={ClickStatement}
+      >
+        {enunciado}
+      </div>
+      <section className={statement ? "Answers" : "Hide-answers"}>
+        {statement
+          ? Object.values(respuestas).map((answer, index) => {
+              return (
+                <div key={index}>
+                  <Answers
+                    data={data}
+                    setData={setData}
+                    color={answer.color}
+                    answer={answer.respuesta}
+                    idQuestion={idQuestion}
+                    id={Object.keys(respuestas)[index]}
+                    setLoading={setLoading}
+                    currentAnswer={currentAnswer}
+                    setCurrentAnswer={setCurrentAnswer}
+                  />
+                </div>
+              );
+            })
+          : ""}
+      </section>
+    </main>
+  );
+};
+
+export default Card;

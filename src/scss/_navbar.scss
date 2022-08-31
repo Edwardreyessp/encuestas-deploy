@@ -12,9 +12,12 @@
   }
 
   .Routes {
-    width: 200px;
     @include centrar;
     justify-content: space-between;
+
+    .route {
+      margin-right: 20px;
+    }
 
     a:hover {
       opacity: 0.5;

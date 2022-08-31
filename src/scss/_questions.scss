@@ -16,40 +16,49 @@
     @include centrar;
   }
 
-  .Graphics {
-    background: $color-background;
-    width: 493px;
-    height: 245px;
-    border-radius: 10px;
-    padding: 24px 36px;
+  .Interaction {
+    position: fixed;
+    margin-left: 1100px;
+    .Graphics {
+      background: $color-background;
+      width: 600px;
+      height: 350px;
+      border-radius: 10px;
+      padding: 24px 36px;
 
-    h1 {
-      margin-bottom: 19px;
-      font-family: "Bebas Neue", cursive;
-      font-size: 36px;
-    }
-
-    .nameGraphic {
-      @include between;
-
-      .Name {
-        width: 650px;
+      h1 {
+        margin-bottom: 19px;
+        font-family: "Bebas Neue", cursive;
+        font-size: 36px;
       }
 
-      p,
-      input {
-        margin-bottom: 18px;
-      }
+      .nameGraphic {
+        @include between;
 
-      input {
-        border: 0;
-        border-radius: 5px;
-        outline: none;
-        height: 27px;
-        padding-left: 10px;
-        font-family: "Montserrat";
-        font-size: 20px;
-        max-width: 180px;
+        .Name {
+          width: 1500px;
+        }
+
+        p {
+          display: flex;
+          align-items: center;
+          margin-bottom: 22px;
+          height: 30px;
+        }
+
+        input {
+          display: flex;
+          align-items: center;
+          margin-bottom: 22px;
+          border: 0;
+          border-radius: 5px;
+          outline: none;
+          height: 30px;
+          padding-left: 10px;
+          font-family: "Montserrat";
+          font-size: 20px;
+          max-width: 200px;
+        }
       }
     }
   }
@@ -57,7 +66,7 @@
   button {
     cursor: pointer;
     border: none;
-    width: 493px;
+    width: 600px;
     height: 64px;
     background: $color-background;
     margin-top: 19px;
