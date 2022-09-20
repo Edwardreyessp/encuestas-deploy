@@ -1,20 +1,16 @@
 import { Link } from "react-router-dom";
 
-const Navbar = ({ setDone }) => {
+const Navbar = () => {
   return (
     <main className="Navbar">
       <Link to="/">
         <h1>Nombre de la empresa</h1>
       </Link>
       <section className="Routes">
-        <Link
-          className="route"
-          to="/posestratificacion"
-          onClick={() => setDone(false)}
-        >
+        <Link to="/posestratificacion">
           <h4>Posestratificación</h4>
         </Link>
-        <Link to="/">
+        <Link className="route" to="/visualizacion">
           <h4>Visualización</h4>
         </Link>
       </section>

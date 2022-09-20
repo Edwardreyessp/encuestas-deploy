@@ -2,27 +2,66 @@
   margin-right: 20px;
   .Statement {
     background: $color-background;
-    width: 950px;
-    height: 85px;
+    width: 100%;
+    min-height: 85px;
     border-radius: 5px;
     @include between;
     padding: 0 38px;
-    cursor: pointer;
   }
 
   .Statement-no-answers {
     background: $color-background;
-    width: 950px;
-    height: 85px;
+    width: 100%;
+    min-height: 85px;
     border-radius: 5px;
     @include between;
     padding: 0 38px;
-    cursor: pointer;
     margin-bottom: 28px;
   }
 
-  .Hide-answers {
-    opacity: 0.8;
+  .Graphics {
+    @include between;
+
+    .Check {
+      margin-left: 10px;
+      display: flex;
+
+      .hint {
+        opacity: 0.2; // ?
+      }
+    }
+
+    .Checked {
+      margin-left: 10px;
+      display: flex;
+      color: $color-checked;
+    }
+    .Check-rotate {
+      margin-left: 10px;
+      display: flex;
+
+      span {
+        transform: rotate(90deg);
+      }
+    }
+    .Checked-rotate {
+      margin-left: 10px;
+      display: flex;
+      color: $color-checked;
+
+      span {
+        transform: rotate(90deg);
+      }
+    }
+
+    span {
+      cursor: pointer;
+    }
+  }
+
+  .text {
+    max-width: 80%;
+    cursor: pointer;
   }
 
   .Answers {

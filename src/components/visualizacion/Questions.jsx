@@ -8,15 +8,22 @@ const Questions = () => {
   const url = "https://encuestas1.herokuapp.com/questions";
   // const url = "http://localhost:4000/questions";
   const [data, setData] = useState([{}]);
-  const [editedBarras, setEditedBarras] = useState("");
-  const [editedBarrasO, setEditedBarrasO] = useState("");
-  const [editedBarrasH, setEditedBarrasH] = useState("");
-  const [editedBarrasHO, setEditedBarrasHO] = useState("");
-  const [editedPila, setEditedPila] = useState("");
+  // const [editedBarras, setEditedBarras] = useState("");
+  // const [editedBarrasO, setEditedBarrasO] = useState("");
+  // const [editedBarrasH, setEditedBarrasH] = useState("");
+  // const [editedBarrasHO, setEditedBarrasHO] = useState("");
+  // const [editedPila, setEditedPila] = useState("");
   const [loading, setLoading] = useState(true);
   const [loadingUrl, setLoadingUrl] = useState(false);
   const [download, setDownload] = useState(null);
   const [currentAnswer, setCurrentAnswer] = useState([null, null, ""]);
+  const [graphics, setGraphics] = useState({
+    barras: "",
+    barrasO: "",
+    barrasH: "",
+    barrasHO: "",
+    pila: "",
+  });
 
   useEffect(() => {
     fetch(url, { mode: "cors" })
@@ -30,13 +37,7 @@ const Questions = () => {
   const createGraphic = () => {
     const dbAnswer = {
       questions: data,
-      graficas: {
-        barras: editedBarras,
-        barrasO: editedBarrasO,
-        barrasH: editedBarrasH,
-        barrasHO: editedBarrasHO,
-        pila: editedPila,
-      },
+      graficas: graphics,
     };
 
     setLoadingUrl(true);
@@ -69,6 +70,8 @@ const Questions = () => {
                     setLoading={setLoading}
                     currentAnswer={currentAnswer}
                     setCurrentAnswer={setCurrentAnswer}
+                    graphics={graphics}
+                    setGraphics={setGraphics}
                   />
                 </section>
               );
@@ -85,7 +88,30 @@ const Questions = () => {
           />
         </div>
       )}
-      <section className="Interaction">
+      <section className="CreateGraphics">
+        {!loadingUrl ? (
+          <button onClick={createGraphic}>Crear gráficas</button>
+        ) : (
+          <div className="isLoading">
+            <ReactLoading
+              type={"spinningBubbles"}
+              color={"#000000"}
+              height={50}
+              width={50}
+            />
+          </div>
+        )}
+        {download !== null ? (
+          <div>
+            <a className="button" href={download} rel="noopener noreferrer">
+              <button>Descargar gráficas</button>
+            </a>
+          </div>
+        ) : (
+          ""
+        )}
+      </section>
+      {/* <section className="Interaction">
         <section className="Graphics">
           <h1>GRÁFICAS</h1>
           <section className="nameGraphic">
@@ -144,7 +170,7 @@ const Questions = () => {
         ) : (
           ""
         )}
-      </section>
+      </section> */}
     </main>
   );
 };

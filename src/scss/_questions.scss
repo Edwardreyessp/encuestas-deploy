@@ -4,6 +4,10 @@
   align-items: flex-start;
   margin-top: 49px;
 
+  .Cards {
+    width: 70vw;
+  }
+
   .isLoading {
     @include centrar;
     width: 493px;
@@ -63,16 +67,21 @@
     }
   }
 
+  .CreateGraphics {
+    position: fixed;
+    left: 75vw;
+  }
+
   button {
     cursor: pointer;
     border: none;
-    width: 600px;
+    width: 380px;
     height: 64px;
     background: $color-background;
-    margin-top: 19px;
     border-radius: 10px;
     font-size: 20px;
     font-weight: 600;
     font-family: "Montserrat";
+    margin-bottom: 20px;
   }
 }

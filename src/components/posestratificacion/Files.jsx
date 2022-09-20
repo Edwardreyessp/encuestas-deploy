@@ -1,25 +1,35 @@
 // import axios from "axios";
 import { useState } from "react";
 import logo from "../../images/logo.png";
-import { faFileCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFileCircleCheck,
+  faFileCircleExclamation,
+  faCircleExclamation,
+  faCircleCheck,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ReactTooltip from "react-tooltip";
 
 const formatos = ".xlsx,.Rda";
 // const url = "";
 
 const Files = () => {
   const [files, setFiles] = useState(null);
+  const [encuesta, setEncuesta] = useState(false);
+  const [nominal, setNominal] = useState(false);
+  const [muestra, setMuestra] = useState(false);
 
   const subirArchivo = (e) => {
     setFiles(e.target.files);
+    setEncuesta(true);
+    setNominal(true);
+    setMuestra(true);
   };
 
   const handleSubmit = async (event) => {
     let encuesta, nominal, muestra;
-
     for (let i = 0; i < 3; i++) {
       const fileName = files[i].name;
-
       if (fileName.includes("encuesta") || fileName.includes("Encuesta")) {
         encuesta = fileName;
       } else if (fileName.includes("nominal") || fileName.includes("Nominal")) {
@@ -28,19 +38,17 @@ const Files = () => {
         muestra = fileName;
       }
     }
-
     const filesNames = {
       encuesta: encuesta,
       nominal: nominal,
       muestra: muestra,
     };
     console.log(filesNames);
-
     // axios.post(url, filesNames).catch((err) => console.warn(err));
   };
 
   return (
-    <main className="Files">
+    <main className="FilesPos">
       <img src={logo} alt="Logo de la empresa" />
       <section className="Upload-buttons">
         <form className="Upload-files">
@@ -55,11 +63,47 @@ const Files = () => {
             onChange={subirArchivo}
             accept={formatos}
           />
-          {files.length !== 3 ? (
-            <FontAwesomeIcon icon={faFileCircleCheck} />
+          {files === null || files.length !== 3 ? (
+            <FontAwesomeIcon
+              className="icon"
+              data-tip
+              icon={faFileCircleExclamation}
+            />
           ) : (
-            <FontAwesomeIcon icon={faFileCircleCheck} />
+            <FontAwesomeIcon className="icon" icon={faFileCircleCheck} />
           )}
+          <ReactTooltip
+            className="Tip"
+            place="top"
+            type="dark"
+            effect="solid"
+            multiline={true}
+          >
+            <div>
+              <p>Encuesta</p>
+              {encuesta ? (
+                <FontAwesomeIcon className="iconCheck" icon={faCircleCheck} />
+              ) : (
+                <FontAwesomeIcon className="icon" icon={faCircleExclamation} />
+              )}
+            </div>
+            <div>
+              <p>Nominal</p>
+              {nominal ? (
+                <FontAwesomeIcon className="iconCheck" icon={faCircleCheck} />
+              ) : (
+                <FontAwesomeIcon className="icon" icon={faCircleExclamation} />
+              )}
+            </div>
+            <div>
+              <p>Muestra</p>
+              {muestra ? (
+                <FontAwesomeIcon className="iconCheck" icon={faCircleCheck} />
+              ) : (
+                <FontAwesomeIcon className="icon" icon={faCircleExclamation} />
+              )}
+            </div>
+          </ReactTooltip>
         </form>
         <form className="Upload-files">
           <div className="Button" onClick={handleSubmit}>
