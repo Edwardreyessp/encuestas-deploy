@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import Data from "../components/posestratificacion/Data";
 import Files from "../components/posestratificacion/Files";
 
 const Posestratificacion = () => {
@@ -8,7 +9,7 @@ const Posestratificacion = () => {
   return (
     <>
       <Navbar />
-      {done ? "Hola" : <Files setDone={setDone} />}
+      {done ? <Data /> : <Files setDone={setDone} />}
     </>
   );
 };

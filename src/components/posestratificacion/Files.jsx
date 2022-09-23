@@ -13,7 +13,7 @@ import ReactTooltip from "react-tooltip";
 const formatos = ".xlsx,.Rda";
 // const url = "";
 
-const Files = () => {
+const Files = ({ setDone }) => {
   const [files, setFiles] = useState(null);
   const [encuesta, setEncuesta] = useState(false);
   const [nominal, setNominal] = useState(false);
@@ -21,9 +21,11 @@ const Files = () => {
 
   const subirArchivo = (e) => {
     setFiles(e.target.files);
-    setEncuesta(true);
-    setNominal(true);
-    setMuestra(true);
+    for (let i = 0; i < e.target.files.length; i++) {
+      if (e.target.files[i].name.includes("encuesta")) setEncuesta(true);
+      if (e.target.files[i].name.includes("nominal")) setNominal(true);
+      if (e.target.files[i].name.includes("muestra")) setMuestra(true);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -44,6 +46,7 @@ const Files = () => {
       muestra: muestra,
     };
     console.log(filesNames);
+    setDone(true);
     // axios.post(url, filesNames).catch((err) => console.warn(err));
   };
 
