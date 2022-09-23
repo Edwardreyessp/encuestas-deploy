@@ -36,7 +36,7 @@ const Answers = ({
 
   const onColor = () => {
     if (currentAnswer[2] !== '') {
-      let a = data;
+      const a = data;
       Object.values(Object.values(a)[currentAnswer[0]].respuestas)[
         currentAnswer[1]
       ].color = currentAnswer[2];
@@ -52,7 +52,7 @@ const Answers = ({
     setShowColor(false);
     setCurrentAnswer([null, null, '']);
 
-    let a = data;
+    const a = data;
     Object.values(Object.values(a)[idQuestion].respuestas)[id - 1].color =
       sketchPickerColor;
     setCancelColor(sketchPickerColor);
@@ -62,7 +62,7 @@ const Answers = ({
   const saveAnswer = event => {
     event.preventDefault();
 
-    let a = data;
+    const a = data;
     Object.values(Object.values(a)[idQuestion].respuestas)[id - 1].respuesta =
       editedAnswer;
     setData(a);

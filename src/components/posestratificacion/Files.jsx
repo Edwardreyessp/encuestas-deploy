@@ -41,9 +41,9 @@ const Files = ({ setDone }) => {
       }
     }
     const filesNames = {
-      encuesta: encuesta,
-      nominal: nominal,
-      muestra: muestra,
+      encuesta,
+      nominal,
+      muestra,
     };
     console.log(filesNames);
     setDone(true);

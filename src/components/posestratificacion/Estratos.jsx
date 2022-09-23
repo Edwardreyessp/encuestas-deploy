@@ -5,24 +5,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const Estratos = ({ estratos, setEstratos, name, flag, option }) => {
   const Opciones = string => {
     switch (string) {
-      case 'circuns':
+      case 'circuns': {
         const circuns = !estratos.circuns;
         return setEstratos({ ...estratos, circuns });
-      case 'estados':
+      }
+      case 'estados': {
         const estados = !estratos.estados;
         return setEstratos({ ...estratos, estados });
-      case 'municipio':
+      }
+      case 'municipio': {
         const municipio = !estratos.municipio;
         return setEstratos({ ...estratos, municipio });
-      case 'local':
+      }
+      case 'local': {
         const local = !estratos.local;
         return setEstratos({ ...estratos, local });
-      case 'federal':
+      }
+      case 'federal': {
         const federal = !estratos.federal;
         return setEstratos({ ...estratos, federal });
-      case 'seccion':
+      }
+      case 'seccion': {
         const seccion = !estratos.seccion;
         return setEstratos({ ...estratos, seccion });
+      }
       default:
         break;
     }

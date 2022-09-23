@@ -70,9 +70,9 @@ const Files = ({ setDone }) => {
     event.preventDefault();
     setIsLoading(true);
 
-    let urlWord,
-      urlExcel,
-      urlPower = null;
+    let urlWord = null;
+    let urlExcel = null;
+    let urlPower = null;
 
     for (let index = 0; index < files.length; index++) {
       if (
