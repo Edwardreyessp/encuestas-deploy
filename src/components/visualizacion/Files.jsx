@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import logo from "../../images/logo.png";
-import axios from "axios";
-import { uploadFile } from "../../firebase/config";
-import ReactLoading from "react-loading";
+import { useEffect, useState } from 'react';
+import logo from '../../images/logo.png';
+import axios from 'axios';
+import { uploadFile } from '../../firebase/config';
+import ReactLoading from 'react-loading';
 import {
   faFileWord,
   faFileCsv,
   faFilePowerpoint,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Files = ({ setDone }) => {
   const [files, setFiles] = useState(null);
@@ -18,11 +18,11 @@ const Files = ({ setDone }) => {
   const [csvFile, setCsvFile] = useState(false);
   const [pptFile, setPptFile] = useState(false);
 
-  const subirArchivo = (e) => {
+  const subirArchivo = e => {
     let result = null;
 
     if (e.target.files.length > 2) {
-      alert("Más de dos archivos seleccionados, intente nuevamente");
+      alert('Más de dos archivos seleccionados, intente nuevamente');
     } else {
       for (let index = 0; index < e.target.files.length; index++) {
         if (
@@ -43,7 +43,7 @@ const Files = ({ setDone }) => {
     }
   };
 
-  const subirPlantilla = (e) => {
+  const subirPlantilla = e => {
     setTemplate(e.target.files[0]);
     setPptFile(true);
   };
@@ -55,8 +55,8 @@ const Files = ({ setDone }) => {
       for (let index = 0; index < files.length; index++) {
         if (
           files[index].type ===
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-          files[index].type === "text/plain"
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+          files[index].type === 'text/plain'
         ) {
           setWordFile(true);
         } else {
@@ -66,7 +66,7 @@ const Files = ({ setDone }) => {
     }
   }, [files]);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     setIsLoading(true);
 
@@ -77,8 +77,8 @@ const Files = ({ setDone }) => {
     for (let index = 0; index < files.length; index++) {
       if (
         files[index].type ===
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
-        files[index].type === "text/plain"
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
+        files[index].type === 'text/plain'
       ) {
         urlWord = await uploadFile(files[index], files[index].name);
       } else {
@@ -99,15 +99,15 @@ const Files = ({ setDone }) => {
       powerPoint: urlPower,
     };
 
-    const urlFiles = "https://encuestas1.herokuapp.com/files";
+    const urlFiles = 'https://encuestas1.herokuapp.com/files';
     // const urlFiles = "https://backend-encuestas-api.herokuapp.com/files";
     // const urlFiles = "http://localhost:4000/files";
     axios
       .post(urlFiles, filesName)
-      .then((res) => {
+      .then(res => {
         console.log(res.data);
       })
-      .catch((err) => console.warn(err));
+      .catch(err => console.warn(err));
   };
 
   return (
@@ -128,8 +128,8 @@ const Files = ({ setDone }) => {
           />
           {files !== null ? (
             <div className="document">
-              {wordFile ? <FontAwesomeIcon icon={faFileWord} /> : ""}
-              {csvFile ? <FontAwesomeIcon icon={faFileCsv} /> : ""}
+              {wordFile ? <FontAwesomeIcon icon={faFileWord} /> : ''}
+              {csvFile ? <FontAwesomeIcon icon={faFileCsv} /> : ''}
             </div>
           ) : (
             <span className="hide-done" />
@@ -148,7 +148,7 @@ const Files = ({ setDone }) => {
           />
           {template !== null ? (
             <div className="document">
-              {pptFile ? <FontAwesomeIcon icon={faFilePowerpoint} /> : ""}
+              {pptFile ? <FontAwesomeIcon icon={faFilePowerpoint} /> : ''}
             </div>
           ) : (
             <span className="hide-done" />
@@ -163,13 +163,13 @@ const Files = ({ setDone }) => {
               <span className="hide-done" />
             </form>
           ) : (
-            ""
+            ''
           )
         ) : (
           <form className="Upload-files">
             <ReactLoading
-              type={"spinningBubbles"}
-              color={"#000000"}
+              type={'spinningBubbles'}
+              color={'#000000'}
               height={50}
               width={50}
             />

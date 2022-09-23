@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Answers from "./Answers";
-import ReactTooltip from "react-tooltip";
+import { useState } from 'react';
+import Answers from './Answers';
+import ReactTooltip from 'react-tooltip';
 
 const Card = ({
   data,
@@ -30,18 +30,18 @@ const Card = ({
 
     if (!barras) {
       let barras = graphics.barras;
-      if (barras === "") {
+      if (barras === '') {
         barras = graphics.barras + idQuestion;
       } else {
-        barras = graphics.barras + ", " + idQuestion;
+        barras = graphics.barras + ', ' + idQuestion;
       }
       setGraphics({ ...graphics, barras });
     } else {
       let barras = graphics.barras;
-      if (barras.includes(",")) {
-        barras = barras.replace(idQuestion + ", ", "");
+      if (barras.includes(',')) {
+        barras = barras.replace(idQuestion + ', ', '');
       } else {
-        barras = barras.replace(idQuestion, "");
+        barras = barras.replace(idQuestion, '');
       }
       setGraphics({ ...graphics, barras });
     }
@@ -52,18 +52,18 @@ const Card = ({
 
     if (!barrasO) {
       let barrasO = graphics.barrasO;
-      if (barrasO === "") {
+      if (barrasO === '') {
         barrasO = graphics.barrasO + idQuestion;
       } else {
-        barrasO = graphics.barrasO + ", " + idQuestion;
+        barrasO = graphics.barrasO + ', ' + idQuestion;
       }
       setGraphics({ ...graphics, barrasO });
     } else {
       let barrasO = graphics.barrasO;
-      if (barrasO.includes(",")) {
-        barrasO = barrasO.replace(idQuestion + ", ", "");
+      if (barrasO.includes(',')) {
+        barrasO = barrasO.replace(idQuestion + ', ', '');
       } else {
-        barrasO = barrasO.replace(idQuestion, "");
+        barrasO = barrasO.replace(idQuestion, '');
       }
       setGraphics({ ...graphics, barrasO });
     }
@@ -74,18 +74,18 @@ const Card = ({
 
     if (!barrasH) {
       let barrasH = graphics.barrasH;
-      if (barrasH === "") {
+      if (barrasH === '') {
         barrasH = graphics.barrasH + idQuestion;
       } else {
-        barrasH = graphics.barrasH + ", " + idQuestion;
+        barrasH = graphics.barrasH + ', ' + idQuestion;
       }
       setGraphics({ ...graphics, barrasH });
     } else {
       let barrasH = graphics.barrasH;
-      if (barrasH.includes(",")) {
-        barrasH = barrasH.replace(idQuestion + ", ", "");
+      if (barrasH.includes(',')) {
+        barrasH = barrasH.replace(idQuestion + ', ', '');
       } else {
-        barrasH = barrasH.replace(idQuestion, "");
+        barrasH = barrasH.replace(idQuestion, '');
       }
       setGraphics({ ...graphics, barrasH });
     }
@@ -96,18 +96,18 @@ const Card = ({
 
     if (!barrasHO) {
       let barrasHO = graphics.barrasHO;
-      if (barrasHO === "") {
+      if (barrasHO === '') {
         barrasHO = graphics.barrasHO + idQuestion;
       } else {
-        barrasHO = graphics.barrasHO + ", " + idQuestion;
+        barrasHO = graphics.barrasHO + ', ' + idQuestion;
       }
       setGraphics({ ...graphics, barrasHO });
     } else {
       let barrasHO = graphics.barrasHO;
-      if (barrasHO.includes(",")) {
-        barrasHO = barrasHO.replace(idQuestion + ", ", "");
+      if (barrasHO.includes(',')) {
+        barrasHO = barrasHO.replace(idQuestion + ', ', '');
       } else {
-        barrasHO = barrasHO.replace(idQuestion, "");
+        barrasHO = barrasHO.replace(idQuestion, '');
       }
       setGraphics({ ...graphics, barrasHO });
     }
@@ -118,18 +118,18 @@ const Card = ({
 
     if (!pila) {
       let pila = graphics.pila;
-      if (pila === "") {
+      if (pila === '') {
         pila = graphics.pila + idQuestion;
       } else {
-        pila = graphics.pila + ", " + idQuestion;
+        pila = graphics.pila + ', ' + idQuestion;
       }
       setGraphics({ ...graphics, pila });
     } else {
       let pila = graphics.pila;
-      if (pila.includes(",")) {
-        pila = pila.replace(idQuestion + ", ", "");
+      if (pila.includes(',')) {
+        pila = pila.replace(idQuestion + ', ', '');
       } else {
-        pila = pila.replace(idQuestion, "");
+        pila = pila.replace(idQuestion, '');
       }
       setGraphics({ ...graphics, pila });
     }
@@ -137,13 +137,13 @@ const Card = ({
 
   return (
     <main className="Card">
-      <div className={statement ? "Statement" : "Statement-no-answers"}>
+      <div className={statement ? 'Statement' : 'Statement-no-answers'}>
         <p className="text" onClick={ClickStatement}>
           {enunciado}
         </p>
         <section className="Graphics">
           <div
-            className={!barras ? "Check" : "Checked"}
+            className={!barras ? 'Check' : 'Checked'}
             data-tip
             data-for="barras"
             onClick={Barras}
@@ -159,7 +159,7 @@ const Card = ({
             </ReactTooltip>
           </div>
           <div
-            className={!barrasO ? "Check" : "Checked"}
+            className={!barrasO ? 'Check' : 'Checked'}
             data-tip
             data-for="barrasO"
             onClick={BarrasO}
@@ -175,7 +175,7 @@ const Card = ({
             </ReactTooltip>
           </div>
           <div
-            className={!barrasH ? "Check-rotate" : "Checked-rotate"}
+            className={!barrasH ? 'Check-rotate' : 'Checked-rotate'}
             data-tip
             data-for="barrasH"
             onClick={BarrasH}
@@ -191,7 +191,7 @@ const Card = ({
             </ReactTooltip>
           </div>
           <div
-            className={!barrasHO ? "Check-rotate" : "Checked-rotate"}
+            className={!barrasHO ? 'Check-rotate' : 'Checked-rotate'}
             data-tip
             data-for="barrasHO"
             onClick={BarrasHO}
@@ -207,7 +207,7 @@ const Card = ({
             </ReactTooltip>
           </div>
           <div
-            className={!pila ? "Check" : "Checked"}
+            className={!pila ? 'Check' : 'Checked'}
             data-tip
             data-for="pila"
             onClick={Pila}
@@ -224,7 +224,7 @@ const Card = ({
           </div>
         </section>
       </div>
-      <section className={statement ? "Answers" : "Hide-answers"}>
+      <section className={statement ? 'Answers' : 'Hide-answers'}>
         {statement
           ? Object.values(respuestas).map((answer, index) => {
               return (
@@ -243,7 +243,7 @@ const Card = ({
                 </div>
               );
             })
-          : ""}
+          : ''}
       </section>
     </main>
   );

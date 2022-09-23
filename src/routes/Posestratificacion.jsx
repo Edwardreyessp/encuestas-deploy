@@ -1,7 +1,7 @@
-import { useState } from "react";
-import Navbar from "../components/Navbar";
-import Data from "../components/posestratificacion/Data";
-import Files from "../components/posestratificacion/Files";
+import { useState } from 'react';
+import Navbar from '../components/Navbar';
+import Data from '../components/posestratificacion/Data';
+import Files from '../components/posestratificacion/Files';
 
 const Posestratificacion = () => {
   const [done, setDone] = useState(false);

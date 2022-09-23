@@ -1,6 +1,6 @@
-import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
-import { faSquareCheck as regular } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
+import { faSquareCheck as regular } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Encuestas = ({
   opcionesEncuesta,
@@ -9,27 +9,27 @@ const Encuestas = ({
   flag,
   option,
 }) => {
-  const Opciones = (string) => {
+  const Opciones = string => {
     switch (string) {
-      case "nacional":
+      case 'nacional':
         const nacional = !opcionesEncuesta.nacional;
         return setOpcionesEncuesta({ ...opcionesEncuesta, nacional });
-      case "circuns":
+      case 'circuns':
         const circuns = !opcionesEncuesta.circuns;
         return setOpcionesEncuesta({ ...opcionesEncuesta, circuns });
-      case "estatal":
+      case 'estatal':
         const estatal = !opcionesEncuesta.estatal;
         return setOpcionesEncuesta({ ...opcionesEncuesta, estatal });
-      case "municipal":
+      case 'municipal':
         const municipal = !opcionesEncuesta.municipal;
         return setOpcionesEncuesta({ ...opcionesEncuesta, municipal });
-      case "local":
+      case 'local':
         const local = !opcionesEncuesta.local;
         return setOpcionesEncuesta({ ...opcionesEncuesta, local });
-      case "federal":
+      case 'federal':
         const federal = !opcionesEncuesta.federal;
         return setOpcionesEncuesta({ ...opcionesEncuesta, federal });
-      case "seccion":
+      case 'seccion':
         const seccion = !opcionesEncuesta.seccion;
         return setOpcionesEncuesta({ ...opcionesEncuesta, seccion });
       default:

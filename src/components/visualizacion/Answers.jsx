@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { SketchPicker } from "react-color";
+import { useEffect, useState } from 'react';
+import { SketchPicker } from 'react-color';
 
 const Answers = ({
   data,
@@ -29,13 +29,13 @@ const Answers = ({
   }, [currentAnswer]);
 
   const cancelNewColor = () => {
-    setCurrentAnswer([null, null, ""]);
+    setCurrentAnswer([null, null, '']);
     setShowColor(false);
     setSketchPickerColor(cancelColor);
   };
 
   const onColor = () => {
-    if (currentAnswer[2] !== "") {
+    if (currentAnswer[2] !== '') {
       let a = data;
       Object.values(Object.values(a)[currentAnswer[0]].respuestas)[
         currentAnswer[1]
@@ -47,10 +47,10 @@ const Answers = ({
     setCancelColor(sketchPickerColor);
   };
 
-  const saveColor = (event) => {
+  const saveColor = event => {
     event.preventDefault();
     setShowColor(false);
-    setCurrentAnswer([null, null, ""]);
+    setCurrentAnswer([null, null, '']);
 
     let a = data;
     Object.values(Object.values(a)[idQuestion].respuestas)[id - 1].color =
@@ -59,7 +59,7 @@ const Answers = ({
     setData(a);
   };
 
-  const saveAnswer = (event) => {
+  const saveAnswer = event => {
     event.preventDefault();
 
     let a = data;
@@ -78,7 +78,7 @@ const Answers = ({
           <input
             type="text"
             value={editedAnswer}
-            onChange={(e) => setEditedAnswer(e.target.value)}
+            onChange={e => setEditedAnswer(e.target.value)}
           />
           <span className="material-symbols-outlined" onClick={saveAnswer}>
             save
@@ -105,7 +105,7 @@ const Answers = ({
         {showColor ? (
           <div className="Color-picker">
             <SketchPicker
-              onChange={(color) => {
+              onChange={color => {
                 setSketchPickerColor(color.hex);
                 setCurrentAnswer([idQuestion, id - 1, sketchPickerColor]);
               }}
@@ -119,7 +119,7 @@ const Answers = ({
             </p>
           </div>
         ) : (
-          ""
+          ''
         )}
         <p>{realAnswer}</p>
       </section>

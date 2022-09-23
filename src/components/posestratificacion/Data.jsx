@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Encuestas from "./Encuestas";
-import Estratos from "./Estratos";
+import { useState } from 'react';
+import Encuestas from './Encuestas';
+import Estratos from './Estratos';
 
 const Data = () => {
   const [opcionesEncuesta, setOpcionesEncuesta] = useState({
@@ -32,51 +32,51 @@ const Data = () => {
               <Encuestas
                 setOpcionesEncuesta={setOpcionesEncuesta}
                 opcionesEncuesta={opcionesEncuesta}
-                name={"Nacional"}
+                name={'Nacional'}
                 flag={opcionesEncuesta.nacional}
-                option={"nacional"}
+                option={'nacional'}
               />
               <Encuestas
                 setOpcionesEncuesta={setOpcionesEncuesta}
                 opcionesEncuesta={opcionesEncuesta}
-                name={"Circunscripciones"}
+                name={'Circunscripciones'}
                 flag={opcionesEncuesta.circuns}
-                option={"circuns"}
+                option={'circuns'}
               />
               <Encuestas
                 setOpcionesEncuesta={setOpcionesEncuesta}
                 opcionesEncuesta={opcionesEncuesta}
-                name={"Estatal"}
+                name={'Estatal'}
                 flag={opcionesEncuesta.estatal}
-                option={"estatal"}
+                option={'estatal'}
               />
               <Encuestas
                 setOpcionesEncuesta={setOpcionesEncuesta}
                 opcionesEncuesta={opcionesEncuesta}
-                name={"Municipal"}
+                name={'Municipal'}
                 flag={opcionesEncuesta.municipal}
-                option={"municipal"}
+                option={'municipal'}
               />
               <Encuestas
                 setOpcionesEncuesta={setOpcionesEncuesta}
                 opcionesEncuesta={opcionesEncuesta}
-                name={"Distritos locales"}
+                name={'Distritos locales'}
                 flag={opcionesEncuesta.local}
-                option={"local"}
+                option={'local'}
               />
               <Encuestas
                 setOpcionesEncuesta={setOpcionesEncuesta}
                 opcionesEncuesta={opcionesEncuesta}
-                name={"Distritos federales"}
+                name={'Distritos federales'}
                 flag={opcionesEncuesta.federal}
-                option={"federal"}
+                option={'federal'}
               />
               <Encuestas
                 setOpcionesEncuesta={setOpcionesEncuesta}
                 opcionesEncuesta={opcionesEncuesta}
-                name={"Secciones"}
+                name={'Secciones'}
                 flag={opcionesEncuesta.seccion}
-                option={"seccion"}
+                option={'seccion'}
               />
             </div>
           </section>
@@ -89,44 +89,44 @@ const Data = () => {
               <Estratos
                 estratos={estratos}
                 setEstratos={setEstratos}
-                name={"Circunscripciones"}
+                name={'Circunscripciones'}
                 flag={estratos.circuns}
-                option={"circuns"}
+                option={'circuns'}
               />
               <Estratos
                 estratos={estratos}
                 setEstratos={setEstratos}
-                name={"Estados"}
+                name={'Estados'}
                 flag={estratos.estados}
-                option={"estados"}
+                option={'estados'}
               />
               <Estratos
                 estratos={estratos}
                 setEstratos={setEstratos}
-                name={"Municipios"}
+                name={'Municipios'}
                 flag={estratos.municipio}
-                option={"municipio"}
+                option={'municipio'}
               />
               <Estratos
                 estratos={estratos}
                 setEstratos={setEstratos}
-                name={"Distritos locales"}
+                name={'Distritos locales'}
                 flag={estratos.local}
-                option={"local"}
+                option={'local'}
               />
               <Estratos
                 estratos={estratos}
                 setEstratos={setEstratos}
-                name={"Distritos federales"}
+                name={'Distritos federales'}
                 flag={estratos.federal}
-                option={"federal"}
+                option={'federal'}
               />
               <Estratos
                 estratos={estratos}
                 setEstratos={setEstratos}
-                name={"Secciones"}
+                name={'Secciones'}
                 flag={estratos.seccion}
-                option={"seccion"}
+                option={'seccion'}
               />
             </div>
           </section>

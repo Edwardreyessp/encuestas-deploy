@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Card from "./Card";
-import axios from "axios";
-import ReactLoading from "react-loading";
+import React, { useState, useEffect } from 'react';
+import Card from './Card';
+import axios from 'axios';
+import ReactLoading from 'react-loading';
 
 const Questions = () => {
   // const url = "https://backend-encuestas-api.herokuapp.com/questions";
-  const url = "https://encuestas1.herokuapp.com/questions";
+  const url = 'https://encuestas1.herokuapp.com/questions';
   // const url = "http://localhost:4000/questions";
   const [data, setData] = useState([{}]);
   // const [editedBarras, setEditedBarras] = useState("");
@@ -16,19 +16,19 @@ const Questions = () => {
   const [loading, setLoading] = useState(true);
   const [loadingUrl, setLoadingUrl] = useState(false);
   const [download, setDownload] = useState(null);
-  const [currentAnswer, setCurrentAnswer] = useState([null, null, ""]);
+  const [currentAnswer, setCurrentAnswer] = useState([null, null, '']);
   const [graphics, setGraphics] = useState({
-    barras: "",
-    barrasO: "",
-    barrasH: "",
-    barrasHO: "",
-    pila: "",
+    barras: '',
+    barrasO: '',
+    barrasH: '',
+    barrasHO: '',
+    pila: '',
   });
 
   useEffect(() => {
-    fetch(url, { mode: "cors" })
-      .then((res) => res.json())
-      .then((data) => {
+    fetch(url, { mode: 'cors' })
+      .then(res => res.json())
+      .then(data => {
         setData(data);
         setLoading(false);
       });
@@ -44,18 +44,18 @@ const Questions = () => {
 
     axios
       .post(url, dbAnswer)
-      .then((res) => {
+      .then(res => {
         setDownload(res.data);
         setLoadingUrl(false);
       })
-      .catch((err) => console.warn(err));
+      .catch(err => console.warn(err));
   };
 
   return (
     <main className="Questions">
       {!loading ? (
         <section className="Cards">
-          {typeof data === "undefined" ? (
+          {typeof data === 'undefined' ? (
             <p>Loading...</p>
           ) : (
             Object.values(data).map((question, index) => {
@@ -81,8 +81,8 @@ const Questions = () => {
       ) : (
         <div className="isLoadingQuestions">
           <ReactLoading
-            type={"spinningBubbles"}
-            color={"#000000"}
+            type={'spinningBubbles'}
+            color={'#000000'}
             height={100}
             width={100}
           />
@@ -94,8 +94,8 @@ const Questions = () => {
         ) : (
           <div className="isLoading">
             <ReactLoading
-              type={"spinningBubbles"}
-              color={"#000000"}
+              type={'spinningBubbles'}
+              color={'#000000'}
               height={50}
               width={50}
             />
@@ -108,7 +108,7 @@ const Questions = () => {
             </a>
           </div>
         ) : (
-          ""
+          ''
         )}
       </section>
       {/* <section className="Interaction">

@@ -1,16 +1,16 @@
 // import axios from "axios";
-import { useState } from "react";
-import logo from "../../images/logo.png";
+import { useState } from 'react';
+import logo from '../../images/logo.png';
 import {
   faFileCircleCheck,
   faFileCircleExclamation,
   faCircleExclamation,
   faCircleCheck,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ReactTooltip from "react-tooltip";
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactTooltip from 'react-tooltip';
 
-const formatos = ".xlsx,.Rda";
+const formatos = '.xlsx,.Rda';
 // const url = "";
 
 const Files = ({ setDone }) => {
@@ -19,24 +19,24 @@ const Files = ({ setDone }) => {
   const [nominal, setNominal] = useState(false);
   const [muestra, setMuestra] = useState(false);
 
-  const subirArchivo = (e) => {
+  const subirArchivo = e => {
     setFiles(e.target.files);
     for (let i = 0; i < e.target.files.length; i++) {
-      if (e.target.files[i].name.includes("encuesta")) setEncuesta(true);
-      if (e.target.files[i].name.includes("nominal")) setNominal(true);
-      if (e.target.files[i].name.includes("muestra")) setMuestra(true);
+      if (e.target.files[i].name.includes('encuesta')) setEncuesta(true);
+      if (e.target.files[i].name.includes('nominal')) setNominal(true);
+      if (e.target.files[i].name.includes('muestra')) setMuestra(true);
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     let encuesta, nominal, muestra;
     for (let i = 0; i < 3; i++) {
       const fileName = files[i].name;
-      if (fileName.includes("encuesta") || fileName.includes("Encuesta")) {
+      if (fileName.includes('encuesta') || fileName.includes('Encuesta')) {
         encuesta = fileName;
-      } else if (fileName.includes("nominal") || fileName.includes("Nominal")) {
+      } else if (fileName.includes('nominal') || fileName.includes('Nominal')) {
         nominal = fileName;
-      } else if (fileName.includes("muestra") || fileName.includes("Muestra")) {
+      } else if (fileName.includes('muestra') || fileName.includes('Muestra')) {
         muestra = fileName;
       }
     }
