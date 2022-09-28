@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Encuestas from './Encuestas';
 import Estratos from './Estratos';
+import './Data.scss';
 
 const Data = () => {
   const [opcionesEncuesta, setOpcionesEncuesta] = useState({

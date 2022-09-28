@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Answers from './Answers';
 import ReactTooltip from 'react-tooltip';
+import './Card.scss';
 
 const Card = ({
   data,

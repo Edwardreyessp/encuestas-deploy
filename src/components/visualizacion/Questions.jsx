@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Card from './Card';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
+import './Questions.scss';
 
 const Questions = () => {
   // const url = "https://backend-encuestas-api.herokuapp.com/questions";

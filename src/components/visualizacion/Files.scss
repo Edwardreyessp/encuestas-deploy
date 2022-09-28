@@ -1,4 +1,6 @@
-.FilesPos {
+@import '../../Index.scss';
+
+.Files {
   @include centrar;
   @include ajustar;
   justify-content: space-between;
@@ -44,35 +46,6 @@
   }
 
   .Upload-files {
-    .icon {
-      font-size: xx-large;
-      cursor: help;
-      color: gray;
-    }
-
-    .sizedBox {
-      width: 35px;
-    }
-
-    .Tip {
-      margin-right: 10px;
-
-      div {
-        width: 80px;
-        @include between;
-      }
-
-      .icon {
-        font-size: smaller;
-        color: $color-warning;
-      }
-
-      .iconCheck {
-        font-size: smaller;
-        color: $color-done;
-      }
-    }
-
     .isLoading {
       @include centrar;
 
@@ -109,6 +82,15 @@
       .Button:hover {
         opacity: 0.8;
         cursor: pointer;
+      }
+
+      .document {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        font-size: 40px;
+        font-weight: 600;
+        width: 70px;
       }
     }
   }
