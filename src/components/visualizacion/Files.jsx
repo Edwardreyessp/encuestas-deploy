@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import logo from '../../images/logo.png';
+import logo from '../../assets/images/logo.png';
 import axios from 'axios';
 import { uploadFile } from '../../firebase/config';
 import ReactLoading from 'react-loading';
@@ -9,6 +9,7 @@ import {
   faFilePowerpoint,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import './Files.scss';
 
 const Files = ({ setDone }) => {
   const [files, setFiles] = useState(null);

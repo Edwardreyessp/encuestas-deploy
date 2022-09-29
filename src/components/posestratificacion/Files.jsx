@@ -1,6 +1,6 @@
 // import axios from "axios";
 import { useState } from 'react';
-import logo from '../../images/logo.png';
+import logo from '../../assets/images/logo.png';
 import {
   faFileCircleCheck,
   faFileCircleExclamation,
@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactTooltip from 'react-tooltip';
+import './Files.scss';
 
 const formatos = '.xlsx,.Rda';
 // const url = "";
