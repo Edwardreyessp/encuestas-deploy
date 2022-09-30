@@ -24,6 +24,7 @@
   },
   "scripts": {
     "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "format:check": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "eslint \"src/**/*.{js,jsx}\" --quiet"
