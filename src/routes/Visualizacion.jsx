@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Files from '../components/visualizacion/Files';
-import Navbar from '../components/Navbar';
-import Questions from '../components/visualizacion/Questions';
+import Files from '../pages/visualizacion/Files';
+import Navbar from '../pages/components/Navbar';
+import Questions from '../pages/visualizacion/Questions';
 
 const Visualizacion = () => {
   const [done, setDone] = useState(false);
