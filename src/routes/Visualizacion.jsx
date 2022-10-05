@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Files from '../components/visualizacion/Files';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/utils/Navbar';
 import Questions from '../components/visualizacion/Questions';
 
 const Visualizacion = () => {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/utils/Navbar';
 import Data from '../components/posestratificacion/Data';
 import Files from '../components/posestratificacion/Files';
 

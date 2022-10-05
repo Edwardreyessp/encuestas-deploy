@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import Visualizacion from './routes/Visualizacion';
 import Posestratificacion from './routes/Posestratificacion';
-import './Index.scss';
+import './main.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
