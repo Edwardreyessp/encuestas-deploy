@@ -42,6 +42,7 @@ const Files = ({ setDone }) => {
         }
       }
     }
+    console.log(files);
   };
 
   const subirPlantilla = e => {
