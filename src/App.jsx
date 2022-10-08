@@ -4,6 +4,10 @@ import Posestratificacion from './routes/Posestratificacion';
 import Muestreo from './routes/Muestreo';
 import './main.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>

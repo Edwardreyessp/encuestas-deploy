@@ -17,7 +17,7 @@ const FileUploader = () => {
     <form>
       <div className="preview">
         {files.map((file, i) => (
-          <p key={i + '-file-name'}>{file.name}</p>
+          <p key={i}>{file.name}</p>
         ))}
       </div>
       <input multiple type="file" name="file" onChange={addFileHandler} />
