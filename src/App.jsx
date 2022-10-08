@@ -3,6 +3,7 @@ import Visualizacion from './routes/Visualizacion';
 import Posestratificacion from './routes/Posestratificacion';
 import './main.scss';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Test } from './components/utils/ConfigEstratos';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
