@@ -56,16 +56,11 @@ const FileUploader = () => {
     <form>
       <div className="preview">
         <List>
-          {generateListItems(files, '-uploaded-files', <DeleteIcon />)}
-          <ListItem
-            secondaryAction={
-              <IconButton edge="end" aria-label="delete">
-                <DeleteIcon />
-              </IconButton>
-            }
-          >
-            <ListItemText primary="test" />
-          </ListItem>
+          {files.length > 0 ? (
+            generateListItems(files, '-uploaded-files', <DeleteIcon />)
+          ) : (
+            <p>Sin archivos seleccionados</p>
+          )}
         </List>
       </div>
       <input multiple type="file" name="file" onChange={addFileHandler} />
