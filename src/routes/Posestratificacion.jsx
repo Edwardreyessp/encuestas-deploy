@@ -6,6 +6,7 @@ import MyStepper from '../components/utils/MyStepper';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import FileUploader from '../components/utils/FileUploader';
 
 const Posestratificacion = () => {
   const [step, setStep] = useState(0);
@@ -21,9 +22,9 @@ const Posestratificacion = () => {
           </Box>
           {
             {
-              1: <Files />,
-              2: <Data />,
-              3: <Files />,
+              0: <FileUploader />,
+              1: <Data />,
+              2: <Files />,
             }[step]
           }
           <Box display={'flex'} justifyContent={'flex-end'}>
