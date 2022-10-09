@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   IconButton,
   List,
   ListItem,
@@ -8,8 +9,9 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 
-const FileUploader = () => {
+const FileUploader = ({ fileTypes, numberOfFiles }) => {
   const [files, setFiles] = useState([]);
+  const filesLength = files.length;
 
   /**
    * Handle uploaded files
@@ -73,19 +75,29 @@ const FileUploader = () => {
   }
 
   return (
-    <form>
-      <div className="preview">
-        <List>
-          {files.length > 0 ? (
-            generateUploadFilesList(files)
-          ) : (
-            <p>Sin archivos seleccionados</p>
-          )}
-        </List>
-      </div>
-      <input multiple type="file" name="file" onChange={addFileHandler} />
-      <Button variant="contained">Enviar</Button>
-    </form>
+    <Card variant="outlined">
+      <form>
+        <div className="preview">
+          <List>
+            {files.length > 0 ? (
+              generateUploadFilesList(files)
+            ) : (
+              <p>Sin archivos seleccionados</p>
+            )}
+          </List>
+        </div>
+        <input
+          multiple
+          type="file"
+          name="file"
+          onChange={addFileHandler}
+          accept={fileTypes}
+        />
+        <Button variant="contained" disabled={filesLength !== numberOfFiles}>
+          Enviar
+        </Button>
+      </form>
+    </Card>
   );
 };
 

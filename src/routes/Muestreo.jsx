@@ -5,7 +5,7 @@ const Muestreo = () => {
   return (
     <>
       <Navbar />
-      <FileUploader />
+      <FileUploader numberOfFiles={2} fileTypes=".Rda" />
     </>
   );
 };
