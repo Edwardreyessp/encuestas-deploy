@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -75,28 +76,59 @@ const FileUploader = ({ fileTypes, numberOfFiles }) => {
   }
 
   return (
-    <Card variant="outlined">
-      <form>
-        <div className="preview">
-          <List>
-            {files.length > 0 ? (
-              generateUploadFilesList(files)
-            ) : (
-              <p>Sin archivos seleccionados</p>
-            )}
-          </List>
-        </div>
-        <input
-          multiple
-          type="file"
-          name="file"
-          onChange={addFileHandler}
-          accept={fileTypes}
-        />
-        <Button variant="contained" disabled={filesLength !== numberOfFiles}>
-          Enviar
-        </Button>
-      </form>
+    <Card variant="outlined" sx={{ maxWidth: 500 }}>
+      <Grid
+        container
+        sx={{
+          '--Grid-borderWidth': '1px',
+          borderTop: 'var(--Grid-borderWidth) solid',
+          borderLeft: 'var(--Grid-borderWidth) solid',
+          borderColor: 'divider',
+          '& > div': {
+            borderRight: 'var(--Grid-borderWidth) solid',
+            borderBottom: 'var(--Grid-borderWidth) solid',
+            borderColor: 'divider',
+          },
+        }}
+      >
+        <Grid xs={12}>
+          <div className="preview">
+            <List>
+              {files.length > 0 ? (
+                generateUploadFilesList(files)
+              ) : (
+                <p>Sin archivos seleccionados</p>
+              )}
+            </List>
+          </div>
+        </Grid>
+        <Grid
+          xs={12}
+          display="flex"
+          justifyContent="end"
+          className="file-uploader-wrapper"
+          sx={{ padding: '10px' }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            component="label"
+            sx={{ margin: '0 10px' }}
+          >
+            Selecciona los archivos
+            <input
+              multiple
+              type="file"
+              name="file"
+              onChange={addFileHandler}
+              accept={fileTypes}
+            />
+          </Button>
+          <Button variant="contained" disabled={filesLength !== numberOfFiles}>
+            Enviar
+          </Button>
+        </Grid>
+      </Grid>
     </Card>
   );
 };
