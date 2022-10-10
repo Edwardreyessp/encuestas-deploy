@@ -3,20 +3,22 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 
-{
-  /* <ConfigEstratos
-  niveles={niveles} // ['Municipio', 'Local', 'Federal']
-  estratos={estratos} // ['Secciones', 'Estados', 'Circunscripciones']
-  data={selectedData} // state
-  setData={setSelectedData} // setState
-/>; */
-}
-
+/**
+ * Configuración de niveles y estratos
+ * @param {string[]} niveles - Niveles a elegir
+ * @param {string[]} estratos - Estratos a elegir
+ * @param {object} data - Datos obtenidos de los input
+ * @param {Function} setData - Setter de los datos
+ */
 const ConfigEstratos = ({ niveles, estratos, data, setData }) => {
   const [isLimit, setIsLimit] = useState(false);
   const [variables, setVariables] = useState([]);
   const [cantidad, setCantidad] = useState([]);
 
+  /**
+   * Define si se ha llegado al límite de variables elegidas
+   * @param {string[]} newValue - Variables de estratos elegidas
+   */
   const handleLimit = newValue => {
     // Asignar variables
     let newCantidad = cantidad;
@@ -37,6 +39,12 @@ const ConfigEstratos = ({ niveles, estratos, data, setData }) => {
     }
   };
 
+  /**
+   * Guarda los datos seleccionados a su respectiva variable
+   * @param {string} label - Nombre de la variable
+   * @param {string} value - Cantidad de la variable elegida
+   * @param {number} index - Posición de la variable en el arreglo
+   */
   const handleAmount = (label, value, index) => {
     let newCantidad = cantidad;
     newCantidad[index] = { label: label, value: value.target.value };
@@ -90,6 +98,16 @@ const ConfigEstratos = ({ niveles, estratos, data, setData }) => {
       </Box>
     </Box>
   );
+};
+
+export const isConfigEstratosDone = data => {
+  let flag = true;
+  if (data.nivel === undefined && data.variables === undefined) flag = false;
+  if (data.variables !== undefined) {
+    flag = data.variables.length !== 0;
+  }
+
+  return flag;
 };
 
 export default ConfigEstratos;
