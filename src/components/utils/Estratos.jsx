@@ -4,19 +4,20 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import { useState, useEffect } from 'react';
 
-{
-  /* <Estratos
-  estratos={estratos} //Donde se guarda el estado actual
-  setEstratos={setEstratos} //Setter
-  opciones={opciones} //Lista de opciones
-  numEstratos={2} //Cantidad de inputs
-  nombre={'Estrato'} //Título de la tarjeta
-/>; */
-}
-
+/**
+ * Lista de estratos
+ * @function
+ * @param {number[]} estratos - Opciones seleccionadas
+ * @param {Function} setEstratos - Setter de las opciones
+ * @param {string[]} opciones - Opciones a elegir
+ */
 const Estratos = ({ estratos, setEstratos, opciones, numEstratos, nombre }) => {
   const [currentOptions, setCurrentOptions] = useState(opciones);
 
+  /**
+   *Convierte en un arreglo para poer mapearlo
+   *@hook
+   */
   useEffect(() => {
     let newArray = [];
     for (let i = 0; i < numEstratos; i++) {
@@ -48,6 +49,16 @@ const Estratos = ({ estratos, setEstratos, opciones, numEstratos, nombre }) => {
   );
 };
 
+/**
+ * Función para mostrar los inputs con opciones disponibles
+ * @function
+ * @param {string[]} opciones - Opciones disponibles
+ * @param {Function} setOpciones - Setter de opciones disponibles
+ * @param {object[]} estratos - Datos guardados
+ * @param {Function} setEstratos - Setter de datos guardados
+ * @param {number} index - Número de estrato
+ * @param {string[]} allOptions - Opciones globales
+ */
 const InputEstratos = ({
   opciones,
   setOpciones,
@@ -72,7 +83,6 @@ const InputEstratos = ({
       let newData = estratos;
       newData[index] = { nombre: nombre, input: input };
       setEstratos(newData);
-      console.log(newData[0]);
     }
   }, [nombre, input]);
 
@@ -116,6 +126,22 @@ const InputEstratos = ({
       <Box height={10} />
     </>
   );
+};
+
+/**
+ * @function
+ * @param {object[]} estratos - Datos que se han ingresado
+ * @returns boolean si todos los caampos están llenos
+ */
+export const isEstratosDone = estratos => {
+  let flag = true;
+
+  estratos.map((option, index) => {
+    if (option === index) flag = false;
+    else if (option.name === '' || option.input.length === 0) flag = false;
+  });
+
+  return flag;
 };
 
 export default Estratos;
