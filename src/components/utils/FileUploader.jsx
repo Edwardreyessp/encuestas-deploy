@@ -100,6 +100,7 @@ const FileUploader = ({ fileTypes, numberOfFiles }) => {
       const url = await uploadFile(file, file.name);
       constructPayload(fileType, url);
     }
+    cleanFiles();
   }
 
   /**
@@ -125,8 +126,8 @@ const FileUploader = ({ fileTypes, numberOfFiles }) => {
     for (let fileTypeArr of list) {
       const [fileType, extensionList] = fileTypeArr;
       if (extensionList.includes(extension)) return fileType;
-      throw new Error('No existe el tipo de archivo');
     }
+    throw new Error(`No existe el tipo de archivo con extension ${extension}`);
   }
 
   /**
@@ -139,6 +140,14 @@ const FileUploader = ({ fileTypes, numberOfFiles }) => {
     setPayload(curr => {
       return { ...curr, [`${fileType}`]: url };
     });
+  }
+
+  /**
+   * Clean the file list after the documents are uploaded
+   * @function
+   */
+  function cleanFiles() {
+    setFiles([]);
   }
 
   return (
