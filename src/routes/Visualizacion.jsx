@@ -2,7 +2,7 @@ import Navbar from '../components/utils/Navbar';
 import MyStepper from '../components/utils/MyStepper';
 import FileUploader from '../components/utils/FileUploader';
 import Questions from '../components/visualizacion/Question';
-import { Button, Box, Stack } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { useState } from 'react';
 
 /**
@@ -16,10 +16,15 @@ const Visualizacion = () => {
   return (
     <>
       <Navbar current={'visualizacion'} />
-      <Box width={'100%'} display={'flex'} justifyContent={'center'}>
-        <Stack>
-          <Box m={'36px 0'}>
-            <MyStepper steps={steps} activeStep={step} />
+      <Box width={'100vw'} display={'flex'} justifyContent={'center'}>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+          <Box
+            m={'36px 0'}
+            width={'100vw'}
+            display={'flex'}
+            justifyContent={'center'}
+          >
+            <MyStepper steps={steps} activeStep={step} setStep={setStep} />
           </Box>
           {
             {
@@ -27,7 +32,7 @@ const Visualizacion = () => {
               1: <Questions />,
             }[step]
           }
-        </Stack>
+        </Box>
       </Box>
       {step === 0 ? (
         <Box display={'flex'} justifyContent={'flex-end'} mr={8} mb={3}>

@@ -106,50 +106,62 @@ const Card = ({
     return (
       <Box display={'flex'} gap={1}>
         <Divider orientation="vertical" flexItem />
-        <Tooltip title="Barras vertical">
-          <IconButton
-            onClick={() => handleChart('barras')}
-            sx={{ color: vchart ? '#e91e63' : 'white' }}
-            disabled={!disabled}
-          >
-            <BarChartRoundedIcon />
-          </IconButton>
+        <Tooltip title={!disabled ? '' : 'Barras vertical'}>
+          <span>
+            <IconButton
+              onClick={() => handleChart('barras')}
+              sx={{ color: vchart ? '#ab47bc' : 'white' }}
+              disabled={!disabled}
+            >
+              <BarChartRoundedIcon />
+            </IconButton>
+          </span>
         </Tooltip>
-        <Tooltip title="Barras vertical ordenado">
-          <IconButton
-            onClick={() => handleChart('barrasO')}
-            sx={{ color: vochart ? '#e91e63' : 'white' }}
-            disabled={!disabled}
-          >
-            <SignalCellularAltRoundedIcon />
-          </IconButton>
+        <Tooltip title={!disabled ? '' : 'Barras vertical ordenado'}>
+          <span>
+            <IconButton
+              onClick={() => handleChart('barrasO')}
+              sx={{ color: vochart ? '#ab47bc' : 'white' }}
+              disabled={!disabled}
+            >
+              <SignalCellularAltRoundedIcon />
+            </IconButton>
+          </span>
         </Tooltip>
-        <Tooltip title="Barras horizontal">
-          <IconButton
-            onClick={() => handleChart('barrasH')}
-            sx={{ color: hchart ? '#e91e63' : 'white' }}
-            disabled={!disabled}
-          >
-            <BarChartRoundedIcon sx={{ transform: 'rotate(90deg)' }} />
-          </IconButton>
+        <Tooltip title={!disabled ? '' : 'Barras horizontal'}>
+          <span>
+            <IconButton
+              onClick={() => handleChart('barrasH')}
+              sx={{ color: hchart ? '#ab47bc' : 'white' }}
+              disabled={!disabled}
+            >
+              <BarChartRoundedIcon sx={{ transform: 'rotate(90deg)' }} />
+            </IconButton>
+          </span>
         </Tooltip>
-        <Tooltip title="Barras horizontal ordenado">
-          <IconButton
-            onClick={() => handleChart('barrasHO')}
-            sx={{ color: hochart ? '#e91e63' : 'white' }}
-            disabled={!disabled}
-          >
-            <SignalCellularAltRoundedIcon sx={{ transform: 'rotate(90deg)' }} />
-          </IconButton>
+        <Tooltip title={!disabled ? '' : 'Barras horizontal ordenado'}>
+          <span>
+            <IconButton
+              onClick={() => handleChart('barrasHO')}
+              sx={{ color: hochart ? '#ab47bc' : 'white' }}
+              disabled={!disabled}
+            >
+              <SignalCellularAltRoundedIcon
+                sx={{ transform: 'rotate(90deg)' }}
+              />
+            </IconButton>
+          </span>
         </Tooltip>
-        <Tooltip title="Pila">
-          <IconButton
-            onClick={() => handleChart('pila')}
-            sx={{ color: schart ? '#e91e63' : 'white' }}
-            disabled={disabled}
-          >
-            <StackedBarChartRoundedIcon />
-          </IconButton>
+        <Tooltip title={disabled ? '' : 'Pila'}>
+          <span>
+            <IconButton
+              onClick={() => handleChart('pila')}
+              sx={{ color: schart ? '#ab47bc' : 'white' }}
+              disabled={disabled}
+            >
+              <StackedBarChartRoundedIcon />
+            </IconButton>
+          </span>
         </Tooltip>
         <Divider orientation="vertical" flexItem />
         <IconButton onClick={() => setIsEditing(!isEditing)}>
@@ -188,7 +200,7 @@ const Card = ({
   }
 
   return (
-    <Box mb={5}>
+    <Box mb={5} minWidth={'75vw'}>
       <Box
         display={'flex'}
         alignItems={'center'}

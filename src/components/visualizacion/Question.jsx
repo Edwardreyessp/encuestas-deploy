@@ -77,7 +77,7 @@ const Questions = () => {
         gap={5}
         paddingX={'34px'}
       >
-        <Stack>
+        <Stack position={'absolute'} left={'34px'}>
           {Object.values(data).map((question, index) => {
             return (
               <Card
@@ -93,7 +93,7 @@ const Questions = () => {
             );
           })}
         </Stack>
-        <Stack width={'300px'} spacing={2}>
+        <Box width={'300px'} position="fixed" right={'34px'}>
           {showDownload ? (
             <Button
               variant="contained"
@@ -120,7 +120,7 @@ const Questions = () => {
               Crear gráficas
             </Button>
           )}
-        </Stack>
+        </Box>
       </Box>
     );
   }
