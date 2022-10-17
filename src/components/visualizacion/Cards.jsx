@@ -96,6 +96,69 @@ const Card = ({
     }
   };
 
+  /**
+   * Muestra los íconos
+   * @function
+   * @param {string} tipo - tipo de pregunta
+   */
+  const showIcons = tipo => {
+    const disabled = tipo === 'bq';
+    return (
+      <Box display={'flex'} gap={1}>
+        <Divider orientation="vertical" flexItem />
+        <Tooltip title="Barras vertical">
+          <IconButton
+            onClick={() => handleChart('barras')}
+            sx={{ color: vchart ? '#e91e63' : 'white' }}
+            disabled={!disabled}
+          >
+            <BarChartRoundedIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Barras vertical ordenado">
+          <IconButton
+            onClick={() => handleChart('barrasO')}
+            sx={{ color: vochart ? '#e91e63' : 'white' }}
+            disabled={!disabled}
+          >
+            <SignalCellularAltRoundedIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Barras horizontal">
+          <IconButton
+            onClick={() => handleChart('barrasH')}
+            sx={{ color: hchart ? '#e91e63' : 'white' }}
+            disabled={!disabled}
+          >
+            <BarChartRoundedIcon sx={{ transform: 'rotate(90deg)' }} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Barras horizontal ordenado">
+          <IconButton
+            onClick={() => handleChart('barrasHO')}
+            sx={{ color: hochart ? '#e91e63' : 'white' }}
+            disabled={!disabled}
+          >
+            <SignalCellularAltRoundedIcon sx={{ transform: 'rotate(90deg)' }} />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Pila">
+          <IconButton
+            onClick={() => handleChart('pila')}
+            sx={{ color: schart ? '#e91e63' : 'white' }}
+            disabled={disabled}
+          >
+            <StackedBarChartRoundedIcon />
+          </IconButton>
+        </Tooltip>
+        <Divider orientation="vertical" flexItem />
+        <IconButton onClick={() => setIsEditing(!isEditing)}>
+          <EditRoundedIcon sx={{ color: 'white' }} />
+        </IconButton>
+      </Box>
+    );
+  };
+
   if (isEditing) {
     return (
       <Box
@@ -150,55 +213,7 @@ const Card = ({
             {question.enunciado}
           </Typography>
         </Box>
-        {/* Íconos */}
-        <Box display={'flex'} gap={1}>
-          <Divider orientation="vertical" flexItem />
-          <Tooltip title="Barras vertical">
-            <IconButton onClick={() => handleChart('barras')}>
-              <BarChartRoundedIcon
-                sx={{ color: vchart ? '#1976D2' : 'white' }}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Barras vertical ordenado">
-            <IconButton onClick={() => handleChart('barrasO')}>
-              <SignalCellularAltRoundedIcon
-                sx={{ color: vochart ? '#1976D2' : 'white' }}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Barras horizontal">
-            <IconButton onClick={() => handleChart('barrasH')}>
-              <BarChartRoundedIcon
-                sx={{
-                  color: hchart ? '#1976D2' : 'white',
-                  transform: 'rotate(90deg)',
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Barras horizontal ordenado">
-            <IconButton onClick={() => handleChart('barrasHO')}>
-              <SignalCellularAltRoundedIcon
-                sx={{
-                  color: hochart ? '#1976D2' : 'white',
-                  transform: 'rotate(90deg)',
-                }}
-              />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Pila">
-            <IconButton onClick={() => handleChart('pila')}>
-              <StackedBarChartRoundedIcon
-                sx={{ color: schart ? '#1976D2' : 'white' }}
-              />
-            </IconButton>
-          </Tooltip>
-          <Divider orientation="vertical" flexItem />
-          <IconButton onClick={() => setIsEditing(!isEditing)}>
-            <EditRoundedIcon sx={{ color: 'white' }} />
-          </IconButton>
-        </Box>
+        {showIcons(question.tipo_pregunta) /* Íconos */}
       </Box>
       {/* Respuestas */}
       <Box
