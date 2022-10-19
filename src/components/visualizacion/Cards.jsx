@@ -102,7 +102,7 @@ const Card = ({
    * @param {string} tipo - tipo de pregunta
    */
   const showIcons = tipo => {
-    const disabled = tipo === 'bq';
+    const disabled = tipo === 'bq' || tipo === 'moq';
     return (
       <Box display={'flex'} gap={1}>
         <Divider orientation="vertical" flexItem />
@@ -171,6 +171,25 @@ const Card = ({
     );
   };
 
+  /**
+   * Muestra el tipo de pregunta
+   * @function
+   * @param {string} tipo - tipo de pregunta
+   * @returns Nombre desglosado del tipo de pregunta
+   */
+  const showQuestionType = tipo => {
+    switch (tipo) {
+      case 'bq':
+        return 'Basic question';
+      case 'cq':
+        return 'Category question';
+      case 'moq':
+        return 'Multi option question';
+      default:
+        break;
+    }
+  };
+
   if (isEditing) {
     return (
       <Box
@@ -219,10 +238,14 @@ const Card = ({
           onClick={() => setIsActive(!isActive)}
           sx={{ cursor: 'pointer' }}
           display={'flex'}
-          alignItems={'center'}
+          justifyContent={'center'}
+          flexDirection={'column'}
         >
           <Typography color={'white'} fontSize={20}>
             {question.enunciado}
+          </Typography>
+          <Typography color={'white'} fontSize={10}>
+            {showQuestionType(question.tipo_pregunta)}
           </Typography>
         </Box>
         {showIcons(question.tipo_pregunta) /* Íconos */}
