@@ -1,5 +1,7 @@
 import {
   Button,
+  Card,
+  Grid,
   IconButton,
   List,
   ListItem,
@@ -7,10 +9,26 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
+import { uploadFile } from '../../firebase/config';
+import { uploadFiles } from '../../services/Index';
 
-const FileUploader = () => {
+/**
+ * Component to upload files
+ * @component
+ * @prop {Object{}} fileTypes - the accepted file types with their extensions
+ * @example {Object{}.word} - Array with the word file extension ['doc', 'docx']
+ * @prop {number} numberOfFiles - The required number of files to be send
+ */
+const FileUploader = ({ fileTypes, numberOfFiles }) => {
   const [files, setFiles] = useState([]);
-
+  const [payload, setPayload] = useState({});
+  const filesLength = files.length;
+  const filesExtensions = Object.entries(fileTypes).map(
+    ([, extension]) => extension
+  );
+  const acceptedFiles = filesExtensions
+    .flatMap(extension => extension)
+    .join(',');
   /**
    * Handle uploaded files
    * @function
@@ -72,20 +90,121 @@ const FileUploader = () => {
     setFiles(filteredList);
   }
 
+  /**
+   * Uploads the files and prepares the payload to be send to the API
+   * @event
+   */
+  async function handleSubmit() {
+    for (const file of files) {
+      const extension = getExtension(file.name);
+      const fileType = getFileType(extension);
+      const url = await uploadFile(file, file.name);
+      constructPayload(fileType, url);
+    }
+    uploadFiles(payload, 'files');
+    cleanFiles();
+  }
+
+  /**
+   * Gets the file extesion from the file name
+   * @function
+   * @param {string} fileName - the name of the file
+   * @returns {string} the characters after the dot in the the name
+   */
+  function getExtension(fileName) {
+    const regex = /\w+$/;
+    const extension = fileName.match(regex)[0];
+    return extension;
+  }
+
+  /**
+   * Finds the general file type according to and extension
+   * @function
+   * @param {string} extension - A file extension
+   * @returns {string} The file type
+   */
+  function getFileType(extension) {
+    const list = Object.entries(fileTypes);
+    for (let fileTypeArr of list) {
+      const [fileType, extensionList] = fileTypeArr;
+      if (extensionList.includes(extension)) return fileType;
+    }
+    throw new Error(`No existe el tipo de archivo con extension ${extension}`);
+  }
+
+  /**
+   * Constructs the payload object to be send to the API
+   * @function
+   * @param {string} fileType - The general name of the file type
+   * @param {string} url - The url of the uploaded file
+   */
+  function constructPayload(fileType, url) {
+    setPayload(curr => {
+      return { ...curr, [`${fileType}`]: url };
+    });
+  }
+
+  /**
+   * Clean the file list after the documents are uploaded
+   * @function
+   */
+  function cleanFiles() {
+    setFiles([]);
+  }
+
   return (
-    <form>
-      <div className="preview">
-        <List>
-          {files.length > 0 ? (
-            generateUploadFilesList(files)
-          ) : (
-            <p>Sin archivos seleccionados</p>
-          )}
-        </List>
-      </div>
-      <input multiple type="file" name="file" onChange={addFileHandler} />
-      <Button variant="contained">Enviar</Button>
-    </form>
+    <Card variant="outlined" sx={{ maxWidth: 500 }}>
+      <Grid
+        container
+        sx={{
+          '--Grid-borderWidth': '1px',
+          borderTop: 'var(--Grid-borderWidth) solid',
+          borderLeft: 'var(--Grid-borderWidth) solid',
+          borderColor: 'divider',
+          '& > div': {
+            borderRight: 'var(--Grid-borderWidth) solid',
+            borderBottom: 'var(--Grid-borderWidth) solid',
+            borderColor: 'divider',
+          },
+        }}
+      >
+        <Grid xs={12}>
+          <div className="preview">
+            <List>
+              {files.length > 0 ? (
+                generateUploadFilesList(files)
+              ) : (
+                <p>Sin archivos seleccionados</p>
+              )}
+            </List>
+          </div>
+        </Grid>
+        <Grid
+          xs={12}
+          display="flex"
+          justifyContent="end"
+          className="file-uploader-wrapper"
+          sx={{ padding: '10px' }}
+        >
+          <Button
+            variant="contained"
+            color="success"
+            component="label"
+            sx={{ margin: '0 10px' }}
+          >
+            Selecciona los archivos
+            <input multiple type="file" name="file" onChange={addFileHandler} />
+          </Button>
+          <Button
+            variant="contained"
+            disabled={filesLength !== numberOfFiles}
+            onClick={handleSubmit}
+          >
+            Enviar
+          </Button>
+        </Grid>
+      </Grid>
+    </Card>
   );
 };
 
