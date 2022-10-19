@@ -10,6 +10,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { uploadFile } from '../../firebase/config';
+import { uploadFiles } from '../../services/Index';
 
 /**
  * Component to upload files
@@ -100,6 +101,7 @@ const FileUploader = ({ fileTypes, numberOfFiles }) => {
       const url = await uploadFile(file, file.name);
       constructPayload(fileType, url);
     }
+    uploadFiles(payload, 'files');
     cleanFiles();
   }
 

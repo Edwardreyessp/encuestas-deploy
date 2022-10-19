@@ -11,9 +11,9 @@ export const getQuestions = async () => {
   }
 };
 
-export const uploadFiles = async data => {
+export const uploadFiles = async (data, path) => {
   try {
-    const response = await axios.post(`${baseUrl}/files`, data);
+    const response = await axios.post(`${baseUrl}/${path}`, data);
 
     return response;
   } catch (error) {
