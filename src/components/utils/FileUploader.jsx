@@ -12,6 +12,8 @@ import { useState } from 'react';
 import { uploadFile } from '../../firebase/config';
 import { uploadFiles } from '../../services/Index';
 
+const defaultFiletypeScheme = { word: ['doc', 'docx'], rda: ['rda', 'Rda'] };
+
 /**
  * Component to upload files
  * @component
@@ -19,7 +21,7 @@ import { uploadFiles } from '../../services/Index';
  * @example {Object{}.word} - Array with the word file extension ['doc', 'docx']
  * @prop {number} numberOfFiles - The required number of files to be send
  */
-const FileUploader = ({ fileTypes, numberOfFiles }) => {
+const FileUploader = ({ fileTypes = defaultFiletypeScheme, numberOfFiles }) => {
   const [files, setFiles] = useState([]);
   const [payload, setPayload] = useState({});
   const filesLength = files.length;
