@@ -12,7 +12,11 @@ import { useState } from 'react';
 import { uploadFile } from '../../firebase/config';
 import { uploadFiles } from '../../services/Index';
 
-const defaultFiletypeScheme = { word: ['doc', 'docx'], rda: ['rda', 'Rda'] };
+const defaultFiletypeScheme = {
+  word: ['doc', 'docx'],
+  rda: ['rda', 'Rda'],
+  excel: ['xlsx'],
+};
 
 /**
  * Component to upload files
@@ -23,7 +27,7 @@ const defaultFiletypeScheme = { word: ['doc', 'docx'], rda: ['rda', 'Rda'] };
  */
 const FileUploader = ({ fileTypes = defaultFiletypeScheme, numberOfFiles }) => {
   const [files, setFiles] = useState([]);
-  const [payload, setPayload] = useState({});
+  // const [payload, setPayload] = useState({});
   const filesLength = files.length;
   const filesExtensions = Object.entries(fileTypes).map(
     ([, extension]) => extension
@@ -31,6 +35,9 @@ const FileUploader = ({ fileTypes = defaultFiletypeScheme, numberOfFiles }) => {
   const acceptedFiles = filesExtensions
     .flatMap(extension => extension)
     .join(',');
+
+  const payload = {};
+
   /**
    * Handle uploaded files
    * @function
@@ -97,14 +104,19 @@ const FileUploader = ({ fileTypes = defaultFiletypeScheme, numberOfFiles }) => {
    * @event
    */
   async function handleSubmit() {
-    for (const file of files) {
-      const extension = getExtension(file.name);
-      const fileType = getFileType(extension);
-      const url = await uploadFile(file, file.name);
-      constructPayload(fileType, url);
+    try {
+      for (const file of files) {
+        const extension = getExtension(file.name);
+        const fileType = getFileType(extension);
+        const url = await uploadFile(file, file.name);
+        constructPayload(fileType, url);
+      }
+    } catch (error) {
+      throw new Error(`Error uploading files to firebase: ${error}`);
+    } finally {
+      uploadFiles(payload, 'files');
+      cleanFiles();
     }
-    uploadFiles(payload, 'files');
-    cleanFiles();
   }
 
   /**
@@ -141,9 +153,10 @@ const FileUploader = ({ fileTypes = defaultFiletypeScheme, numberOfFiles }) => {
    * @param {string} url - The url of the uploaded file
    */
   function constructPayload(fileType, url) {
-    setPayload(curr => {
-      return { ...curr, [`${fileType}`]: url };
-    });
+    payload[`${fileType}`] = url;
+    // setPayload(curr => {
+    //   return { ...curr, [`${fileType}`]: url };
+    // });
   }
 
   /**
