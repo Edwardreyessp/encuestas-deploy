@@ -31,7 +31,7 @@ const Muestreo = () => {
           </Grid>
 
           <Grid xs={12} display="flex" justifyContent="center">
-            {{ 0: <FileUploader />, 1: <p>step 2</p> }[step]}
+            {{ 0: <FileUploader numberOfFiles={2} />, 1: <p>step 2</p> }[step]}
           </Grid>
 
           <Grid xs={12} display="flex" justifyContent="end">
