@@ -1,12 +1,18 @@
 import Navbar from '../components/utils/Navbar';
 import FileUploader from '../components/utils/FileUploader';
 import MyStepper from '../components/utils/MyStepper';
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Stack } from '@mui/material';
 import { Box } from '@mui/system';
 import { useState } from 'react';
+import ConfigEstratos from '../components/utils/ConfigEstratos';
+import Estratos from '../components/utils/Estratos';
 
 const Muestreo = () => {
   const [step, setStep] = useState(0);
+  const [data, setData] = useState({});
+  const [estratos, setEstratos] = useState([]);
+  const [estratos2, setEstratos2] = useState([]);
+  const opciones = ['a', 'b', 'c'];
   const steps = [
     'Subir archivos',
     'Configurar muestreo',
@@ -15,6 +21,23 @@ const Muestreo = () => {
     'Proporción de Muestreo',
     'Gráfica',
     'Tabla',
+  ];
+  const niveles = [
+    'Nacional',
+    'Circunscripciones',
+    'Estatal',
+    'Municipal',
+    'Distritos locales',
+    'Distritos federales',
+    'Secciones',
+  ];
+  const opcEstratos = [
+    'Circunscripciones',
+    'Estados',
+    'Municipios',
+    'Distritos locales',
+    'Distritos federales',
+    'Secciones',
   ];
 
   function handleNextStep() {
@@ -31,7 +54,40 @@ const Muestreo = () => {
           </Grid>
 
           <Grid xs={12} display="flex" justifyContent="center">
-            {{ 0: <FileUploader />, 1: <p>step 2</p> }[step]}
+            {
+              {
+                0: <FileUploader numberOfFiles={2} />,
+                1: (
+                  <ConfigEstratos
+                    niveles={niveles}
+                    estratos={opcEstratos}
+                    data={data}
+                    setData={setData}
+                  />
+                ),
+                2: (
+                  <Stack>
+                    {data.variables !== undefined
+                      ? data.variables.map((option, index) => {
+                          return (
+                            <Box key={index} mb={3}>
+                              <Estratos
+                                estratos={index === 0 ? estratos : estratos2}
+                                setEstratos={
+                                  index === 0 ? setEstratos : setEstratos2
+                                }
+                                opciones={opciones}
+                                numEstratos={option.value}
+                                nombre={option.label}
+                              />
+                            </Box>
+                          );
+                        })
+                      : ''}
+                  </Stack>
+                ),
+              }[step]
+            }
           </Grid>
 
           <Grid xs={12} display="flex" justifyContent="end">
