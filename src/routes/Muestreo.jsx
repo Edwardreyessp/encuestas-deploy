@@ -6,6 +6,7 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import ConfigEstratos from '../components/utils/ConfigEstratos';
 import Estratos from '../components/utils/Estratos';
+import NumbersForm from '../components/utils/NumbersForm';
 
 const Muestreo = () => {
   const [step, setStep] = useState(0);
@@ -86,6 +87,7 @@ const Muestreo = () => {
                       : ''}
                   </Stack>
                 ),
+                3: <NumbersForm></NumbersForm>,
               }[step]
             }
           </Grid>
