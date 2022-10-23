@@ -106,6 +106,18 @@ const Muestreo = () => {
       setValue: event => setNumberOfSamples(event.target.value),
     },
   ];
+  /**
+   * Step 5 config
+   */
+  const [proportion, setProportion] = useState(0);
+  const stepFiveArr = [
+    {
+      label: 'Proporcion de estratos variable 1',
+      id: 'a',
+      value: proportion,
+      setValue: event => setProportion(event.target.value),
+    },
+  ];
 
   /**
    * ===========Methods================
@@ -157,6 +169,7 @@ const Muestreo = () => {
                 ),
                 3: <NumbersForm inputsArr={inputsArr} />,
                 4: <SampleType />,
+                5: <NumbersForm inputsArr={stepFiveArr} />,
               }[step]
             }
           </Grid>
