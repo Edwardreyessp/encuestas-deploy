@@ -9,11 +9,37 @@ import Estratos from '../components/utils/Estratos';
 import NumbersForm from '../components/utils/NumbersForm';
 
 const Muestreo = () => {
+  /**
+   * ===========States================
+   */
+
+  /**
+   * Page config
+   */
   const [step, setStep] = useState(0);
+  /**
+   * Step 1 config
+   */
   const [data, setData] = useState({});
+  /**
+   * Step 2 config
+   */
   const [estratos, setEstratos] = useState([]);
   const [estratos2, setEstratos2] = useState([]);
-  const opciones = ['a', 'b', 'c'];
+  /**
+   * Step 4 config
+   */
+  const [numberOfPoints, setNumberOfPoints] = useState(0);
+  const [numberOfInterviews, setNumberOfInterviews] = useState(0);
+  const [numberOfSamples, setNumberOfSamples] = useState(0);
+
+  /**
+   * ===========Config variables================
+   */
+
+  /**
+   * Page config
+   */
   const steps = [
     'Subir archivos',
     'Configurar muestreo',
@@ -23,6 +49,10 @@ const Muestreo = () => {
     'Gráfica',
     'Tabla',
   ];
+
+  /**
+   * Step 1 config
+   */
   const niveles = [
     'Nacional',
     'Circunscripciones',
@@ -40,7 +70,37 @@ const Muestreo = () => {
     'Distritos federales',
     'Secciones',
   ];
+  /**
+   * Step 2 config
+   */
+  const opciones = ['a', 'b', 'c'];
+  /**
+   * Step 4 config
+   */
+  const inputsArr = [
+    {
+      label: 'Número de puntos',
+      id: 'a',
+      value: numberOfPoints,
+      setValue: event => setNumberOfPoints(event.target.value),
+    },
+    {
+      label: 'Número de entrevistas',
+      id: 'b',
+      value: numberOfInterviews,
+      setValue: event => setNumberOfInterviews(event.target.value),
+    },
+    {
+      label: 'Número de muestras',
+      id: 'c',
+      value: numberOfSamples,
+      setValue: event => setNumberOfSamples(event.target.value),
+    },
+  ];
 
+  /**
+   * ===========Methods================
+   */
   function handleNextStep() {
     setStep(curr => ++curr);
   }
@@ -86,7 +146,7 @@ const Muestreo = () => {
                       : ''}
                   </Stack>
                 ),
-                3: <NumbersForm></NumbersForm>,
+                3: <NumbersForm inputsArr={inputsArr} />,
               }[step]
             }
           </Grid>
