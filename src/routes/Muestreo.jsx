@@ -48,12 +48,12 @@ const Muestreo = () => {
     <>
       <Navbar current="muestreo" />
       <Box padding={'3rem 0'}>
-        <Grid container spacing={2}>
-          <Grid xs={12}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
             <MyStepper steps={steps} activeStep={step} />
           </Grid>
 
-          <Grid xs={12} display="flex" justifyContent="center">
+          <Grid xs={12} item display="flex" justifyContent="center">
             {
               {
                 0: <FileUploader numberOfFiles={2} />,
@@ -91,7 +91,7 @@ const Muestreo = () => {
             }
           </Grid>
 
-          <Grid xs={12} display="flex" justifyContent="end">
+          <Grid item xs={12} display="flex" justifyContent="end">
             <Button
               variant="contained"
               sx={{ margin: '1rem' }}

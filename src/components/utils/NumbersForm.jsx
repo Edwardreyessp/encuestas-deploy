@@ -27,11 +27,12 @@ const NumbersForm = () => {
     },
   ];
   return (
-    <Card>
+    <Card sx={{ minWidth: '300px' }}>
       <Stack>
         {inputsArr.map(item => {
           return (
             <TextField
+              sx={{ margin: '1rem' }}
               label={item.label}
               type="number"
               key={item.id}
