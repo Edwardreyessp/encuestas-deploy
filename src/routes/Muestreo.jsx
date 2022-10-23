@@ -43,7 +43,6 @@ const Muestreo = () => {
 
   function handleNextStep() {
     setStep(curr => ++curr);
-    console.log(step);
   }
   return (
     <>
