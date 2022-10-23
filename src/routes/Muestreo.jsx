@@ -1,7 +1,15 @@
 import Navbar from '../components/utils/Navbar';
 import FileUploader from '../components/utils/FileUploader';
 import MyStepper from '../components/utils/MyStepper';
-import { Button, Grid, Stack } from '@mui/material';
+import {
+  Button,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  FormControl,
+} from '@mui/material';
 import { Box } from '@mui/system';
 import { useState } from 'react';
 import ConfigEstratos from '../components/utils/ConfigEstratos';
@@ -44,6 +52,7 @@ const Muestreo = () => {
     'Subir archivos',
     'Configurar muestreo',
     'Configurar estratos',
+    'Configurar muestras',
     'Tipo de muestreo',
     'Proporción de Muestreo',
     'Gráfica',
@@ -147,6 +156,7 @@ const Muestreo = () => {
                   </Stack>
                 ),
                 3: <NumbersForm inputsArr={inputsArr} />,
+                4: <SampleType />,
               }[step]
             }
           </Grid>
@@ -166,4 +176,18 @@ const Muestreo = () => {
   );
 };
 
+const SampleType = () => {
+  return (
+    <>
+      <FormControl sx={{ m: 1, minWidth: 220 }}>
+        <InputLabel>Tipo de muestreo</InputLabel>
+        <Select label="Tipo de muestreo">
+          <MenuItem value={'a'}>Tipo de muestreo A</MenuItem>
+          <MenuItem value={'b'}>Tipo de muestreo B</MenuItem>
+          <MenuItem value={'c'}>Tipo de muestreo C</MenuItem>
+        </Select>
+      </FormControl>
+    </>
+  );
+};
 export default Muestreo;
