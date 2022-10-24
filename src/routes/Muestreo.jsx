@@ -195,9 +195,9 @@ const SampleType = () => {
       <FormControl sx={{ m: 1, minWidth: 220 }}>
         <InputLabel>Tipo de muestreo</InputLabel>
         <Select label="Tipo de muestreo">
-          <MenuItem value={'a'}>Tipo de muestreo A</MenuItem>
-          <MenuItem value={'b'}>Tipo de muestreo B</MenuItem>
-          <MenuItem value={'c'}>Tipo de muestreo C</MenuItem>
+          <MenuItem value={'a'}>Muestreo equitativo</MenuItem>
+          <MenuItem value={'b'}>Muestreo proporcional</MenuItem>
+          <MenuItem value={'c'}>Muestreo customizado</MenuItem>
         </Select>
       </FormControl>
     </>
