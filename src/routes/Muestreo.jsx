@@ -14,7 +14,7 @@ import { Box } from '@mui/system';
 import { useState } from 'react';
 import ConfigEstratos from '../components/utils/ConfigEstratos';
 import Estratos from '../components/utils/Estratos';
-import NumbersForm from '../components/utils/NumbersForm';
+import MixStratumsComponent from '../components/utils/MixStratumsComponent';
 
 const Muestreo = () => {
   /**
@@ -109,15 +109,15 @@ const Muestreo = () => {
   /**
    * Step 5 config
    */
-  const [proportion, setProportion] = useState(0);
-  const stepFiveArr = [
-    {
-      label: 'Proporcion de estratos variable 1',
-      id: 'a',
-      value: proportion,
-      setValue: event => setProportion(event.target.value),
-    },
-  ];
+  // const [proportions, setProportions] = useState({});
+  // const stepFiveArr = [
+  //   {
+  //     label: 'Proporcion de estratos variable 1',
+  //     id: 'a',
+  //     value: proportion,
+  //     setValue: event => setProportion(event.target.value),
+  //   },
+  // ];
 
   /**
    * ===========Methods================
@@ -167,9 +167,14 @@ const Muestreo = () => {
                       : ''}
                   </Stack>
                 ),
-                3: <NumbersForm inputsArr={inputsArr} />,
+                3: '', //<NumbersForm inputsArr={inputsArr} />,
                 4: <SampleType />,
-                5: <NumbersForm inputsArr={stepFiveArr} />,
+                5: (
+                  <MixStratumsComponent
+                    firstArr={estratos}
+                    secondArr={estratos2}
+                  />
+                ),
               }[step]
             }
           </Grid>
