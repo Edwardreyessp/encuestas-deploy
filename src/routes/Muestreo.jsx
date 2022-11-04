@@ -11,7 +11,7 @@ import {
   FormControl,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ConfigEstratos from '../components/utils/ConfigEstratos';
 import Estratos from '../components/utils/Estratos';
 import MixStratumsComponent from '../components/utils/MixStratumsComponent';
@@ -40,6 +40,16 @@ const Muestreo = () => {
   const [numberOfPoints, setNumberOfPoints] = useState(0);
   const [numberOfInterviews, setNumberOfInterviews] = useState(0);
   const [numberOfSamples, setNumberOfSamples] = useState(0);
+
+  /**
+   * Step 4 config
+   */
+  const [stepFiveArr, setStepFiveArr] = useState([]);
+
+  useEffect(() => {
+    const newArr = mixStratums(estratos, estratos2);
+    setStepFiveArr(newArr);
+  }, [estratos, estratos2]);
 
   /**
    * ===========Config variables================
@@ -125,6 +135,58 @@ const Muestreo = () => {
   function handleNextStep() {
     setStep(curr => ++curr);
   }
+
+  /**
+   * Handles the input values
+   * @function
+   * @param {event} e - the onChange event
+   * @ return {void} updates the component state
+   */
+  function handleStepFiveInput(e) {
+    const { name, value } = e.target;
+    const selectedInput = stepFiveArr.find(e => e.id === name);
+    const selectedIdx = stepFiveArr.indexOf(selectedInput);
+    setStepFiveArr(
+      stepFiveArr.map((input, i) => {
+        if (i === selectedIdx) {
+          input.value = value;
+          return input;
+        } else {
+          return input;
+        }
+      })
+    );
+  }
+
+  /**
+   * Mixes two stratums arrays
+   * @function
+   * @param {array} arrOne, arrTwo - The arrays of stratums to be mixed
+   * returns {array} - The array of mixed stratums
+   */
+  function mixStratums(arrOne, arrTwo) {
+    const mixedStratums = [];
+    if (arrTwo.length === 0) {
+      return arrOne.map(stratum => {
+        return {
+          label: `${stratum.nombre} `,
+          id: `${stratum.nombre}-id`,
+          value: 0,
+        };
+      });
+    }
+    for (let firstStratum of arrOne) {
+      for (let secondStratum of arrTwo) {
+        const scheme = {
+          label: `${firstStratum.nombre} / ${secondStratum.nombre}`,
+          id: `${firstStratum.nombre} / ${secondStratum.nombre}`,
+          value: 0,
+        };
+        mixedStratums.push(scheme);
+      }
+    }
+    return mixedStratums;
+  }
   return (
     <>
       <Navbar current="muestreo" />
@@ -171,8 +233,8 @@ const Muestreo = () => {
                 4: <SampleType />,
                 5: (
                   <MixStratumsComponent
-                    firstArr={estratos}
-                    secondArr={estratos2}
+                    stratumsArr={stepFiveArr}
+                    inputHandler={handleStepFiveInput}
                   />
                 ),
               }[step]
