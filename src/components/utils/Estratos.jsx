@@ -21,7 +21,7 @@ const Estratos = ({ estratos, setEstratos, opciones, numEstratos, nombre }) => {
   useEffect(() => {
     let newArray = [];
     for (let i = 0; i < numEstratos; i++) {
-      newArray.push(i);
+      newArray.push({ nombre: '', input: [] });
     }
     setEstratos(newArray);
   }, []);
@@ -40,7 +40,6 @@ const Estratos = ({ estratos, setEstratos, opciones, numEstratos, nombre }) => {
                 estratos={estratos}
                 setEstratos={setEstratos}
                 index={index}
-                allOptions={opciones}
               />
             );
           })
@@ -57,7 +56,6 @@ const Estratos = ({ estratos, setEstratos, opciones, numEstratos, nombre }) => {
  * @param {object[]} estratos - Datos guardados
  * @param {Function} setEstratos - Setter de datos guardados
  * @param {number} index - Número de estrato
- * @param {string[]} allOptions - Opciones globales
  */
 const InputEstratos = ({
   opciones,
@@ -65,26 +63,36 @@ const InputEstratos = ({
   estratos,
   setEstratos,
   index,
-  allOptions,
 }) => {
-  const [nombre, setNombre] = useState('');
-  const [input, setInput] = useState([]);
+  const handleInput = newValue => {
+    setOpciones(prev => {
+      return prev.filter(item => !newValue.includes(item));
+    });
 
-  const handleInput = e => {
-    setInput(e);
-
-    let newOptions = allOptions;
-    newOptions = newOptions.filter(item => !e.includes(item));
-    setOpciones(newOptions);
+    setEstratos(
+      [...estratos].map((object, i) => {
+        if (i === index) {
+          return {
+            ...object,
+            input: newValue,
+          };
+        } else return object;
+      })
+    );
   };
 
-  useEffect(() => {
-    if (estratos !== null) {
-      let newData = estratos;
-      newData[index] = { nombre: nombre, input: input };
-      setEstratos(newData);
-    }
-  }, [nombre, input]);
+  const handleName = name => {
+    setEstratos(
+      [...estratos].map((object, i) => {
+        if (i === index) {
+          return {
+            ...object,
+            nombre: name,
+          };
+        } else return object;
+      })
+    );
+  };
 
   const handleEstratos = () => {};
 
@@ -96,8 +104,8 @@ const InputEstratos = ({
             size="small"
             variant="outlined"
             label="Nombre"
-            value={nombre}
-            onChange={e => setNombre(e.target.value)}
+            value={estratos[index].nombre}
+            onChange={e => handleName(e.target.value)}
             onBlur={handleEstratos}
           />
         </Grid>

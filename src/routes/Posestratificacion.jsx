@@ -38,7 +38,6 @@ const Posestratificacion = () => {
   const [estratos, setEstratos] = useState([]);
   const [estratos2, setEstratos2] = useState([]);
   const [data, setData] = useState({});
-  const [files, setFiles] = useState({});
 
   /**
    * Valids if the step can change
@@ -48,10 +47,7 @@ const Posestratificacion = () => {
     let flag = false;
     switch (step) {
       case 0:
-        files.length === undefined
-          ? (flag = true)
-          : console.log('Faltan archivos');
-        setFiles({});
+        flag = true;
         break;
       case 1:
         flag = isConfigEstratosDone(data);
@@ -64,6 +60,10 @@ const Posestratificacion = () => {
         break;
     }
     if (flag) setStep(step + 1);
+  };
+
+  const fileTypes = {
+    excel: ['cvs', 'Rda', 'xlsx'],
   };
 
   return (
@@ -79,7 +79,7 @@ const Posestratificacion = () => {
               {
                 0: (
                   <Box mb={3}>
-                    <FileUploader />
+                    <FileUploader fileTypes={fileTypes} numberOfFiles={3} />
                   </Box>
                 ),
                 1: (
