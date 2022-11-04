@@ -37,6 +37,15 @@ const MixStratumsComponent = ({ firstArr, secondArr }) => {
    */
   function mixStratums(arrOne, arrTwo) {
     const mixedStratums = [];
+    if (arrTwo.length === 0) {
+      return arrOne.map(stratum => {
+        return {
+          label: `${stratum.nombre} `,
+          id: `${stratum.nombre}-id`,
+          value: 0,
+        };
+      });
+    }
     for (let firstStratum of arrOne) {
       for (let secondStratum of arrTwo) {
         const scheme = {
