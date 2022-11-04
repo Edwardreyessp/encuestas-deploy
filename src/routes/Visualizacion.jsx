@@ -12,7 +12,7 @@ import { useState } from 'react';
 const Visualizacion = () => {
   const [step, setStep] = useState(0);
   const steps = ['Subir archivos', 'Configurar gráficas'];
-  const fileTypes = { word: ['.docx'], excel: ['.csv'], power: ['.pptx'] };
+  const fileTypes = { word: ['docx'], excel: ['csv', 'Rda'], power: ['pptx'] };
 
   return (
     <>
