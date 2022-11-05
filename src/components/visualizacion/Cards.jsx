@@ -207,6 +207,7 @@ const Card = ({
           id="outlined-basic"
           variant="outlined"
           value={editedText}
+          sx={{ color: '#ffffff' }}
           fullWidth
           onChange={e => setEditedText(e.target.value)}
         />

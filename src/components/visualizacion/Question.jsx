@@ -2,8 +2,17 @@ import Card from './Cards';
 import { getQuestions, sendCharts } from '../../services/Index';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
-import { Box, Stack, Button, CircularProgress } from '@mui/material';
+import {
+  Box,
+  Stack,
+  Button,
+  CircularProgress,
+  Autocomplete,
+  TextField,
+  Paper,
+} from '@mui/material';
 import { useEffect, useState } from 'react';
+import { ChromePicker } from 'react-color';
 
 /**
  * Muestra todo el componente de preguntas
@@ -93,7 +102,14 @@ const Questions = () => {
             );
           })}
         </Stack>
-        <Box width={'300px'} position="fixed" right={'34px'}>
+        <Box
+          width={'300px'}
+          position="fixed"
+          right={'34px'}
+          display="flex"
+          alignItems={'center'}
+          flexDirection="column"
+        >
           {showDownload ? (
             <Button
               variant="contained"
@@ -120,10 +136,59 @@ const Questions = () => {
               Crear gráficas
             </Button>
           )}
+          <Config setData={setData} />
         </Box>
       </Box>
     );
   }
+};
+
+const Config = () => {
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [color, setColor] = useState('#0288d1');
+  const fonts = ['Arial', 'Sans', 'Cómic'];
+
+  const handleSaveColor = () => {
+    setShowColorPicker(false);
+  };
+
+  return (
+    <Paper elevation={2} sx={{ padding: '20px', mt: '36px' }}>
+      <Stack spacing={2} width={'225px'}>
+        <Autocomplete
+          size="small"
+          blurOnSelect
+          options={fonts}
+          onChange={(event, newValue) => console.log(newValue)}
+          renderInput={params => <TextField {...params} label="Fonts" />}
+        />
+        <Autocomplete
+          size="small"
+          blurOnSelect
+          options={fonts}
+          onChange={(event, newValue) => console.log(newValue)}
+          renderInput={params => <TextField {...params} label="Tamaño" />}
+        />
+        <Button
+          variant="contained"
+          sx={{ bgcolor: color }}
+          onClick={() => setShowColorPicker(true)}
+        >
+          Color
+        </Button>
+        {showColorPicker ? (
+          <Box onMouseLeave={handleSaveColor}>
+            <ChromePicker
+              onChange={color => setColor(color.hex)}
+              color={color}
+            />
+          </Box>
+        ) : (
+          ''
+        )}
+      </Stack>
+    </Paper>
+  );
 };
 
 export default Questions;
