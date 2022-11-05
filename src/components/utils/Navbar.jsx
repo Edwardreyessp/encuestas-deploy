@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 
 /**
  * Represents the Navbar.
@@ -35,32 +36,38 @@ const Navbar = ({ current }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Nombre de la empresa
           </Typography>
-          <StyledChip
-            component="a"
-            href="/muestreo"
-            label="Muestreo"
-            sx={{
-              backgroundColor: current === 'muestreo' ? '#005cb8' : 'inherit',
-            }}
-          />
-          <StyledChip
-            component="a"
-            href="/posestratificacion"
-            label="Posestratificación"
-            sx={{
-              backgroundColor:
-                current === 'posestratificacion' ? '#005cb8' : 'inherit',
-            }}
-          />
-          <StyledChip
-            component="a"
-            href="/visualizacion"
-            label="Visualización"
-            sx={{
-              backgroundColor:
-                current === 'visualizacion' ? '#005cb8' : 'inherit',
-            }}
-          />
+          <Link to={'/muestreo'}>
+            <StyledChip
+              component="a"
+              // href="/muestreo"
+              label="Muestreo"
+              sx={{
+                backgroundColor: current === 'muestreo' ? '#005cb8' : 'inherit',
+              }}
+            />
+          </Link>
+          <Link to={'/posestratificacion'}>
+            <StyledChip
+              component="a"
+              // href="/posestratificacion"
+              label="Posestratificación"
+              sx={{
+                backgroundColor:
+                  current === 'posestratificacion' ? '#005cb8' : 'inherit',
+              }}
+            />
+          </Link>
+          <Link to={'/visualizacion'}>
+            <StyledChip
+              component="a"
+              // href="/visualizacion"
+              label="Visualización"
+              sx={{
+                backgroundColor:
+                  current === 'visualizacion' ? '#005cb8' : 'inherit',
+              }}
+            />
+          </Link>
         </Toolbar>
       </AppBar>
     </Box>
