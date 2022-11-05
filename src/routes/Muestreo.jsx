@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import ConfigEstratos from '../components/utils/ConfigEstratos';
 import Estratos from '../components/utils/Estratos';
 import MixStratumsComponent from '../components/utils/MixStratumsComponent';
+import { v4 as uuidv4 } from 'uuid';
 
 const Muestreo = () => {
   /**
@@ -170,7 +171,7 @@ const Muestreo = () => {
       return arrOne.map(stratum => {
         return {
           label: `${stratum.nombre} `,
-          id: `${stratum.nombre}-id`,
+          id: uuidv4(),
           value: 0,
         };
       });
@@ -179,7 +180,7 @@ const Muestreo = () => {
       for (let secondStratum of arrTwo) {
         const scheme = {
           label: `${firstStratum.nombre} / ${secondStratum.nombre}`,
-          id: `${firstStratum.nombre} / ${secondStratum.nombre}`,
+          id: uuidv4(),
           value: 0,
         };
         mixedStratums.push(scheme);

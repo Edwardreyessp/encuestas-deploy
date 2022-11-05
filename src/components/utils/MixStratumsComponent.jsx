@@ -5,13 +5,13 @@ const MixStratumsComponent = ({ stratumsArr, inputHandler }) => {
   return (
     <Card sx={{ minWidth: '300px' }}>
       <Stack>
-        {stratumsArr.map(item => {
+        {stratumsArr.map((item, i) => {
           return (
             <TextField
               sx={{ margin: '1rem' }}
               label={item.label}
               type="number"
-              key={item.id}
+              key={`${i}-mix-input`}
               value={item.value}
               onChange={inputHandler}
               name={item.id}
