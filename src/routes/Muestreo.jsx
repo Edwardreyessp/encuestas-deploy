@@ -16,6 +16,7 @@ import ConfigEstratos from '../components/utils/ConfigEstratos';
 import Estratos from '../components/utils/Estratos';
 import MixStratumsComponent from '../components/utils/MixStratumsComponent';
 import { v4 as uuidv4 } from 'uuid';
+import InputsList from '../components/utils/InputsList';
 
 const Muestreo = () => {
   /**
@@ -38,9 +39,27 @@ const Muestreo = () => {
   /**
    * Step 4 config
    */
-  const [numberOfPoints, setNumberOfPoints] = useState(0);
-  const [numberOfInterviews, setNumberOfInterviews] = useState(0);
-  const [numberOfSamples, setNumberOfSamples] = useState(0);
+  const stepFourScheme = [
+    {
+      label: 'Número de puntos',
+      id: uuidv4(),
+      value: 0,
+      type: 'number',
+    },
+    {
+      label: 'Número de entrevistas',
+      id: uuidv4(),
+      value: 0,
+      type: 'number',
+    },
+    {
+      label: 'Número de muestras',
+      id: uuidv4(),
+      value: 0,
+      type: 'number',
+    },
+  ];
+  const [stepFourArr, setStepFourArr] = useState(stepFourScheme);
 
   /**
    * Step 4 config
@@ -97,44 +116,39 @@ const Muestreo = () => {
   /**
    * Step 4 config
    */
-  const inputsArr = [
-    {
-      label: 'Número de puntos',
-      id: 'a',
-      value: numberOfPoints,
-      setValue: event => setNumberOfPoints(event.target.value),
-    },
-    {
-      label: 'Número de entrevistas',
-      id: 'b',
-      value: numberOfInterviews,
-      setValue: event => setNumberOfInterviews(event.target.value),
-    },
-    {
-      label: 'Número de muestras',
-      id: 'c',
-      value: numberOfSamples,
-      setValue: event => setNumberOfSamples(event.target.value),
-    },
-  ];
+
   /**
    * Step 5 config
    */
-  // const [proportions, setProportions] = useState({});
-  // const stepFiveArr = [
-  //   {
-  //     label: 'Proporcion de estratos variable 1',
-  //     id: 'a',
-  //     value: proportion,
-  //     setValue: event => setProportion(event.target.value),
-  //   },
-  // ];
 
   /**
    * ===========Methods================
    */
   function handleNextStep() {
     setStep(curr => ++curr);
+  }
+
+  /**
+   * TODO: refactor the function DRY
+   * Handles the input values
+   * @function
+   * @param {event} e - the onChange event
+   * @ return {void} updates the component state
+   */
+  function handleStepFourInput(e) {
+    const { name, value } = e.target;
+    const selectedInput = stepFourArr.find(e => e.id === name);
+    const selectedIdx = stepFourArr.indexOf(selectedInput);
+    setStepFourArr(
+      stepFourArr.map((input, i) => {
+        if (i === selectedIdx) {
+          input.value = value;
+          return input;
+        } else {
+          return input;
+        }
+      })
+    );
   }
 
   /**
@@ -230,7 +244,12 @@ const Muestreo = () => {
                       : ''}
                   </Stack>
                 ),
-                3: '', //<NumbersForm inputsArr={inputsArr} />,
+                3: (
+                  <InputsList
+                    inputsArr={stepFourArr}
+                    handleInput={handleStepFourInput}
+                  />
+                ),
                 4: <SampleType />,
                 5: (
                   <MixStratumsComponent
