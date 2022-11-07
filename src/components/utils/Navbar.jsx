@@ -36,7 +36,7 @@ const Navbar = ({ current }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Nombre de la empresa
           </Typography>
-          <Link to={'/muestreo'}>
+          <Link to={'/muestreo'} style={{ textDecoration: 'none' }}>
             <StyledChip
               component="a"
               // href="/muestreo"
@@ -46,7 +46,7 @@ const Navbar = ({ current }) => {
               }}
             />
           </Link>
-          <Link to={'/posestratificacion'}>
+          <Link to={'/posestratificacion'} style={{ textDecoration: 'none' }}>
             <StyledChip
               component="a"
               // href="/posestratificacion"
@@ -57,7 +57,7 @@ const Navbar = ({ current }) => {
               }}
             />
           </Link>
-          <Link to={'/visualizacion'}>
+          <Link to={'/visualizacion'} style={{ textDecoration: 'none' }}>
             <StyledChip
               component="a"
               // href="/visualizacion"
