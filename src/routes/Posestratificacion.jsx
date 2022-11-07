@@ -63,7 +63,7 @@ const Posestratificacion = () => {
   };
 
   const fileTypes = {
-    excel: ['cvs', 'Rda', 'xlsx'],
+    excel: ['cvs', 'Rda', 'xlsx', 'rda'],
   };
 
   return (
@@ -72,7 +72,7 @@ const Posestratificacion = () => {
       <Box width={'100%'} display={'flex'} justifyContent={'center'}>
         <Stack>
           <Box margin={'36px 0'} width={'880px'}>
-            <MyStepper steps={steps} activeStep={step} />
+            <MyStepper steps={steps} activeStep={step} setStep={setStep} />
           </Box>
           <Box display={'flex'} justifyContent={'center'}>
             {

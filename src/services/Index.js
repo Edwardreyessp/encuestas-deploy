@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = 'https://encuestas1.herokuapp.com';
-// const baseUrl = 'http://127.0.0.1:4000';
+// const baseUrl = 'https://encuestas1.herokuapp.com';
+const baseUrl = 'http://127.0.0.1:4000';
 
 /**
  * Obtiene las preguntas del archivo subido
@@ -31,13 +31,13 @@ export const uploadFiles = async (data, path) => {
 };
 
 /**
- * Envía los tipos de gráficas de cada pregunta
- * @param {object} charts - Gráficos a realizar
+ * Envía modificaciones de preguntas, configuración y gráficas
+ * @param {object} allData - Json de los datos
  * @returns url de archivo a descargar
  */
-export const sendCharts = async charts => {
+export const sendModifiedQuestions = async allData => {
   try {
-    const response = await axios.post(`${baseUrl}/questions`, charts);
+    const response = await axios.post(`${baseUrl}/questions`, allData);
     return response;
   } catch (error) {
     console.log(error);
