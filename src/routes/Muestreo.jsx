@@ -45,18 +45,21 @@ const Muestreo = () => {
       id: uuidv4(),
       value: 0,
       type: 'number',
+      name: 'numberOfPoints',
     },
     {
       label: 'Número de entrevistas',
       id: uuidv4(),
       value: 0,
       type: 'number',
+      name: 'numberOfInterviews',
     },
     {
       label: 'Número de muestras',
       id: uuidv4(),
       value: 0,
       type: 'number',
+      name: 'numberOfSamples',
     },
   ];
   const [stepFourArr, setStepFourArr] = useState(stepFourScheme);
@@ -125,6 +128,9 @@ const Muestreo = () => {
    * ===========Methods================
    */
   function handleNextStep() {
+    if (step === 5) {
+      buildPayload();
+    }
     setStep(curr => ++curr);
   }
 
@@ -135,6 +141,7 @@ const Muestreo = () => {
    * @param {event} e - the onChange event
    * @ return {void} updates the component state
    */
+
   function handleStepFourInput(e) {
     const { name, value } = e.target;
     const selectedInput = stepFourArr.find(e => e.id === name);
@@ -202,6 +209,37 @@ const Muestreo = () => {
     }
     return mixedStratums;
   }
+
+  function setPayloadEstratums(name, subStratums) {
+    return {
+      name: name || 'empty',
+      sub_estratos: subStratums || 'empty',
+    };
+  }
+
+  function getInputValue(name, inputsArr) {
+    const input = inputsArr.find(input => input.name === name);
+    return input.value || 'empty';
+  }
+
+  function buildPayload() {
+    const stratumsIds = data.variables.map(v => v.label);
+    const firstStratum = setPayloadEstratums(data.variables[0].label, estratos);
+    const secondStratum = data.variables[1]
+      ? setPayloadEstratums(data.variables[1].label, estratos2)
+      : {};
+
+    const payloadJSON = {
+      Nivel: data.nivel,
+      Estratos_Ids: stratumsIds,
+      Estratos: [firstStratum, secondStratum],
+      puntos: getInputValue('numberOfPoints', stepFourArr),
+      entrevistas: getInputValue('numberOfInterviews', stepFourArr),
+      muestras: getInputValue('numberOfSamples', stepFourArr),
+    };
+    return payloadJSON;
+  }
+
   return (
     <>
       <Navbar current="muestreo" />
