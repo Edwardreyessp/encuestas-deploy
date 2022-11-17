@@ -75,6 +75,14 @@ const Muestreo = () => {
   }, [estratos, estratos2]);
 
   /**
+   * Sample types
+   */
+  const [sampleType, setSampleType] = useState(null);
+
+  function handleSampleTypeChange(e) {
+    setSampleType(e.target.value);
+  }
+  /**
    * ===========Config variables================
    */
 
@@ -128,7 +136,9 @@ const Muestreo = () => {
    * ===========Methods================
    */
   function handleNextStep() {
-    if (step === 5) {
+    if (step === 4 && !(sampleType === 'custom')) {
+      setStep(curr => ++curr);
+    } else if (step === 5) {
       buildPayload();
     }
     setStep(curr => ++curr);
@@ -236,6 +246,7 @@ const Muestreo = () => {
       puntos: getInputValue('numberOfPoints', stepFourArr),
       entrevistas: getInputValue('numberOfInterviews', stepFourArr),
       muestras: getInputValue('numberOfSamples', stepFourArr),
+      sampleType: sampleType,
     };
     return payloadJSON;
   }
@@ -288,7 +299,7 @@ const Muestreo = () => {
                     handleInput={handleStepFourInput}
                   />
                 ),
-                4: <SampleType />,
+                4: <SampleType handleChange={handleSampleTypeChange} />,
                 5: (
                   <MixStratumsComponent
                     stratumsArr={stepFiveArr}
@@ -314,15 +325,15 @@ const Muestreo = () => {
   );
 };
 
-const SampleType = () => {
+const SampleType = ({ handleChange }) => {
   return (
     <>
       <FormControl sx={{ m: 1, minWidth: 220 }}>
         <InputLabel>Tipo de muestreo</InputLabel>
-        <Select label="Tipo de muestreo">
-          <MenuItem value={'a'}>Muestreo equitativo</MenuItem>
-          <MenuItem value={'b'}>Muestreo proporcional</MenuItem>
-          <MenuItem value={'c'}>Muestreo customizado</MenuItem>
+        <Select label="Tipo de muestreo" onChange={handleChange}>
+          <MenuItem value={'fair'}>Muestreo equitativo</MenuItem>
+          <MenuItem value={'proportional'}>Muestreo proporcional</MenuItem>
+          <MenuItem value={'custom'}>Muestreo customizado</MenuItem>
         </Select>
       </FormControl>
     </>
