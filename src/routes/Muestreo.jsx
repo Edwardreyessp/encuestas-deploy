@@ -18,6 +18,9 @@ import MixStratumsComponent from '../components/utils/MixStratumsComponent';
 import { v4 as uuidv4 } from 'uuid';
 import InputsList from '../components/utils/InputsList';
 
+// TODO: investigar como renderizar un csv
+// TODO: lógica para regresar a configurar la proporción de los estratos
+
 const Muestreo = () => {
   /**
    * ===========States================
@@ -115,13 +118,16 @@ const Muestreo = () => {
   const opcEstratos = [
     'Circunscripciones',
     'Estados',
+    'ID del Estado',
     'Municipios',
+    'ID del Municipio',
     'Distritos locales',
     'Distritos federales',
     'Secciones',
   ];
   /**
    * Step 2 config
+   * TODO: recibir respuesta del backed y organizar por estrato
    */
   const opciones = ['a', 'b', 'c'];
   /**
@@ -231,7 +237,7 @@ const Muestreo = () => {
     const input = inputsArr.find(input => input.name === name);
     return input.value || 'empty';
   }
-
+  // TODO: crear un json solo con la url del archivo subido y los estratos ID
   function buildPayload() {
     const stratumsIds = data.variables.map(v => v.label);
     const firstStratum = setPayloadEstratums(data.variables[0].label, estratos);
@@ -239,6 +245,7 @@ const Muestreo = () => {
       ? setPayloadEstratums(data.variables[1].label, estratos2)
       : {};
 
+    // TODO: verificar que se envian bien las proporciones de muestreo
     const payloadJSON = {
       Nivel: data.nivel,
       Estratos_Ids: stratumsIds,
@@ -247,9 +254,11 @@ const Muestreo = () => {
       entrevistas: getInputValue('numberOfInterviews', stepFourArr),
       muestras: getInputValue('numberOfSamples', stepFourArr),
       sampleType: sampleType,
+      proportions: stepFiveArr,
     };
     return payloadJSON;
   }
+  const fileTypes = { excel: ['csv'] };
 
   return (
     <>
@@ -263,7 +272,7 @@ const Muestreo = () => {
           <Grid xs={12} item display="flex" justifyContent="center">
             {
               {
-                0: <FileUploader numberOfFiles={2} />,
+                0: <FileUploader numberOfFiles={2} fileTypes={fileTypes} />,
                 1: (
                   <ConfigEstratos
                     niveles={niveles}
