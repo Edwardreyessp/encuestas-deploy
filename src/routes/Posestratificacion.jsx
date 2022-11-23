@@ -9,6 +9,7 @@ import Estratos, { isEstratosDone } from '../components/utils/Estratos';
 import ConfigEstratos, {
   isConfigEstratosDone,
 } from '../components/utils/ConfigEstratos';
+import { sendConfig, sendEstratos } from '../services/Index';
 
 /**
  * Module 5
@@ -40,6 +41,26 @@ const Posestratificacion = () => {
   const [data, setData] = useState({});
 
   /**
+   * Envía la configuración
+   * @function
+   */
+  const sendToBackendConfig = async () => {
+    const response = await sendConfig(data);
+    console.log(response);
+    // setOpciones(response)
+  };
+
+  /**
+   * Envía los estratos
+   * @function
+   * @param {json} dataEstratos - Json de esratos, nombres y sub estratos
+   */
+  const sendToBackendEstratos = async dataEstratos => {
+    const response = await sendEstratos(dataEstratos);
+    console.log(response);
+  };
+
+  /**
    * Valids if the step can change
    * @function
    */
@@ -51,14 +72,37 @@ const Posestratificacion = () => {
         break;
       case 1:
         flag = isConfigEstratosDone(data);
+        if (flag) console.log(data);
+        sendToBackendConfig();
         break;
       case 2:
         flag = isEstratosDone(estratos) && isEstratosDone(estratos2);
+        if (flag) {
+          let dataEstratos = [
+            {
+              name: data.variables[0].label,
+              sub_estratos: estratos,
+            },
+          ];
+          if (estratos2.length !== 0) {
+            dataEstratos = [
+              ...dataEstratos,
+              {
+                name: data.variables[1].label,
+                sub_estratos: estratos2,
+              },
+            ];
+          }
+          console.log(dataEstratos);
+          sendToBackendEstratos(dataEstratos);
+        }
+        flag = false;
         break;
 
       default:
         break;
     }
+
     if (flag) setStep(step + 1);
   };
 
