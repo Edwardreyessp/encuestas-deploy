@@ -258,6 +258,7 @@ const Muestreo = () => {
     };
     return payloadJSON;
   }
+
   const fileTypes = { excel: ['csv'] };
 
   return (
@@ -272,7 +273,13 @@ const Muestreo = () => {
           <Grid xs={12} item display="flex" justifyContent="center">
             {
               {
-                0: <FileUploader numberOfFiles={2} path="muestro/core" />,
+                0: (
+                  <FileUploader
+                    numberOfFiles={2}
+                    path="muestro/core"
+                    fileTypes={fileTypes}
+                  />
+                ),
                 1: (
                   <ConfigEstratos
                     niveles={niveles}
