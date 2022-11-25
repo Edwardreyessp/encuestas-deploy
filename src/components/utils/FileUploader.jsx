@@ -10,7 +10,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { uploadFile } from '../../firebase/config';
-import { uploadFiles } from '../../services/Index';
+import { axiosPost } from '../../services/Index';
 
 const defaultFiletypeScheme = {
   word: ['doc', 'docx'],
@@ -120,7 +120,7 @@ const FileUploader = ({
     } catch (error) {
       throw new Error(`Error uploading files to firebase: ${error}`);
     } finally {
-      uploadFiles(payload, 'files');
+      axiosPost(payload, path);
       cleanFiles();
     }
   }

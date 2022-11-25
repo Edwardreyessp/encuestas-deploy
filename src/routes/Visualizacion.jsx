@@ -29,7 +29,13 @@ const Visualizacion = () => {
           </Box>
           {
             {
-              0: <FileUploader fileTypes={fileTypes} numberOfFiles={3} />,
+              0: (
+                <FileUploader
+                  fileTypes={fileTypes}
+                  numberOfFiles={3}
+                  path="files"
+                />
+              ),
               1: <Questions />,
             }[step]
           }

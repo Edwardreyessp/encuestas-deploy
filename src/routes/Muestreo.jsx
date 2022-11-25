@@ -137,7 +137,7 @@ const Muestreo = () => {
           <Grid xs={12} item display="flex" justifyContent="center">
             {
               {
-                0: <FileUploader numberOfFiles={2} />,
+                0: <FileUploader numberOfFiles={2} path="muestro/core" />,
                 1: (
                   <ConfigEstratos
                     niveles={niveles}
