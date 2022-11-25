@@ -25,17 +25,23 @@ const defaultFiletypeScheme = {
  * @example {Object{}.word} - Array with the word file extension ['doc', 'docx']
  * @prop {number} numberOfFiles - The required number of files to be send
  */
-const FileUploader = ({ fileTypes = defaultFiletypeScheme, numberOfFiles }) => {
+const FileUploader = ({
+  fileTypes = defaultFiletypeScheme,
+  numberOfFiles,
+  path = '/',
+}) => {
   const [files, setFiles] = useState([]);
   // const [payload, setPayload] = useState({});
   const filesLength = files.length;
-  const filesExtensions = Object.entries(fileTypes).map(
-    ([, extension]) => extension
-  );
-  const acceptedFiles = filesExtensions
-    .flatMap(extension => extension)
-    .join(',');
-
+  // const filesExtensions = Object.entries(fileTypes).map(
+  //   ([, extension]) => extension
+  // );
+  /*
+   * NOTE: function to accept only required file types
+   * const acceptedFiles = filesExtensions
+   *  .flatMap(extension => extension)
+   *  .join(',');
+   */
   const payload = {};
 
   /**
