@@ -38,6 +38,7 @@ export const uploadFiles = async (data, path) => {
  */
 export const sendModifiedQuestions = async allData => {
   try {
+    console.log(allData);
     const response = await axios.post(`${baseUrl}/questions`, allData);
     return response;
   } catch (error) {
@@ -54,7 +55,8 @@ export const sendModifiedQuestions = async allData => {
  */
 export const sendConfig = async data => {
   try {
-    const response = await axios.post(`${baseUrl}${urlPos}/data`, data);
+    console.log(data);
+    const response = await axios.post(`${baseUrl}${urlPos}/conf`, data);
     return response;
   } catch (error) {
     console.log(error);
@@ -68,6 +70,7 @@ export const sendConfig = async data => {
  */
 export const sendEstratos = async data => {
   try {
+    console.log(data);
     const response = await axios.post(`${baseUrl}${urlPos}/data`, data);
     return response;
   } catch (error) {

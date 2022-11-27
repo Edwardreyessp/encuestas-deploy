@@ -72,8 +72,7 @@ const Posestratificacion = () => {
         break;
       case 1:
         flag = isConfigEstratosDone(data);
-        if (flag) console.log(data);
-        sendToBackendConfig();
+        if (flag) sendToBackendConfig();
         break;
       case 2:
         flag = isEstratosDone(estratos) && isEstratosDone(estratos2);
@@ -93,7 +92,7 @@ const Posestratificacion = () => {
               },
             ];
           }
-          console.log(dataEstratos);
+          // console.log(dataEstratos);
           sendToBackendEstratos(dataEstratos);
         }
         flag = false;
