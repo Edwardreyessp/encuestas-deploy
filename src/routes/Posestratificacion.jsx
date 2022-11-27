@@ -18,7 +18,11 @@ import { sendConfig, sendEstratos } from '../services/Index';
 const Posestratificacion = () => {
   const [step, setStep] = useState(0);
   const steps = ['Subir archivos', 'Configurar estratos', 'Llenar estratos'];
-  const opciones = ['a', 'b', 'c'];
+  const [opciones, setOpciones] = useState({
+    a: ['a', 'b', 'c'],
+    b: ['d', 'e', 'f'],
+  });
+  // const opciones = ['a', 'b', 'c'];
   const niveles = [
     'Nacional',
     'Circunscripciones',
@@ -46,8 +50,7 @@ const Posestratificacion = () => {
    */
   const sendToBackendConfig = async () => {
     const response = await sendConfig(data);
-    console.log(response);
-    // setOpciones(response)
+    setOpciones(response);
   };
 
   /**
@@ -153,7 +156,7 @@ const Posestratificacion = () => {
                                 setEstratos={
                                   index === 0 ? setEstratos : setEstratos2
                                 }
-                                opciones={opciones}
+                                opciones={Object.values(opciones)[index]}
                                 numEstratos={option.value}
                                 nombre={option.label}
                               />
