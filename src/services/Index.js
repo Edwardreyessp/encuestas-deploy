@@ -22,7 +22,7 @@ export const getQuestions = async () => {
  * @param {object} data - Url de los archivos
  * @returns respuesta de confirmación de la DB
  */
-export const uploadFiles = async (data, path) => {
+export const axiosPost = async (data, path) => {
   try {
     const response = await axios.post(`${baseUrl}/${path}`, data);
     return response;
