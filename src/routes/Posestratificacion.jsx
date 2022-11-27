@@ -56,7 +56,10 @@ const Posestratificacion = () => {
    * @param {json} dataEstratos - Json de esratos, nombres y sub estratos
    */
   const sendToBackendEstratos = async dataEstratos => {
-    const response = await sendEstratos(dataEstratos);
+    const sendData = {
+      Estratos: dataEstratos,
+    };
+    const response = await sendEstratos(sendData);
     console.log(response);
   };
 
