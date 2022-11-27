@@ -9,6 +9,7 @@ import Estratos, { isEstratosDone } from '../components/utils/Estratos';
 import ConfigEstratos, {
   isConfigEstratosDone,
 } from '../components/utils/ConfigEstratos';
+import { sendConfig, sendEstratos } from '../services/Index';
 
 /**
  * Module 5
@@ -17,7 +18,11 @@ import ConfigEstratos, {
 const Posestratificacion = () => {
   const [step, setStep] = useState(0);
   const steps = ['Subir archivos', 'Configurar estratos', 'Llenar estratos'];
-  const opciones = ['a', 'b', 'c'];
+  const [opciones, setOpciones] = useState({
+    a: ['a', 'b', 'c'],
+    b: ['d', 'e', 'f'],
+  });
+  // const opciones = ['a', 'b', 'c'];
   const niveles = [
     'Nacional',
     'Circunscripciones',
@@ -40,6 +45,28 @@ const Posestratificacion = () => {
   const [data, setData] = useState({});
 
   /**
+   * Envía la configuración
+   * @function
+   */
+  const sendToBackendConfig = async () => {
+    const response = await sendConfig(data);
+    setOpciones(response);
+  };
+
+  /**
+   * Envía los estratos
+   * @function
+   * @param {json} dataEstratos - Json de esratos, nombres y sub estratos
+   */
+  const sendToBackendEstratos = async dataEstratos => {
+    const sendData = {
+      Estratos: dataEstratos,
+    };
+    const response = await sendEstratos(sendData);
+    console.log(response);
+  };
+
+  /**
    * Valids if the step can change
    * @function
    */
@@ -51,19 +78,41 @@ const Posestratificacion = () => {
         break;
       case 1:
         flag = isConfigEstratosDone(data);
+        if (flag) sendToBackendConfig();
         break;
       case 2:
         flag = isEstratosDone(estratos) && isEstratosDone(estratos2);
+        if (flag) {
+          let dataEstratos = [
+            {
+              name: data.variables[0].label,
+              sub_estratos: estratos,
+            },
+          ];
+          if (estratos2.length !== 0) {
+            dataEstratos = [
+              ...dataEstratos,
+              {
+                name: data.variables[1].label,
+                sub_estratos: estratos2,
+              },
+            ];
+          }
+          // console.log(dataEstratos);
+          sendToBackendEstratos(dataEstratos);
+        }
+        flag = false;
         break;
 
       default:
         break;
     }
+
     if (flag) setStep(step + 1);
   };
 
   const fileTypes = {
-    excel: ['cvs', 'Rda', 'xlsx'],
+    excel: ['cvs', 'Rda', 'xlsx', 'rda'],
   };
 
   return (
@@ -72,7 +121,7 @@ const Posestratificacion = () => {
       <Box width={'100%'} display={'flex'} justifyContent={'center'}>
         <Stack>
           <Box margin={'36px 0'} width={'880px'}>
-            <MyStepper steps={steps} activeStep={step} />
+            <MyStepper steps={steps} activeStep={step} setStep={setStep} />
           </Box>
           <Box display={'flex'} justifyContent={'center'}>
             {
@@ -107,7 +156,7 @@ const Posestratificacion = () => {
                                 setEstratos={
                                   index === 0 ? setEstratos : setEstratos2
                                 }
-                                opciones={opciones}
+                                opciones={Object.values(opciones)[index]}
                                 numEstratos={option.value}
                                 nombre={option.label}
                               />

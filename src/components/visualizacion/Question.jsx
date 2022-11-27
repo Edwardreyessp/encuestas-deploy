@@ -1,5 +1,5 @@
 import Card from './Cards';
-import { getQuestions, sendCharts } from '../../services/Index';
+import { getQuestions, sendModifiedQuestions } from '../../services/Index';
 import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import {
@@ -25,6 +25,11 @@ const Questions = () => {
   const [graphics, setGraphics] = useState({});
   const [download, setDownload] = useState('');
   const [showDownload, setShowDownload] = useState(false);
+  const [configuration, setConfiguration] = useState({
+    color: '#ffffff',
+    font: 'Arial',
+    size: '18',
+  });
 
   /**
    * Revisa si se editó la información
@@ -56,7 +61,13 @@ const Questions = () => {
    */
   const handleCreateCharts = async () => {
     setIsSending(true);
-    const response = await sendCharts(graphics);
+    const allData = {
+      preguntas: data,
+      charts: graphics,
+      config: configuration,
+    };
+
+    const response = await sendModifiedQuestions(allData);
     if (response.status === 200) {
       setDownload(response.data);
       setIsSending(false);
@@ -136,19 +147,33 @@ const Questions = () => {
               Crear gráficas
             </Button>
           )}
-          <Config setData={setData} />
+          <Config
+            configuration={configuration}
+            setConfiguration={setConfiguration}
+          />
         </Box>
       </Box>
     );
   }
 };
 
-const Config = () => {
+/**
+ * Obtiene la configuración de Visualización
+ * @component
+ * @param {object} configuration - Configuración de fuente, tamaño y color
+ * @param {function} setConfiguration - Setter de configuración
+ */
+const Config = ({ configuration, setConfiguration }) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [color, setColor] = useState('#0288d1');
   const fonts = ['Arial', 'Sans', 'Cómic'];
 
+  /**
+   * Guarda el color seleccionado
+   * @function
+   */
   const handleSaveColor = () => {
+    setConfiguration({ ...configuration, color: color });
     setShowColorPicker(false);
   };
 
@@ -159,15 +184,20 @@ const Config = () => {
           size="small"
           blurOnSelect
           options={fonts}
-          onChange={(event, newValue) => console.log(newValue)}
+          onChange={(event, newValue) =>
+            setConfiguration({ ...configuration, font: newValue })
+          }
           renderInput={params => <TextField {...params} label="Fonts" />}
         />
-        <Autocomplete
+        <TextField
+          fullWidth
+          type={'number'}
           size="small"
-          blurOnSelect
-          options={fonts}
-          onChange={(event, newValue) => console.log(newValue)}
-          renderInput={params => <TextField {...params} label="Tamaño" />}
+          label={'Tamaño'}
+          InputProps={{ inputProps: { min: 0, max: 50 } }}
+          onChange={value =>
+            setConfiguration({ ...configuration, size: value.target.value })
+          }
         />
         <Button
           variant="contained"
