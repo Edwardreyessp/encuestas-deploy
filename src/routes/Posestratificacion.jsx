@@ -79,7 +79,11 @@ const Posestratificacion = () => {
               {
                 0: (
                   <Box mb={3}>
-                    <FileUploader fileTypes={fileTypes} numberOfFiles={3} />
+                    <FileUploader
+                      fileTypes={fileTypes}
+                      numberOfFiles={3}
+                      path="files"
+                    />
                   </Box>
                 ),
                 1: (
