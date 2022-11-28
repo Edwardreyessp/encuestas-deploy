@@ -28,7 +28,7 @@ const defaultFiletypeScheme = {
 const FileUploader = ({
   fileTypes = defaultFiletypeScheme,
   numberOfFiles,
-  path = '/',
+  path = '',
 }) => {
   const [files, setFiles] = useState([]);
   // const [payload, setPayload] = useState({});
