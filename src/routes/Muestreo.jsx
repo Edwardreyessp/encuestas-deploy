@@ -131,7 +131,7 @@ const Muestreo = () => {
    * Step 2 config
    * TODO: recibir respuesta del backed y organizar por estrato
    */
-  const opciones = ['a', 'b', 'c'];
+  const [opciones, setOpciones] = useState([]);
   /**
    * Step 4 config
    */
@@ -145,9 +145,7 @@ const Muestreo = () => {
    */
   function handleNextStep() {
     if (step === 1) {
-      const stratumsIds = data.variables.map(v => v.label);
-      const payload = { Estratos_Ids: stratumsIds };
-      axiosPost(payload, PATH);
+      requestUniques();
     } else if (step === 4 && !(sampleType === 'custom')) {
       setStep(curr => ++curr);
     } else if (step === 5) {
@@ -244,7 +242,7 @@ const Muestreo = () => {
     const input = inputsArr.find(input => input.name === name);
     return input.value || 'empty';
   }
-  // TODO: crear un json solo con la url del archivo subido y los estratos ID
+
   function buildPayload() {
     const stratumsIds = data.variables.map(v => v.label);
     const firstStratum = setPayloadEstratums(data.variables[0].label, estratos);
@@ -252,7 +250,6 @@ const Muestreo = () => {
       ? setPayloadEstratums(data.variables[1].label, estratos2)
       : {};
 
-    // TODO: verificar que se envian bien las proporciones de muestreo
     const payloadJSON = {
       Nivel: data.nivel,
       Estratos_Ids: stratumsIds,
@@ -267,6 +264,14 @@ const Muestreo = () => {
   }
 
   const fileTypes = { excel: ['csv'] };
+
+  async function requestUniques() {
+    // TODO: handle 2 stratums case
+    const stratumsIds = data.variables.map(v => v.label);
+    const payload = { Estratos_Ids: stratumsIds };
+    const res = await axiosPost(payload, PATH);
+    setOpciones(res);
+  }
 
   return (
     <>
