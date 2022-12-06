@@ -112,7 +112,7 @@ const Posestratificacion = () => {
   };
 
   const fileTypes = {
-    excel: ['cvs', 'Rda', 'xlsx', 'rda'],
+    excel: ['csv', 'Rda', 'xlsx', 'rda'],
   };
 
   return (
