@@ -10,6 +10,7 @@ import {
   Autocomplete,
   TextField,
   Paper,
+  Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
@@ -166,7 +167,7 @@ const Questions = () => {
 const Config = ({ configuration, setConfiguration }) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [color, setColor] = useState('#0288d1');
-  const fonts = ['Arial', 'Sans', 'Cómic'];
+  const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
 
   /**
    * Guarda el color seleccionado
@@ -184,10 +185,24 @@ const Config = ({ configuration, setConfiguration }) => {
           size="small"
           blurOnSelect
           options={fonts}
+          renderOption={(props, option) => (
+            <li key={option} {...props}>
+              <Typography style={{ fontFamily: option }}>{option}</Typography>
+            </li>
+          )}
           onChange={(event, newValue) =>
             setConfiguration({ ...configuration, font: newValue })
           }
-          renderInput={params => <TextField {...params} label="Fonts" />}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label="Fuente"
+              inputProps={{
+                ...params.inputProps,
+                style: { fontFamily: configuration.font },
+              }}
+            />
+          )}
         />
         <TextField
           fullWidth
