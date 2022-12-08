@@ -1,6 +1,7 @@
 import Card from './Cards';
 import { getQuestions, sendModifiedQuestions } from '../../services/Index';
-import SendRoundedIcon from '@mui/icons-material/SendRounded';
+// import SendRoundedIcon from '@mui/icons-material/SendRounded';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import {
   Box,
@@ -11,6 +12,8 @@ import {
   TextField,
   Paper,
   Typography,
+  MenuItem,
+  Menu,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { ChromePicker } from 'react-color';
@@ -27,10 +30,19 @@ const Questions = () => {
   const [download, setDownload] = useState('');
   const [showDownload, setShowDownload] = useState(false);
   const [configuration, setConfiguration] = useState({
-    color: '#ffffff',
+    color: '#0288d1',
     font: 'Arial',
     size: '18',
   });
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   /**
    * Revisa si se editó la información
@@ -60,12 +72,14 @@ const Questions = () => {
    * Sube los datos editados
    * @function
    */
-  const handleCreateCharts = async () => {
+  const handleCreateCharts = async layout => {
+    setAnchorEl(null);
     setIsSending(true);
     const allData = {
       preguntas: data,
       charts: graphics,
       config: configuration,
+      layout: layout,
     };
 
     const response = await sendModifiedQuestions(allData);
@@ -134,23 +148,42 @@ const Questions = () => {
               Descargar gráficas
             </Button>
           ) : (
-            <Button
-              variant="contained"
-              endIcon={
-                isSending ? (
-                  <CircularProgress sx={{ color: 'white' }} size={20} />
-                ) : (
-                  <SendRoundedIcon />
-                )
-              }
-              onClick={handleCreateCharts}
-            >
-              Crear gráficas
-            </Button>
+            <>
+              <Button
+                variant="contained"
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                endIcon={
+                  isSending ? (
+                    <CircularProgress sx={{ color: 'white' }} size={20} />
+                  ) : (
+                    <KeyboardArrowDownIcon />
+                  )
+                }
+              >
+                Crear gráficas
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => handleCreateCharts('L1')}>
+                  Layout 1
+                </MenuItem>
+                <MenuItem onClick={() => handleCreateCharts('L2')}>
+                  Layout 2
+                </MenuItem>
+              </Menu>
+            </>
           )}
           <Config
             configuration={configuration}
             setConfiguration={setConfiguration}
+            setShowDownload={setShowDownload}
           />
         </Box>
       </Box>
@@ -164,9 +197,9 @@ const Questions = () => {
  * @param {object} configuration - Configuración de fuente, tamaño y color
  * @param {function} setConfiguration - Setter de configuración
  */
-const Config = ({ configuration, setConfiguration }) => {
+const Config = ({ configuration, setConfiguration, setShowDownload }) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
-  const [color, setColor] = useState('#0288d1');
+  const [color, setColor] = useState(configuration.color);
   const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
 
   /**
@@ -174,6 +207,7 @@ const Config = ({ configuration, setConfiguration }) => {
    * @function
    */
   const handleSaveColor = () => {
+    setShowDownload(false);
     setConfiguration({ ...configuration, color: color });
     setShowColorPicker(false);
   };
@@ -190,9 +224,11 @@ const Config = ({ configuration, setConfiguration }) => {
               <Typography style={{ fontFamily: option }}>{option}</Typography>
             </li>
           )}
-          onChange={(event, newValue) =>
-            setConfiguration({ ...configuration, font: newValue })
-          }
+          value={configuration.font}
+          onChange={(event, newValue) => {
+            setShowDownload(false);
+            setConfiguration({ ...configuration, font: newValue });
+          }}
           renderInput={params => (
             <TextField
               {...params}
@@ -210,9 +246,11 @@ const Config = ({ configuration, setConfiguration }) => {
           size="small"
           label={'Tamaño'}
           InputProps={{ inputProps: { min: 0, max: 50 } }}
-          onChange={value =>
-            setConfiguration({ ...configuration, size: value.target.value })
-          }
+          value={configuration.size}
+          onChange={value => {
+            setShowDownload(false);
+            setConfiguration({ ...configuration, size: value.target.value });
+          }}
         />
         <Button
           variant="contained"
