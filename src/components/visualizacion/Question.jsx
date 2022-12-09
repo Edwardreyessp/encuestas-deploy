@@ -30,7 +30,7 @@ const Questions = () => {
   const [download, setDownload] = useState('');
   const [showDownload, setShowDownload] = useState(false);
   const [configuration, setConfiguration] = useState({
-    color: '#0288d1',
+    color: '#000000',
     font: 'Arial',
     size: '18',
   });
