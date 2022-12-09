@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { uploadFile } from '../../firebase/config';
 import { axiosPost } from '../../services/Index';
@@ -120,9 +121,11 @@ const FileUploader = ({
         const fileType = getFileType(extension);
         const url = await uploadFile(file, file.name);
         constructPayload(fileType, url);
+        toast.success('Los archivos se cargaron correctamente');
       }
     } catch (error) {
-      throw new Error(`Error uploading files to firebase: ${error}`);
+      console.error('Error subiendo a firebase', error);
+      toast.error('Error cargando los archivos');
     } finally {
       axiosPost(payload, path);
       setIsLoading(false);

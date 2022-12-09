@@ -8,7 +8,8 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
     <Routes>
@@ -17,5 +18,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <Route path="/visualizacion" element={<Visualizacion />} />
       <Route path="/" element={<Visualizacion />} />
     </Routes>
+    <ToastContainer autoClose={3000} />
   </BrowserRouter>
 );
