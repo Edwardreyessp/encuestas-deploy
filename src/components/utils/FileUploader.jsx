@@ -3,9 +3,11 @@ import {
   Card,
   Grid,
   IconButton,
+  LinearProgress,
   List,
   ListItem,
   ListItemText,
+  Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
@@ -30,6 +32,7 @@ const FileUploader = ({
   numberOfFiles,
   path = '/',
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
   // const [payload, setPayload] = useState({});
   const filesLength = files.length;
@@ -110,6 +113,7 @@ const FileUploader = ({
    * @event
    */
   async function handleSubmit() {
+    setIsLoading(true);
     try {
       for (const file of files) {
         const extension = getExtension(file.name);
@@ -121,6 +125,7 @@ const FileUploader = ({
       throw new Error(`Error uploading files to firebase: ${error}`);
     } finally {
       axiosPost(payload, path);
+      setIsLoading(false);
       cleanFiles();
     }
   }
@@ -175,6 +180,11 @@ const FileUploader = ({
 
   return (
     <Card variant="outlined" sx={{ maxWidth: 500 }}>
+      {isLoading ? (
+        <LinearProgress />
+      ) : (
+        <LinearProgress variant="determinate" value={0} />
+      )}
       <Grid
         container
         sx={{
@@ -189,18 +199,21 @@ const FileUploader = ({
           },
         }}
       >
-        <Grid xs={12}>
+        <Grid xs={12} item>
           <div className="preview">
             <List>
               {files.length > 0 ? (
                 generateUploadFilesList(files)
               ) : (
-                <p>Sin archivos seleccionados</p>
+                <Typography variant="h6" align="center">
+                  Sin archivos seleccionados
+                </Typography>
               )}
             </List>
           </div>
         </Grid>
         <Grid
+          item
           xs={12}
           display="flex"
           justifyContent="end"
