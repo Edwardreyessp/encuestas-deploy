@@ -3,11 +3,14 @@ import {
   Card,
   Grid,
   IconButton,
+  LinearProgress,
   List,
   ListItem,
   ListItemText,
+  Typography,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'react-toastify';
 import { useState } from 'react';
 import { uploadFile } from '../../firebase/config';
 import { axiosPost } from '../../services/Index';
@@ -30,6 +33,7 @@ const FileUploader = ({
   numberOfFiles,
   path = '/',
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
   // const [payload, setPayload] = useState({});
   const filesLength = files.length;
@@ -110,17 +114,21 @@ const FileUploader = ({
    * @event
    */
   async function handleSubmit() {
+    setIsLoading(true);
     try {
       for (const file of files) {
         const extension = getExtension(file.name);
         const fileType = getFileType(extension);
         const url = await uploadFile(file, file.name);
         constructPayload(fileType, url);
+        toast.success('Los archivos se cargaron correctamente');
       }
     } catch (error) {
-      throw new Error(`Error uploading files to firebase: ${error}`);
+      console.error('Error subiendo a firebase', error);
+      toast.error('Error cargando los archivos');
     } finally {
       axiosPost(payload, path);
+      setIsLoading(false);
       cleanFiles();
     }
   }
@@ -175,6 +183,11 @@ const FileUploader = ({
 
   return (
     <Card variant="outlined" sx={{ maxWidth: 500 }}>
+      {isLoading ? (
+        <LinearProgress />
+      ) : (
+        <LinearProgress variant="determinate" value={0} />
+      )}
       <Grid
         container
         sx={{
@@ -189,18 +202,21 @@ const FileUploader = ({
           },
         }}
       >
-        <Grid xs={12}>
+        <Grid xs={12} item>
           <div className="preview">
             <List>
               {files.length > 0 ? (
                 generateUploadFilesList(files)
               ) : (
-                <p>Sin archivos seleccionados</p>
+                <Typography variant="h6" align="center">
+                  Sin archivos seleccionados
+                </Typography>
               )}
             </List>
           </div>
         </Grid>
         <Grid
+          item
           xs={12}
           display="flex"
           justifyContent="end"
