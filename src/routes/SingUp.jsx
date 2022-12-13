@@ -12,6 +12,7 @@ import {
 import googleIcon from '../assets/images/google.svg';
 import Navbar from '../components/utils/Navbar';
 // Icons
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Visibility from '@mui/icons-material/Visibility';
@@ -20,9 +21,10 @@ import { useState } from 'react';
 import { InputStartIcon } from '../components/Styled/StyledInput';
 import { Link } from 'react-router-dom';
 
-const SingIn = () => {
+const SingUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   // INPUTS
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   // CUSTOM COLOR
@@ -37,8 +39,9 @@ const SingIn = () => {
     },
   });
 
-  const logIn = () => {
+  const createUser = () => {
     const user = {
+      name: name,
       email: email,
       password: password,
     };
@@ -51,6 +54,44 @@ const SingIn = () => {
       <ThemeProvider theme={theme}>
         <Box display={'flex'} height="calc(100vh - 64px)" width={'100vw'}>
           <Stack
+            sx={{ bgcolor: '#1976D2' }}
+            alignItems="center"
+            justifyContent="center"
+            paddingX={'88px'}
+            spacing={2}
+          >
+            <Typography
+              color={'white'}
+              fontSize={40}
+              fontWeight={700}
+              width="405px"
+            >
+              ¡Bienvenido de vuelta!
+            </Typography>
+            <Typography
+              fontSize={20}
+              color="white"
+              width={'395px'}
+              textAlign="center"
+            >
+              Para mantenerse conectado, por favor inicia sesión con tu cuenta
+              personal.
+            </Typography>
+
+            <Button
+              variant="outlined"
+              color="contrast"
+              sx={{ borderRadius: '50px' }}
+            >
+              <Link
+                to={'/sing-in'}
+                style={{ textDecoration: 'none', color: 'white' }}
+              >
+                INICIAR SESIÓN
+              </Link>
+            </Button>
+          </Stack>
+          <Stack
             alignItems="center"
             justifyContent="center"
             paddingX={'88px'}
@@ -58,7 +99,7 @@ const SingIn = () => {
             width="100%"
           >
             <Typography fontSize={40} color="#1976D2" fontWeight={700}>
-              Inicia Sesión
+              Crea una Cuenta
             </Typography>
             <Button
               variant="contained"
@@ -74,8 +115,16 @@ const SingIn = () => {
               Iniciar sesión con Google
             </Button>
             <Typography color={'#9D9D9D'}>
-              O usa tu cuenta de correo:
+              O usa un correo para registrarte:
             </Typography>
+            <InputStartIcon
+              placeholder={'Nombre'}
+              value={name}
+              onChange={event => {
+                setName(event.target.value);
+              }}
+              icon={<PersonOutlineOutlinedIcon sx={{ color: '#9D9D9D' }} />}
+            />
             <InputStartIcon
               placeholder={'Correo'}
               value={email}
@@ -114,52 +163,12 @@ const SingIn = () => {
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
             </Paper>
-            <Typography sx={{ cursor: 'pointer' }}>
-              ¿Olvidaste tu contraseña?
-            </Typography>
             <Button
               variant="contained"
               sx={{ borderRadius: '50px', mt: 100 }}
-              onClick={logIn}
+              onClick={createUser}
             >
-              INICIAR SESIÓN
-            </Button>
-          </Stack>
-          <Stack
-            sx={{ bgcolor: '#1976D2' }}
-            alignItems="center"
-            justifyContent="center"
-            paddingX={'88px'}
-            spacing={2}
-          >
-            <Typography
-              color={'white'}
-              fontSize={40}
-              fontWeight={700}
-              width="405px"
-              textAlign={'center'}
-            >
-              ¡Bienvenido!
-            </Typography>
-            <Typography
-              fontSize={20}
-              color="white"
-              width={'395px'}
-              textAlign="center"
-            >
-              Ingresa tus datos y regístrate para usar todos los servicios.
-            </Typography>
-            <Button
-              variant="outlined"
-              color="contrast"
-              sx={{ borderRadius: '50px' }}
-            >
-              <Link
-                to={'/sing-up'}
-                style={{ textDecoration: 'none', color: 'white' }}
-              >
-                REGÍSTRATE
-              </Link>
+              REGISTRARSE
             </Button>
           </Stack>
         </Box>
@@ -168,4 +177,4 @@ const SingIn = () => {
   );
 };
 
-export default SingIn;
+export default SingUp;
