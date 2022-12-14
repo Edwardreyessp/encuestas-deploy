@@ -4,6 +4,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 export const InputStartIcon = ({
   placeholder = '',
   value = '',
+  name = '',
   onChange = () => {},
   icon = <PersonOutlineOutlinedIcon sx={{ color: '#9D9D9D' }} />,
 }) => {
@@ -24,6 +25,7 @@ export const InputStartIcon = ({
       <TextField
         sx={{ ml: 1, input: { bgcolor: '#F4F8F7' } }}
         label={placeholder}
+        name={name}
         variant="filled"
         fullWidth
         value={value}

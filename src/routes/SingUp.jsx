@@ -19,14 +19,18 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { InputStartIcon } from '../components/Styled/StyledInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/context/authContext';
 
 const SingUp = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
   // INPUTS
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
   // CUSTOM COLOR
   const { palette } = createTheme();
   const { augmentColor } = palette;
@@ -34,18 +38,23 @@ const SingUp = () => {
   const theme = createTheme({
     palette: {
       contrast: createColor('#FFFFFF'),
-      primary: createColor('#1976D2'),
-      mygray: createColor('#9D9D9D'),
+      mygray: createColor('#9E9E9E'),
     },
   });
 
-  const createUser = () => {
-    const user = {
-      name: name,
-      email: email,
-      password: password,
-    };
-    console.log(user);
+  const { signup } = useAuth();
+
+  const createUser = async () => {
+    try {
+      await signup(user.name, user.email, user.password);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdate = ({ target: { name, value } }) => {
+    setUser({ ...user, [name]: value });
   };
 
   return (
@@ -54,7 +63,7 @@ const SingUp = () => {
       <ThemeProvider theme={theme}>
         <Box display={'flex'} height="calc(100vh - 64px)" width={'100vw'}>
           <Stack
-            sx={{ bgcolor: '#1976D2' }}
+            sx={{ bgcolor: theme.palette.primary.main }}
             alignItems="center"
             justifyContent="center"
             paddingX={'88px'}
@@ -98,7 +107,7 @@ const SingUp = () => {
             spacing={2}
             width="100%"
           >
-            <Typography fontSize={40} color="#1976D2" fontWeight={700}>
+            <Typography fontSize={40} color="primary" fontWeight={700}>
               Crea una Cuenta
             </Typography>
             <Button
@@ -114,24 +123,28 @@ const SingUp = () => {
             >
               Iniciar sesión con Google
             </Button>
-            <Typography color={'#9D9D9D'}>
+            <Typography color={theme.palette.mygray.main}>
               O usa un correo para registrarte:
             </Typography>
             <InputStartIcon
               placeholder={'Nombre'}
-              value={name}
-              onChange={event => {
-                setName(event.target.value);
-              }}
-              icon={<PersonOutlineOutlinedIcon sx={{ color: '#9D9D9D' }} />}
+              value={user.name}
+              name={'name'}
+              onChange={handleUpdate}
+              icon={
+                <PersonOutlineOutlinedIcon
+                  sx={{ color: theme.palette.mygray.main }}
+                />
+              }
             />
             <InputStartIcon
               placeholder={'Correo'}
-              value={email}
-              onChange={event => {
-                setEmail(event.target.value);
-              }}
-              icon={<MailOutlinedIcon sx={{ color: '#9D9D9D' }} />}
+              value={user.email}
+              name={'email'}
+              onChange={handleUpdate}
+              icon={
+                <MailOutlinedIcon sx={{ color: theme.palette.mygray.main }} />
+              }
             />
             <Paper
               elevation={2}
@@ -144,23 +157,26 @@ const SingUp = () => {
                 bgcolor: '#F4F8F7',
               }}
             >
-              <LockOutlinedIcon sx={{ color: '#9D9D9D' }} />
+              <LockOutlinedIcon sx={{ color: theme.palette.mygray.main }} />
               <TextField
                 sx={{ ml: 1, input: { bgcolor: '#F4F8F7' } }}
                 label="Contraseña"
+                name="password"
                 variant="filled"
                 type={showPassword ? 'text' : 'password'}
                 fullWidth
-                value={password}
-                onChange={event => {
-                  setPassword(event.target.value);
-                }}
+                value={user.password}
+                onChange={handleUpdate}
                 InputProps={{
                   disableUnderline: true,
                 }}
               />
               <IconButton onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? (
+                  <VisibilityOff sx={{ color: theme.palette.mygray.main }} />
+                ) : (
+                  <Visibility sx={{ color: theme.palette.mygray.main }} />
+                )}
               </IconButton>
             </Paper>
             <Button

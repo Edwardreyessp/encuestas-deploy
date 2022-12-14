@@ -31,9 +31,9 @@ const SingIn = () => {
   const createColor = mainColor => augmentColor({ color: { main: mainColor } });
   const theme = createTheme({
     palette: {
-      contrast: createColor('#FFFFFF'),
+      secondary: createColor('#FFFFFF'),
       primary: createColor('#1976D2'),
-      mygray: createColor('#9D9D9D'),
+      mygray: createColor('#9E9E9E'),
     },
   });
 
@@ -57,7 +57,7 @@ const SingIn = () => {
             spacing={2}
             width="100%"
           >
-            <Typography fontSize={40} color="#1976D2" fontWeight={700}>
+            <Typography fontSize={40} color="primary" fontWeight={700}>
               Inicia Sesión
             </Typography>
             <Button
@@ -73,7 +73,7 @@ const SingIn = () => {
             >
               Iniciar sesión con Google
             </Button>
-            <Typography color={'#9D9D9D'}>
+            <Typography color={theme.palette.mygray.main}>
               O usa tu cuenta de correo:
             </Typography>
             <InputStartIcon
@@ -82,7 +82,9 @@ const SingIn = () => {
               onChange={event => {
                 setEmail(event.target.value);
               }}
-              icon={<MailOutlinedIcon sx={{ color: '#9D9D9D' }} />}
+              icon={
+                <MailOutlinedIcon sx={{ color: theme.palette.mygray.main }} />
+              }
             />
             <Paper
               elevation={2}
@@ -95,7 +97,7 @@ const SingIn = () => {
                 bgcolor: '#F4F8F7',
               }}
             >
-              <LockOutlinedIcon sx={{ color: '#9D9D9D' }} />
+              <LockOutlinedIcon sx={{ color: theme.palette.mygray.main }} />
               <TextField
                 sx={{ ml: 1, input: { bgcolor: '#F4F8F7' } }}
                 label="Contraseña"
@@ -111,7 +113,11 @@ const SingIn = () => {
                 }}
               />
               <IconButton onClick={() => setShowPassword(!showPassword)}>
-                {showPassword ? <VisibilityOff /> : <Visibility />}
+                {showPassword ? (
+                  <VisibilityOff sx={{ color: theme.palette.mygray.main }} />
+                ) : (
+                  <Visibility sx={{ color: theme.palette.mygray.main }} />
+                )}
               </IconButton>
             </Paper>
             <Typography sx={{ cursor: 'pointer' }}>
@@ -126,14 +132,14 @@ const SingIn = () => {
             </Button>
           </Stack>
           <Stack
-            sx={{ bgcolor: '#1976D2' }}
+            sx={{ bgcolor: theme.palette.primary.main }}
             alignItems="center"
             justifyContent="center"
             paddingX={'88px'}
             spacing={2}
           >
             <Typography
-              color={'white'}
+              color={theme.palette.secondary.main}
               fontSize={40}
               fontWeight={700}
               width="405px"
@@ -143,7 +149,7 @@ const SingIn = () => {
             </Typography>
             <Typography
               fontSize={20}
-              color="white"
+              color="secondary"
               width={'395px'}
               textAlign="center"
             >
@@ -151,12 +157,15 @@ const SingIn = () => {
             </Typography>
             <Button
               variant="outlined"
-              color="contrast"
+              color="secondary"
               sx={{ borderRadius: '50px' }}
             >
               <Link
                 to={'/sing-up'}
-                style={{ textDecoration: 'none', color: 'white' }}
+                style={{
+                  textDecoration: 'none',
+                  color: theme.palette.secondary.main,
+                }}
               >
                 REGÍSTRATE
               </Link>

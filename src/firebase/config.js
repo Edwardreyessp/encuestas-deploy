@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 // import { getDatabase, ref as dataRef, child, get } from "firebase/database";
 
 const firebaseConfig = {
@@ -16,6 +17,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
+const auth = getAuth(app);
 // const database = getDatabase(app);
 
 export const uploadFile = async (file, fileName) => {
@@ -23,6 +25,10 @@ export const uploadFile = async (file, fileName) => {
   await uploadBytes(storageRef, file);
   const url = await getDownloadURL(storageRef);
   return url;
+};
+
+export const createUserWithEmail = async (email, password) => {
+  await createUserWithEmailAndPassword(auth, email, password);
 };
 
 // export const getQuestions = () => {
