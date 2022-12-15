@@ -111,9 +111,11 @@ const Posestratificacion = () => {
     if (flag) setStep(step + 1);
   };
 
-  const fileTypes = {
-    excel: ['csv', 'Rda', 'xlsx', 'rda'],
-  };
+  const fileTypes = [
+    { base: ['csv', 'Rda', 'xlsx', 'rda'] },
+    { participacion: ['csv', 'Rda', 'xlsx', 'rda'] },
+    { muestra: ['csv', 'Rda', 'xlsx', 'rda'] },
+  ];
 
   return (
     <>
@@ -127,13 +129,23 @@ const Posestratificacion = () => {
             {
               {
                 0: (
-                  <Box mb={3}>
+                  <Stack mb={3} spacing={2}>
                     <FileUploader
-                      fileTypes={fileTypes}
-                      numberOfFiles={3}
+                      fileTypes={fileTypes[0]}
+                      numberOfFiles={1}
                       path="files"
                     />
-                  </Box>
+                    <FileUploader
+                      fileTypes={fileTypes[1]}
+                      numberOfFiles={1}
+                      path="files"
+                    />
+                    <FileUploader
+                      fileTypes={fileTypes[2]}
+                      numberOfFiles={1}
+                      path="files"
+                    />
+                  </Stack>
                 ),
                 1: (
                   <Box mb={3}>
