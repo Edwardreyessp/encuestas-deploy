@@ -220,7 +220,7 @@ const Card = ({
   }
 
   return (
-    <Box mb={5} minWidth={'75vw'}>
+    <Box mb={5} maxWidth={'75vw'}>
       <Box
         display={'flex'}
         alignItems={'center'}
@@ -233,6 +233,11 @@ const Card = ({
         boxShadow={'0px 4px 4px rgba(0, 0, 0, 0.25)'}
       >
         {/* Pregunta */}
+        <Box>
+          <Typography color={'white'} fontSize={20}>
+            {id + 1}
+          </Typography>
+        </Box>
         <Box
           width={'100%'}
           minHeight={'75px'}
