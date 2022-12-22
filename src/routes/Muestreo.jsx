@@ -132,6 +132,7 @@ const Muestreo = () => {
    * TODO: recibir respuesta del backed y organizar por estrato
    */
   const [opciones, setOpciones] = useState([]);
+  const [opcionesDos, setOpcionesDos] = useState([]);
   /**
    * Step 4 config
    */
@@ -266,11 +267,24 @@ const Muestreo = () => {
   const fileTypes = { excel: ['csv'] };
 
   async function requestUniques() {
-    // TODO: handle 2 stratums case
     const stratumsIds = data.variables.map(v => v.label);
     const payload = { Estratos_Ids: stratumsIds };
     const res = await axiosPost(payload, PATH);
-    setOpciones(res);
+
+    const stratums = stratumsIds.map(id => {
+      return {
+        id: id,
+        uniques: getUniquesValues(id, res),
+      };
+    });
+
+    setOpciones(stratums[0].uniques);
+    if (stratums[1]) setOpcionesDos(stratums[1].uniques);
+  }
+
+  function getUniquesValues(variableID, uniques) {
+    const variable = uniques.find(item => variableID === item.id_variable);
+    return variable.values;
   }
 
   return (
@@ -311,7 +325,7 @@ const Muestreo = () => {
                                 setEstratos={
                                   index === 0 ? setEstratos : setEstratos2
                                 }
-                                opciones={opciones}
+                                opciones={index === 0 ? opciones : opcionesDos}
                                 numEstratos={option.value}
                                 nombre={option.label}
                               />
