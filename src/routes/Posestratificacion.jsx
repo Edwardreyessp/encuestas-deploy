@@ -10,6 +10,7 @@ import ConfigEstratos, {
   isConfigEstratosDone,
 } from '../components/utils/ConfigEstratos';
 import { sendConfig, sendEstratos } from '../services/Index';
+import { Typography } from '@mui/material';
 
 /**
  * Module 5
@@ -130,16 +131,21 @@ const Posestratificacion = () => {
               {
                 0: (
                   <Stack mb={3} spacing={2}>
+                    <Typography variant="h6">Archivo Base</Typography>
                     <FileUploader
                       fileTypes={fileTypes[0]}
                       numberOfFiles={1}
                       path="files"
                     />
+                    <Typography variant="h6">
+                      Archivo de Participación
+                    </Typography>
                     <FileUploader
                       fileTypes={fileTypes[1]}
                       numberOfFiles={1}
                       path="files"
                     />
+                    <Typography variant="h6">Archivo Muestra</Typography>
                     <FileUploader
                       fileTypes={fileTypes[2]}
                       numberOfFiles={1}
