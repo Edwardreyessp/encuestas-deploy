@@ -91,6 +91,7 @@ const ConfigEstratos = ({ niveles, estratos, data, setData }) => {
               type={'number'}
               size="small"
               label={label}
+              InputProps={{ inputProps: { min: 0, max: 100 } }}
               onChange={value => handleAmount(label, value, index)}
             />
           );
