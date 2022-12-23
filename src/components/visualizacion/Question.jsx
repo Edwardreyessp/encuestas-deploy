@@ -1,9 +1,5 @@
 import Card from './Cards';
-import {
-  axiosPost,
-  getQuestions,
-  sendModifiedQuestions,
-} from '../../services/Index';
+import { axiosPost, getQuestions } from '../../services/Index';
 // import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
