@@ -29,18 +29,3 @@ export const axiosPost = async (data, path) => {
     console.log(error);
   }
 };
-
-/**
- * Envía modificaciones de preguntas, configuración y gráficas
- * @param {object} allData - Json de los datos
- * @returns url de archivo a descargar
- */
-export const sendModifiedQuestions = async allData => {
-  try {
-    console.log(allData);
-    const response = await axios.post(`${baseUrl}/questions`, allData);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
