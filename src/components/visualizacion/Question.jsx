@@ -296,6 +296,16 @@ const Config = ({ configuration, setConfiguration, setShowDownload }) => {
   );
 };
 
+/**
+ * Obtiene el número de la configuración
+ * @component
+ * @param {object} configuration - Configuración de fuente, tamaño y color
+ * @param {function} setConfiguration - Setter de configuración
+ * @param {function} setShowDownload - Setter de mostrar descarga
+ * @param {string} label - Label del campo
+ * @param {string} type - Tipo de campo
+ * @returns {JSX.Element} - Componente de campo de texto numérico
+ */
 const NumberField = ({
   setShowDownload,
   setConfiguration,
@@ -319,6 +329,16 @@ const NumberField = ({
   );
 };
 
+/**
+ * Obtiene el color de la configuración
+ * @component
+ * @param {object} configuration - Configuración de fuente, tamaño y color
+ * @param {function} setConfiguration - Setter de configuración
+ * @param {function} setShowDownload - Setter de mostrar descarga
+ * @param {string} labelColor - Label del color
+ * @param {string} label - Label del color
+ * @returns {JSX.Element} - Componente de color
+ */
 const ColorField = ({
   configuration,
   setConfiguration,

@@ -48,6 +48,10 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
     setShowDownload(false);
   };
 
+  /**
+   * Guarda el orden de la respuesta
+   * @function
+   */
   const saveOrder = () => {
     let newData = data;
     Object.values(Object.values(newData))[idQuestion].respuestas[id + 1].orden =
