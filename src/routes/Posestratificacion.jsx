@@ -23,7 +23,6 @@ const Posestratificacion = () => {
     a: ['a', 'b', 'c'],
     b: ['d', 'e', 'f'],
   });
-  // const opciones = ['a', 'b', 'c'];
   const niveles = [
     'Nacional',
     'Circunscripciones',
@@ -44,6 +43,7 @@ const Posestratificacion = () => {
   const [estratos, setEstratos] = useState([]);
   const [estratos2, setEstratos2] = useState([]);
   const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   /**
    * Envía la configuración
@@ -52,6 +52,7 @@ const Posestratificacion = () => {
   const sendToBackendConfig = async () => {
     const response = await sendConfig(data);
     setOpciones(response);
+    setIsLoading(false);
   };
 
   /**
@@ -165,23 +166,23 @@ const Posestratificacion = () => {
                 ),
                 2: (
                   <Stack>
-                    {data.variables !== undefined
-                      ? data.variables.map((option, index) => {
-                          return (
-                            <Box key={index} mb={3}>
-                              <Estratos
-                                estratos={index === 0 ? estratos : estratos2}
-                                setEstratos={
-                                  index === 0 ? setEstratos : setEstratos2
-                                }
-                                opciones={Object.values(opciones)[index]}
-                                numEstratos={option.value}
-                                nombre={option.label}
-                              />
-                            </Box>
-                          );
-                        })
-                      : ''}
+                    {!isLoading &&
+                      data.variables !== undefined &&
+                      data.variables.map((option, index) => {
+                        return (
+                          <Box key={index} mb={3}>
+                            <Estratos
+                              estratos={index === 0 ? estratos : estratos2}
+                              setEstratos={
+                                index === 0 ? setEstratos : setEstratos2
+                              }
+                              opciones={Object.values(opciones)[index]}
+                              numEstratos={option.value}
+                              nombre={option.label}
+                            />
+                          </Box>
+                        );
+                      })}
                   </Stack>
                 ),
               }[step]

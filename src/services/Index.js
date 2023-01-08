@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const baseUrl = 'https://encuestas1.herokuapp.com';
 // const baseUrl = 'http://127.0.0.1:4000';
-const urlPos = '/pos';
+const urlPos = '/post';
 
 /**
  * Obtiene las preguntas del archivo subido
@@ -55,9 +55,8 @@ export const sendModifiedQuestions = async allData => {
  */
 export const sendConfig = async data => {
   try {
-    console.log(data);
     const response = await axios.post(`${baseUrl}${urlPos}/conf`, data);
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
@@ -70,9 +69,8 @@ export const sendConfig = async data => {
  */
 export const sendEstratos = async data => {
   try {
-    console.log(data);
     const response = await axios.post(`${baseUrl}${urlPos}/data`, data);
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
