@@ -56,6 +56,7 @@ export const sendModifiedQuestions = async allData => {
 export const sendConfig = async data => {
   try {
     const response = await axios.post(`${baseUrl}${urlPos}/conf`, data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -70,6 +71,7 @@ export const sendConfig = async data => {
 export const sendEstratos = async data => {
   try {
     const response = await axios.post(`${baseUrl}${urlPos}/data`, data);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
