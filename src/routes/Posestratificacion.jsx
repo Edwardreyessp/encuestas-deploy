@@ -10,6 +10,7 @@ import ConfigEstratos, {
   isConfigEstratosDone,
 } from '../components/utils/ConfigEstratos';
 import { axiosPost } from '../services/Index';
+import { Typography } from '@mui/material';
 
 /**
  * Module 5
@@ -22,7 +23,6 @@ const Posestratificacion = () => {
     a: ['a', 'b', 'c'],
     b: ['d', 'e', 'f'],
   });
-  // const opciones = ['a', 'b', 'c'];
   const niveles = [
     'Nacional',
     'Circunscripciones',
@@ -43,14 +43,16 @@ const Posestratificacion = () => {
   const [estratos, setEstratos] = useState([]);
   const [estratos2, setEstratos2] = useState([]);
   const [data, setData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   /**
    * Envía la configuración
    * @function
    */
   const sendToBackendConfig = async () => {
-    const response = await axiosPost(data, 'pos/conf');
+    const response = await axiosPost(data, 'post/conf');
     setOpciones(response);
+    setIsLoading(false);
   };
 
   /**
@@ -62,7 +64,7 @@ const Posestratificacion = () => {
     const sendData = {
       Estratos: dataEstratos,
     };
-    const response = await axiosPost(sendData, 'pos/data');
+    const response = await axiosPost(sendData, 'post/data');
     console.log(response);
   };
 
@@ -130,16 +132,21 @@ const Posestratificacion = () => {
               {
                 0: (
                   <Stack mb={3} spacing={2}>
+                    <Typography variant="h6">Archivo Base</Typography>
                     <FileUploader
                       fileTypes={fileTypes[0]}
                       numberOfFiles={1}
                       path="files"
                     />
+                    <Typography variant="h6">
+                      Archivo de Participación
+                    </Typography>
                     <FileUploader
                       fileTypes={fileTypes[1]}
                       numberOfFiles={1}
                       path="files"
                     />
+                    <Typography variant="h6">Archivo Muestra</Typography>
                     <FileUploader
                       fileTypes={fileTypes[2]}
                       numberOfFiles={1}
@@ -159,23 +166,23 @@ const Posestratificacion = () => {
                 ),
                 2: (
                   <Stack>
-                    {data.variables !== undefined
-                      ? data.variables.map((option, index) => {
-                          return (
-                            <Box key={index} mb={3}>
-                              <Estratos
-                                estratos={index === 0 ? estratos : estratos2}
-                                setEstratos={
-                                  index === 0 ? setEstratos : setEstratos2
-                                }
-                                opciones={Object.values(opciones)[index]}
-                                numEstratos={option.value}
-                                nombre={option.label}
-                              />
-                            </Box>
-                          );
-                        })
-                      : ''}
+                    {!isLoading &&
+                      data.variables !== undefined &&
+                      data.variables.map((option, index) => {
+                        return (
+                          <Box key={index} mb={3}>
+                            <Estratos
+                              estratos={index === 0 ? estratos : estratos2}
+                              setEstratos={
+                                index === 0 ? setEstratos : setEstratos2
+                              }
+                              opciones={Object.values(opciones)[index]}
+                              numEstratos={option.value}
+                              nombre={option.label}
+                            />
+                          </Box>
+                        );
+                      })}
                   </Stack>
                 ),
               }[step]

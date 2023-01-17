@@ -30,9 +30,15 @@ const Questions = () => {
   const [download, setDownload] = useState('');
   const [showDownload, setShowDownload] = useState(false);
   const [configuration, setConfiguration] = useState({
-    color: '#000000',
+    colorText: '#000000',
+    colorPrimary: '#000000',
+    colorSecondary: '#000000',
+    colorTerceary: '#000000',
     font: 'Arial',
-    size: '18',
+    sizeBarText: '9',
+    sizeChartText: '9',
+    sizeAxisText: '9',
+    sizeLegendText: '9',
   });
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -198,19 +204,7 @@ const Questions = () => {
  * @param {function} setConfiguration - Setter de configuración
  */
 const Config = ({ configuration, setConfiguration, setShowDownload }) => {
-  const [showColorPicker, setShowColorPicker] = useState(false);
-  const [color, setColor] = useState(configuration.color);
   const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
-
-  /**
-   * Guarda el color seleccionado
-   * @function
-   */
-  const handleSaveColor = () => {
-    setShowDownload(false);
-    setConfiguration({ ...configuration, color: color });
-    setShowColorPicker(false);
-  };
 
   return (
     <Paper elevation={2} sx={{ padding: '20px', mt: '36px' }}>
@@ -240,37 +234,149 @@ const Config = ({ configuration, setConfiguration, setShowDownload }) => {
             />
           )}
         />
-        <TextField
-          fullWidth
-          type={'number'}
-          size="small"
-          label={'Tamaño'}
-          InputProps={{ inputProps: { min: 0, max: 50 } }}
-          value={configuration.size}
-          onChange={value => {
-            setShowDownload(false);
-            setConfiguration({ ...configuration, size: value.target.value });
-          }}
+        {/* Tamaño de textos */}
+        <NumberField
+          setShowDownload={setShowDownload}
+          setConfiguration={setConfiguration}
+          configuration={configuration}
+          label={'Tamaño de texto en la barra'}
+          type={'sizeBarText'}
         />
-        <Button
-          variant="contained"
-          sx={{ bgcolor: color }}
-          onClick={() => setShowColorPicker(true)}
-        >
-          Color
-        </Button>
-        {showColorPicker ? (
-          <Box onMouseLeave={handleSaveColor}>
-            <ChromePicker
-              onChange={color => setColor(color.hex)}
-              color={color}
-            />
-          </Box>
-        ) : (
-          ''
-        )}
+        <NumberField
+          setShowDownload={setShowDownload}
+          setConfiguration={setConfiguration}
+          configuration={configuration}
+          label={'Tamaño de texto dentro de la gráfica'}
+          type={'sizeChartText'}
+        />
+        <NumberField
+          setShowDownload={setShowDownload}
+          setConfiguration={setConfiguration}
+          configuration={configuration}
+          label={'Tamaño de texto del eje'}
+          type={'sizeAxisText'}
+        />
+        <NumberField
+          setShowDownload={setShowDownload}
+          setConfiguration={setConfiguration}
+          configuration={configuration}
+          label={'Tamaño de texto de leyendas'}
+          type={'sizeLegendText'}
+        />
+        {/* Help */}
+        <ColorField
+          configuration={configuration}
+          setConfiguration={setConfiguration}
+          setShowDownload={setShowDownload}
+          labelColor={'colorText'}
+          label={'Color de texto'}
+        />
+        <ColorField
+          configuration={configuration}
+          setConfiguration={setConfiguration}
+          setShowDownload={setShowDownload}
+          labelColor={'colorPrimary'}
+          label={'Color primario'}
+        />
+        <ColorField
+          configuration={configuration}
+          setConfiguration={setConfiguration}
+          setShowDownload={setShowDownload}
+          labelColor={'colorSecondary'}
+          label={'Color secundario'}
+        />
+        <ColorField
+          configuration={configuration}
+          setConfiguration={setConfiguration}
+          setShowDownload={setShowDownload}
+          labelColor={'colorTerceary'}
+          label={'Color terciario'}
+        />
       </Stack>
     </Paper>
+  );
+};
+
+/**
+ * Obtiene el número de la configuración
+ * @component
+ * @param {object} configuration - Configuración de fuente, tamaño y color
+ * @param {function} setConfiguration - Setter de configuración
+ * @param {function} setShowDownload - Setter de mostrar descarga
+ * @param {string} label - Label del campo
+ * @param {string} type - Tipo de campo
+ * @returns {JSX.Element} - Componente de campo de texto numérico
+ */
+const NumberField = ({
+  setShowDownload,
+  setConfiguration,
+  configuration,
+  label,
+  type,
+}) => {
+  return (
+    <TextField
+      fullWidth
+      type={'number'}
+      size="small"
+      label={label}
+      InputProps={{ inputProps: { min: 0, max: 50 } }}
+      value={configuration[type]}
+      onChange={value => {
+        setShowDownload(false);
+        setConfiguration({ ...configuration, [type]: value.target.value });
+      }}
+    />
+  );
+};
+
+/**
+ * Obtiene el color de la configuración
+ * @component
+ * @param {object} configuration - Configuración de fuente, tamaño y color
+ * @param {function} setConfiguration - Setter de configuración
+ * @param {function} setShowDownload - Setter de mostrar descarga
+ * @param {string} labelColor - Label del color
+ * @param {string} label - Label del color
+ * @returns {JSX.Element} - Componente de color
+ */
+const ColorField = ({
+  configuration,
+  setConfiguration,
+  setShowDownload,
+  labelColor,
+  label,
+}) => {
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [color, setColor] = useState(configuration[labelColor]);
+
+  /**
+   * Guarda el color seleccionado
+   * @function
+   */
+  const handleSaveColor = () => {
+    setShowDownload(false);
+    setConfiguration({ ...configuration, [labelColor]: color });
+    setShowColorPicker(false);
+  };
+
+  return (
+    <>
+      <Button
+        variant="contained"
+        sx={{ bgcolor: color }}
+        onClick={() => setShowColorPicker(true)}
+      >
+        {label}
+      </Button>
+      {showColorPicker ? (
+        <Box onMouseLeave={handleSaveColor}>
+          <ChromePicker onChange={color => setColor(color.hex)} color={color} />
+        </Box>
+      ) : (
+        ''
+      )}
+    </>
   );
 };
 
