@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const baseUrl = 'https://encuestas1.herokuapp.com';
 // const baseUrl = 'http://127.0.0.1:4000';
-const urlPos = '/post';
 
 /**
  * Obtiene las preguntas del archivo subido
@@ -26,51 +25,6 @@ export const axiosPost = async (data, path) => {
   try {
     const response = await axios.post(`${baseUrl}/${path}`, data);
     return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-/**
- * Envía modificaciones de preguntas, configuración y gráficas
- * @param {object} allData - Json de los datos
- * @returns url de archivo a descargar
- */
-export const sendModifiedQuestions = async allData => {
-  try {
-    console.log(allData);
-    const response = await axios.post(`${baseUrl}/questions`, allData);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-/* POSESTRATIFICACIÓN */
-
-/**
- * Envía la configuración de los estratos
- * @param {object} data - Json de los datos
- * @returns Array de opciones para elegir en los estratos
- */
-export const sendConfig = async data => {
-  try {
-    const response = await axios.post(`${baseUrl}${urlPos}/conf`, data);
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-/**
- * Envía los nombres de estratos y las opciones elegidas
- * @param {object} data - Json de los estratos
- * @returns Url de archivo a descargar
- */
-export const sendEstratos = async data => {
-  try {
-    const response = await axios.post(`${baseUrl}${urlPos}/data`, data);
-    return response.data;
   } catch (error) {
     console.log(error);
   }

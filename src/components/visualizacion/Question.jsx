@@ -1,5 +1,6 @@
 import Card from './Cards';
-import { getQuestions, sendModifiedQuestions } from '../../services/Index';
+import { axiosPost, getQuestions } from '../../services/Index';
+// import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import {
@@ -87,7 +88,7 @@ const Questions = () => {
       layout: layout,
     };
 
-    const response = await sendModifiedQuestions(allData);
+    const response = await axiosPost(allData, 'questions');
     if (response.status === 200) {
       setDownload(response.data);
       setIsSending(false);
