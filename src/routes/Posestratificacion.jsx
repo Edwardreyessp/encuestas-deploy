@@ -9,7 +9,7 @@ import Estratos, { isEstratosDone } from '../components/utils/Estratos';
 import ConfigEstratos, {
   isConfigEstratosDone,
 } from '../components/utils/ConfigEstratos';
-import { sendConfig, sendEstratos } from '../services/Index';
+import { axiosPost } from '../services/Index';
 import { Typography } from '@mui/material';
 
 /**
@@ -50,7 +50,7 @@ const Posestratificacion = () => {
    * @function
    */
   const sendToBackendConfig = async () => {
-    const response = await sendConfig(data);
+    const response = await axiosPost(data, 'post/conf');
     setOpciones(response);
     setIsLoading(false);
   };
@@ -64,7 +64,7 @@ const Posestratificacion = () => {
     const sendData = {
       Estratos: dataEstratos,
     };
-    const response = await sendEstratos(sendData);
+    const response = await axiosPost(sendData, 'post/data');
     console.log(response);
   };
 
