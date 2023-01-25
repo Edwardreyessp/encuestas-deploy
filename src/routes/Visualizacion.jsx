@@ -4,6 +4,8 @@ import FileUploader from '../components/utils/FileUploader';
 import Questions from '../components/visualizacion/Question';
 import { Button, Box } from '@mui/material';
 import { useState } from 'react';
+import { useAuth } from '../components/context/authContext';
+import { useEffect } from 'react';
 
 /**
  * Módulo visualización
@@ -17,6 +19,11 @@ const Visualizacion = () => {
     excel: ['csv', 'Rda', 'rda'],
     power: ['pptx'],
   };
+  const { user } = useAuth();
+
+  useEffect(() => {
+    console.log('visualizacion: ', user);
+  }, []);
 
   return (
     <>

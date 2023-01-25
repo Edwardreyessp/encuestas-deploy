@@ -4,7 +4,8 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 /**
  * Represents the Navbar.
@@ -28,6 +29,14 @@ const Navbar = ({ current }) => {
       },
     };
   });
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/sing-in');
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -68,6 +77,11 @@ const Navbar = ({ current }) => {
               }}
             />
           </Link>
+          <StyledChip
+            onClick={handleLogout}
+            label="Cerrar sesión"
+            sx={{ backgroundColor: 'inherit' }}
+          />
         </Toolbar>
       </AppBar>
     </Box>

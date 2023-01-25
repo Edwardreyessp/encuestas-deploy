@@ -17,13 +17,11 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useState } from 'react';
 import { InputStartIcon } from '../components/Styled/StyledInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/context/authContext';
 
 const SingIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  // INPUTS
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   // CUSTOM COLOR
   const { palette } = createTheme();
   const { augmentColor } = palette;
@@ -35,13 +33,24 @@ const SingIn = () => {
       mygray: createColor('#9E9E9E'),
     },
   });
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+  });
 
-  const logIn = () => {
-    const user = {
-      email: email,
-      password: password,
-    };
-    console.log(user);
+  const handleUpdate = ({ target: { name, value } }) => {
+    setUser({ ...user, [name]: value });
+  };
+
+  const logIn = async () => {
+    try {
+      await login(user.email, user.password);
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -75,10 +84,9 @@ const SingIn = () => {
           </Typography>
           <InputStartIcon
             placeholder={'Correo'}
-            value={email}
-            onChange={event => {
-              setEmail(event.target.value);
-            }}
+            name="email"
+            value={user.email}
+            onChange={handleUpdate}
             icon={
               <MailOutlinedIcon sx={{ color: theme.palette.mygray.main }} />
             }
@@ -98,13 +106,12 @@ const SingIn = () => {
             <TextField
               sx={{ ml: 1, input: { bgcolor: '#F4F8F7' } }}
               label="Contraseña"
+              name="password"
               variant="filled"
               type={showPassword ? 'text' : 'password'}
               fullWidth
-              value={password}
-              onChange={event => {
-                setPassword(event.target.value);
-              }}
+              value={user.password}
+              onChange={handleUpdate}
               InputProps={{
                 disableUnderline: true,
               }}

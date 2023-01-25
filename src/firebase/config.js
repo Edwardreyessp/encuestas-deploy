@@ -1,6 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from 'firebase/auth';
 // import { getDatabase, ref as dataRef, child, get } from "firebase/database";
 
 const firebaseConfig = {
@@ -29,6 +35,20 @@ export const uploadFile = async (file, fileName) => {
 
 export const createUserWithEmail = async (email, password) => {
   await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInUserWithEmail = async (email, password) => {
+  await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const logOut = async () => {
+  await signOut(auth);
+};
+
+export const userState = async setUser => {
+  await onAuthStateChanged(auth, currentUser => {
+    setUser(currentUser);
+  });
 };
 
 // export const getQuestions = () => {
