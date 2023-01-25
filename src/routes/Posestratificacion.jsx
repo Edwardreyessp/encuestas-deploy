@@ -67,7 +67,6 @@ const Posestratificacion = () => {
     };
     const response = await axiosPost(sendData, 'post/data');
     setUrlDownload(response.data);
-    console.log(response.data);
   };
 
   /**
@@ -102,7 +101,6 @@ const Posestratificacion = () => {
               },
             ];
           }
-          // console.log(dataEstratos);
           sendToBackendEstratos(dataEstratos);
         }
         flag = false;
