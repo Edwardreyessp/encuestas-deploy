@@ -6,6 +6,9 @@ import {
   signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 // import { getDatabase, ref as dataRef, child, get } from "firebase/database";
 
@@ -42,13 +45,26 @@ export const signInUserWithEmail = async (email, password) => {
 };
 
 export const logOut = async () => {
-  await signOut(auth);
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const userState = async setUser => {
   await onAuthStateChanged(auth, currentUser => {
     setUser(currentUser);
   });
+};
+
+export const loginWithGoogle = async () => {
+  const googleProvider = new GoogleAuthProvider();
+  return await signInWithPopup(auth, googleProvider);
+};
+
+export const resetPassword = async email => {
+  await sendPasswordResetEmail(auth, email);
 };
 
 // export const getQuestions = () => {

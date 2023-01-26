@@ -22,6 +22,7 @@ import { useAuth } from '../components/context/authContext';
 
 const SingIn = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showError, setShowError] = useState(false);
   // CUSTOM COLOR
   const { palette } = createTheme();
   const { augmentColor } = palette;
@@ -33,7 +34,7 @@ const SingIn = () => {
       mygray: createColor('#9E9E9E'),
     },
   });
-  const { login } = useAuth();
+  const { login, loginGoogle, resetpassword } = useAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: '',
@@ -48,6 +49,24 @@ const SingIn = () => {
     try {
       await login(user.email, user.password);
       navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await loginGoogle();
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (user.email === '') return setShowError(true);
+    try {
+      await resetpassword(user.email);
     } catch (error) {
       console.log(error);
     }
@@ -76,6 +95,7 @@ const SingIn = () => {
                 src={googleIcon}
               />
             }
+            onClick={handleGoogleLogin}
           >
             Iniciar sesión con Google
           </Button>
@@ -87,6 +107,7 @@ const SingIn = () => {
             name="email"
             value={user.email}
             onChange={handleUpdate}
+            error={showError}
             icon={
               <MailOutlinedIcon sx={{ color: theme.palette.mygray.main }} />
             }
@@ -124,7 +145,7 @@ const SingIn = () => {
               )}
             </IconButton>
           </Paper>
-          <Typography sx={{ cursor: 'pointer' }}>
+          <Typography sx={{ cursor: 'pointer' }} onClick={handleResetPassword}>
             ¿Olvidaste tu contraseña?
           </Typography>
           <Button

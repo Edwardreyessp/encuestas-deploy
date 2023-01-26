@@ -7,6 +7,7 @@ export const InputStartIcon = ({
   name = '',
   onChange = () => {},
   icon = <PersonOutlineOutlinedIcon sx={{ color: '#9D9D9D' }} />,
+  error = false,
 }) => {
   // const color = '#9D9D9D';
   return (
@@ -28,6 +29,8 @@ export const InputStartIcon = ({
         name={name}
         variant="filled"
         fullWidth
+        error={error}
+        helperText={error && 'Ingresa un correo'}
         value={value}
         onChange={e => onChange(e)}
         InputProps={{

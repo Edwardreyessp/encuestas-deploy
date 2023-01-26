@@ -4,7 +4,9 @@ import { useEffect } from 'react';
 import { createContext } from 'react';
 import {
   createUserWithEmail,
+  loginWithGoogle,
   logOut,
+  resetPassword,
   signInUserWithEmail,
   userState,
 } from '../../firebase/config';
@@ -31,6 +33,14 @@ export const AuthProvider = ({ children }) => {
     await logOut();
   };
 
+  const loginGoogle = async () => {
+    await loginWithGoogle();
+  };
+
+  const resetpassword = async email => {
+    await resetPassword(email);
+  };
+
   useEffect(() => {
     const getUser = async () => {
       const currentUser = await userState(setUser);
@@ -40,7 +50,9 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <authContext.Provider value={{ signup, login, user, logout }}>
+    <authContext.Provider
+      value={{ signup, login, user, logout, loginGoogle, resetpassword }}
+    >
       {children}
     </authContext.Provider>
   );
