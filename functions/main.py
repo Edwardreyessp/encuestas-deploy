@@ -12,7 +12,7 @@ from plot_functions import *
 import numpy as np
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://63d0d931405be8000846f7ae--encuestas-graficas.netlify.app", "http://localhost", "https://deploy-preview-77--encuestas-graficas.netlify.app"]}}, supports_credentials=True)
+CORS(app, resources={r"/*": {"origins": "https://encuestas-graficas.netlify.app"}}, supports_credentials=True)
 #CORS(app, supports_credentials=True)
 
 @cross_origin
