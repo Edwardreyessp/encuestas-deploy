@@ -10,14 +10,16 @@ import json
 from flask_cors import CORS, cross_origin
 from plot_functions import *
 import numpy as np
+import functions_framework
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://encuestas-graficas.netlify.app"}}, supports_credentials=True)
 #CORS(app, supports_credentials=True)
 
 @cross_origin
-@app.route("/files", methods=['POST'])
-def addFile():
+# @app.route("/files", methods=['POST'])
+@functions_framework.http
+def addFile(request='POST'):
     config = {
     "apiKey": "AIzaSyD0FKu0dmU_rm13CD_rOYXxI-rMEN8Eqc0",
     "authDomain": "proyectoencuestas1-f2ece.firebaseapp.com",
@@ -31,6 +33,16 @@ def addFile():
     firebase = pyrebase.initialize_app(config)
     db=firebase.database()
     
+    if request.method == 'OPTIONS':
+        headers = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'Content-Type',
+            'Access-Control-Max-Age': '3600'
+        }
+
+        return ('', 204, headers)
+    
     #fileNames=db.child('urls').get().val()
     fileNames = request.get_json()
     if len(fileNames)==3:
@@ -41,7 +53,12 @@ def addFile():
         db.child('muestreo').child('urls').set(fileNames)
     else:
         print('error: in num of files')
-    return 'success'
+        
+    # Set CORS headers for the main request
+    headers = {
+        'Access-Control-Allow-Origin': '*'
+    }
+    return ('SUcces!', 200, headers)
     
 @cross_origin
 @app.route("/questions",methods=['GET'])
