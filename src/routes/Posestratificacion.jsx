@@ -44,6 +44,7 @@ const Posestratificacion = () => {
   const [estratos2, setEstratos2] = useState([]);
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [urlDownload, setUrlDownload] = useState('');
 
   /**
    * Envía la configuración
@@ -51,7 +52,7 @@ const Posestratificacion = () => {
    */
   const sendToBackendConfig = async () => {
     const response = await axiosPost(data, 'post/conf');
-    setOpciones(response);
+    setOpciones(response.data);
     setIsLoading(false);
   };
 
@@ -65,7 +66,7 @@ const Posestratificacion = () => {
       Estratos: dataEstratos,
     };
     const response = await axiosPost(sendData, 'post/data');
-    console.log(response);
+    setUrlDownload(response.data);
   };
 
   /**
@@ -100,7 +101,6 @@ const Posestratificacion = () => {
               },
             ];
           }
-          // console.log(dataEstratos);
           sendToBackendEstratos(dataEstratos);
         }
         flag = false;
@@ -189,9 +189,21 @@ const Posestratificacion = () => {
             }
           </Box>
           <Box display={'flex'} justifyContent={'flex-end'} mr={8} mb={3}>
-            <Button size="medium" variant="contained" onClick={handleStep}>
-              {step === 2 ? 'Descargar visualización' : 'Siguiente'}
-            </Button>
+            {step === 2 ? (
+              <Button
+                size="medium"
+                variant="contained"
+                href={urlDownload}
+                rel="noopener noreferrer"
+                target={'_blank'}
+              >
+                Descargar visualización
+              </Button>
+            ) : (
+              <Button size="medium" variant="contained" onClick={handleStep}>
+                Siguiente
+              </Button>
+            )}
           </Box>
         </Stack>
       </Box>

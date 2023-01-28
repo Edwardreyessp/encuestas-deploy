@@ -11,6 +11,7 @@ const baseUrl =
 export const getQuestions = async () => {
   try {
     const response = await axios.get(`${baseUrl}/questions`);
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -25,6 +26,7 @@ export const getQuestions = async () => {
 export const axiosPost = async (data, path) => {
   try {
     const response = await axios.post(`${baseUrl}/${path}`, data);
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
