@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const baseUrl = 'https://encuestas1.herokuapp.com';
+const baseUrl =
+  'https://us-central1-proyectoencuestas1-f2ece.cloudfunctions.net';
 // const baseUrl = 'http://127.0.0.1:4000';
 
 /**
