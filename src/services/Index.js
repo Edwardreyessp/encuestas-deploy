@@ -10,7 +10,7 @@ const baseUrl =
  */
 export const getQuestions = async () => {
   try {
-    const response = await axios.get(`${baseUrl}/questions`);
+    const response = await axios.get(`${baseUrl}/get_data`);
     console.log(response);
     return response;
   } catch (error) {
