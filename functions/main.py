@@ -1,5 +1,6 @@
 from flask import jsonify
 import pyrebase
+import functions_framework
 
 def cors_enabled_function(request):
   # Set CORS headers for the preflight request
@@ -17,12 +18,12 @@ def cors_enabled_function(request):
   # Set CORS headers for the main request
   headers = {
     'Access-Control-Allow-Methods': 'POST',
-    'Access-Control-Allow-Origin': '*'
+    'Access-Control-Allow-Origin': 'https://encuestas-graficas.netlify.app'
   }
 
   return headers
 
-
+@functions_framework.http
 def addFile(request):
   headers = cors_enabled_function(request)
   fileNames = request.get_json()
