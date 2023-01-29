@@ -2,6 +2,8 @@ from flask import jsonify
 import pyrebase
 import functions_framework
 
+# gcloud functions deploy myFunction --runtime python310 --trigger-http --allow-unauthenticated
+
 @functions_framework.http
 def addFile(request):
   # Set CORS headers for the main request
