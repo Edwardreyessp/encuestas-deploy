@@ -37,7 +37,7 @@ const Visualizacion = () => {
                 <FileUploader
                   fileTypes={fileTypes}
                   numberOfFiles={3}
-                  path="addFile"
+                  path="files"
                 />
               ),
               1: <Questions />,

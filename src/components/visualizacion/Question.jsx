@@ -88,7 +88,7 @@ const Questions = () => {
       layout: layout,
     };
 
-    const response = await axiosPost(allData, 'getURL');
+    const response = await axiosPost(allData, 'questions');
     if (response.status === 200) {
       setDownload(response.data);
       setIsSending(false);

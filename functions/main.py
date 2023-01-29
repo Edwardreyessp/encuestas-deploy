@@ -2,6 +2,8 @@ from flask import jsonify
 import pyrebase
 import functions_framework
 
+# gcloud functions deploy myFunction --runtime python310 --trigger-http --allow-unauthenticated
+
 @functions_framework.http
 def addFile(request):
   # Set CORS headers for the main request
@@ -59,7 +61,7 @@ def get_data():
       'Access-Control-Allow-Origin': 'https://encuestas-graficas.netlify.app',
       'Access-Control-Allow-Methods': 'GET',
       'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Max-Age': '3600'
+      'Access-Control-Max-Age': '3600',
     }
 
     return ('', 204, headers)
@@ -95,8 +97,10 @@ def get_data():
 
   db.child('visualizacion').child('categorias').set(categorias)
   db.child('visualizacion').child('questions').set(datos)
+  
+  newData = jsonify(datos)
 
-  return jsonify(datos)
+  return (newData, 200, headers)
 
 
 @functions_framework.http
@@ -146,7 +150,7 @@ def getURL():
 
   A = read_data(solicitud,categorias, url_ppt=urls['power'], url_csv=urls['excel'], url_font=url_font)
 
-  return A
+  return (A, 200, headers)
 
 @functions_framework.http
 def get_post_conf():
@@ -166,8 +170,9 @@ def get_post_conf():
     'Access-Control-Allow-Origin': 'https://encuestas-graficas.netlify.app'
   }
 
-  conf = request.get_json()    
-  return conf
+  conf = request.get_json()
+  
+  return (conf, 200, headers)
 
 
 @functions_framework.http
@@ -188,5 +193,6 @@ def get_post_data():
     'Access-Control-Allow-Origin': 'https://encuestas-graficas.netlify.app'
   }
 
-  data = request.get_json()    
-  return data
+  data = request.get_json()
+
+  return (data, 200, headers)

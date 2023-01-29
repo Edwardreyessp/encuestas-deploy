@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const baseUrl =
-  'https://us-central1-proyectoencuestas1-f2ece.cloudfunctions.net';
+// const baseUrl = 'https://us-central1-proyectoencuestas1-f2ece.cloudfunctions.net';
 // const baseUrl = 'http://127.0.0.1:4000';
+const baseUrl = 'https://encuestas1.herokuapp.com';
 
 /**
  * Obtiene las preguntas del archivo subido
@@ -10,7 +10,7 @@ const baseUrl =
  */
 export const getQuestions = async () => {
   try {
-    const response = await axios.get(`${baseUrl}/get_data`);
+    const response = await axios.get(`${baseUrl}/questions`);
     console.log(response);
     return response;
   } catch (error) {
