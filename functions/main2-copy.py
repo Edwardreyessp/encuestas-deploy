@@ -56,6 +56,5 @@ def addFile(request):
 def corsFunction(request):
   headers = cors_enabled_function(request)
   request_json = request.get_json()
-  print(request_json)
 
   return (request_json, 200, headers)
