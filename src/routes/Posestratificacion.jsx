@@ -62,6 +62,7 @@ const Posestratificacion = () => {
    * @param {json} dataEstratos - Json de esratos, nombres y sub estratos
    */
   const sendToBackendEstratos = async dataEstratos => {
+    console.log('dataEstratos');
     const sendData = {
       Estratos: dataEstratos,
     };
@@ -190,15 +191,22 @@ const Posestratificacion = () => {
           </Box>
           <Box display={'flex'} justifyContent={'flex-end'} mr={8} mb={3}>
             {step === 2 ? (
-              <Button
-                size="medium"
-                variant="contained"
-                href={urlDownload}
-                rel="noopener noreferrer"
-                target={'_blank'}
-              >
-                Descargar visualización
-              </Button>
+              urlDownload === '' ? (
+                <Button size="medium" variant="contained" onClick={handleStep}>
+                  Enviar datos
+                </Button>
+              ) : (
+                <Button
+                  size="medium"
+                  variant="contained"
+                  color="success"
+                  href={urlDownload}
+                  rel="noopener noreferrer"
+                  target={'_blank'}
+                >
+                  Descargar visualización
+                </Button>
+              )
             ) : (
               <Button size="medium" variant="contained" onClick={handleStep}>
                 Siguiente
