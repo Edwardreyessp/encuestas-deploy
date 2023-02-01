@@ -119,18 +119,16 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
         <Typography>{answer.respuesta}</Typography>
       </Box>
       <Box display={'flex'} gap={2} alignItems={'center'}>
-        {Object.values(data)[idQuestion].tipo_pregunta === 'cq' && (
-          <TextField
-            sx={{ width: 90 }}
-            label="Orden"
-            size="small"
-            type={'number'}
-            InputProps={{ inputProps: { min: 0, max: 50 } }}
-            value={order}
-            onChange={e => setOrder(e.target.value)}
-            onBlur={saveOrder}
-          />
-        )}
+        <TextField
+          sx={{ width: 90 }}
+          label="Orden"
+          size="small"
+          type={'number'}
+          InputProps={{ inputProps: { min: 0, max: 50 } }}
+          value={order}
+          onChange={e => setOrder(e.target.value)}
+          onBlur={saveOrder}
+        />
         <Divider orientation="vertical" flexItem />
         <IconButton onClick={() => setIsEditing(!isEditing)}>
           <EditRoundedIcon />
