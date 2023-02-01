@@ -18,7 +18,9 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
   const [color, setColor] = useState(answer.color);
   const [showPickerColor, setShowPickerColor] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState(answer.respuesta);
+  const [editedText, setEditedText] = useState(
+    answer.respuesta ? answer.respuesta : answer.categoria
+  );
   const [order, setOrder] = useState('0');
 
   /**
@@ -27,9 +29,15 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
    */
   const handleSaveAnswer = () => {
     let newData = data;
-    Object.values(Object.values(newData))[idQuestion].respuestas[
-      id + 1
-    ].respuesta = editedText;
+    if (answer.respuesta) {
+      Object.values(Object.values(newData))[idQuestion].respuestas[
+        id + 1
+      ].respuesta = editedText;
+    } else {
+      Object.values(Object.values(newData))[idQuestion].categorias[
+        id + 1
+      ].categoria = editedText;
+    }
     setData(newData);
     setIsEditing(!isEditing);
     setShowDownload(false);
@@ -41,8 +49,15 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
    */
   const handleSaveColor = () => {
     let newData = data;
-    Object.values(Object.values(newData))[idQuestion].respuestas[id + 1].color =
-      color;
+    if (answer.respuesta) {
+      Object.values(Object.values(newData))[idQuestion].respuestas[
+        id + 1
+      ].color = color;
+    } else {
+      Object.values(Object.values(newData))[idQuestion].categorias[
+        id + 1
+      ].color = color;
+    }
     setData(newData);
     setShowPickerColor(!showPickerColor);
     setShowDownload(false);
@@ -54,8 +69,15 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
    */
   const saveOrder = () => {
     let newData = data;
-    Object.values(Object.values(newData))[idQuestion].respuestas[id + 1].orden =
-      order;
+    if (answer.respuesta) {
+      Object.values(Object.values(newData))[idQuestion].respuestas[
+        id + 1
+      ].orden = order;
+    } else {
+      Object.values(Object.values(newData))[idQuestion].categorias[
+        id + 1
+      ].orden = order;
+    }
     setData(newData);
     setShowDownload(false);
   };
@@ -91,8 +113,11 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
       justifyContent={'space-between'}
     >
       <Box display={'flex'} gap={2} alignItems={'center'}>
+        <Typography>
+          {answer.respuesta ? 'R' + (id + 1) : 'C' + (id + 1)}
+        </Typography>
         <Box>
-          {showPickerColor ? (
+          {showPickerColor && (
             <Box
               position={'absolute'}
               ml={4}
@@ -104,8 +129,6 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
                 color={color}
               />
             </Box>
-          ) : (
-            ''
           )}
           <Box
             width={18}
@@ -116,7 +139,9 @@ const Answer = ({ answer, data, setData, idQuestion, id, setShowDownload }) => {
             onClick={() => setShowPickerColor(!showPickerColor)}
           />
         </Box>
-        <Typography>{answer.respuesta}</Typography>
+        <Typography>
+          {answer.respuesta ? answer.respuesta : answer.categoria}
+        </Typography>
       </Box>
       <Box display={'flex'} gap={2} alignItems={'center'}>
         <TextField
