@@ -302,7 +302,7 @@ const Muestreo = () => {
                 0: (
                   <FileUploader
                     numberOfFiles={1}
-                    path={PATH}
+                    path="files"
                     fileTypes={fileTypes}
                   />
                 ),
