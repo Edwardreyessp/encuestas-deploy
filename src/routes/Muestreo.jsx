@@ -101,8 +101,7 @@ const Muestreo = () => {
     'Configurar muestras',
     'Tipo de muestreo',
     'Proporción de Muestreo',
-    'Gráfica',
-    'Tabla',
+    'Visualizacion',
   ];
 
   /**
