@@ -13,6 +13,7 @@ import '@fontsource/roboto/700.css';
 import { AuthProvider } from './components/context/authContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import Visual from './routes/Visual';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
@@ -22,7 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/sing-up" element={<SingUp />} />
         <Route path="/muestreo" element={<Muestreo />} />
         <Route path="/posestratificacion" element={<Posestratificacion />} />
-        <Route path="/visualizacion" element={<Visualizacion />} />
+        <Route path="/visualizacion" element={<Visual />} />
         <Route path="/" element={<Visualizacion />} />
       </Routes>
       <ToastContainer autoClose={3000} />
