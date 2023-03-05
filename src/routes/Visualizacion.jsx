@@ -3,7 +3,7 @@ import MyStepper from '../components/utils/MyStepper';
 import FileUploader from '../components/utils/FileUploader';
 import { Button, Box, Stack } from '@mui/material';
 import { useState } from 'react';
-import Visual from './Visual';
+import Visual from '../components/visualizacion/Visual';
 
 /**
  * Módulo visualización

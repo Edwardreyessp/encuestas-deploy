@@ -9,9 +9,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { ChromePicker } from 'react-color';
-import StyledIcon from '../utils/StyledIcon';
+import StyledIcon from '../Styled/StyledIcon';
 
 const MyAnswers = ({ answer, setData, id, id_pregunta, type }) => {
   const [open, setOpen] = useState(false);
@@ -22,6 +23,11 @@ const MyAnswers = ({ answer, setData, id, id_pregunta, type }) => {
   const [isChecked, setIsChecked] = useState(
     answer.activo === 'true' ? true : false
   );
+
+  useEffect(() => {
+    setColor(answer.color);
+    setEditedText(answer.respuesta);
+  }, [answer]);
 
   const handleClose = () => {
     setColor(answer.color);
