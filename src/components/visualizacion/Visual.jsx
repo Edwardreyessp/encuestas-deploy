@@ -49,14 +49,7 @@ const Visual = () => {
           // .sort((a, b) => (a.id > b.id ? 1 : -1))
           .map((item, index) => {
             return (
-              <Header
-                key={index}
-                item={item}
-                id={index}
-                data={data}
-                setData={setData}
-                id_pregunta={Object.keys(data.preguntas)[index]}
-              />
+              <Header key={index} item={item} data={data} setData={setData} />
             );
           })}
       </Stack>

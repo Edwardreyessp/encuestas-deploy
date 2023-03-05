@@ -11,7 +11,7 @@ import { useState } from 'react';
 import StyledIcon from '../Styled/StyledIcon';
 import MyAnswers from './ListHeader';
 
-const Header = ({ item, id, data, setData }) => {
+const Header = ({ item, data, setData }) => {
   const options = ['barras', 'barrasO', 'barrasH', 'barrasHO', 'pila'];
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.enunciado);
@@ -26,22 +26,22 @@ const Header = ({ item, id, data, setData }) => {
 
   const handleCharts = value => {
     setData(prev => {
-      if (!prev.charts[`${id + 1}`]) {
-        return { ...prev, charts: { ...prev.charts, [id + 1]: [value] } };
+      if (!prev.charts[`${item.id}`]) {
+        return { ...prev, charts: { ...prev.charts, [item.id]: [value] } };
       }
-      if (prev.charts[`${id + 1}`].includes(value))
+      if (prev.charts[`${item.id}`].includes(value))
         return {
           ...prev,
           charts: {
             ...prev.charts,
-            [id + 1]: prev.charts[id + 1].filter(chart => chart !== value),
+            [item.id]: prev.charts[item.id].filter(chart => chart !== value),
           },
         };
       return {
         ...prev,
         charts: {
           ...prev.charts,
-          [id + 1]: [...prev.charts[id + 1], value],
+          [item.id]: [...prev.charts[item.id], value],
         },
       };
     });
