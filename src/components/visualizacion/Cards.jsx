@@ -277,14 +277,31 @@ const Card = ({
                     id={index}
                     setShowDownload={setShowDownload}
                   />
-                  {index + 1 !== Object.keys(question.respuestas).length ? (
+                  {index + 1 !== Object.keys(question.respuestas).length && (
                     <Divider flexItem />
-                  ) : (
-                    ''
                   )}
                 </Stack>
               );
             })}
+            <Divider flexItem />
+            {question.categorias &&
+              Object.values(question.categorias).map((category, index) => {
+                return (
+                  <Stack key={index} spacing={1}>
+                    <Answer
+                      answer={category}
+                      data={data}
+                      setData={setData}
+                      idQuestion={id}
+                      id={index}
+                      setShowDownload={setShowDownload}
+                    />
+                    {index + 1 !== Object.keys(question.categorias).length && (
+                      <Divider flexItem />
+                    )}
+                  </Stack>
+                );
+              })}
           </Stack>
         </Collapse>
       </Box>
