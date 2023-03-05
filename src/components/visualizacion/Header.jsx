@@ -78,6 +78,19 @@ const Header = ({ item, id, setData, id_pregunta }) => {
     if (value === 'pila') return 'Gráfico de pila';
   };
 
+  const isDisabled = (icon, tipo) => {
+    if (tipo === 'cq') {
+      return !(icon === 'pila');
+    }
+    return icon === 'pila';
+  };
+
+  const getCategory = () => {
+    if (item.tipo_pregunta === 'bq') return 'Basic Question';
+    if (item.tipo_pregunta === 'cq') return 'Category Question';
+    if (item.tipo_pregunta === 'moq') return 'Multi Option Question';
+  };
+
   if (isEditing) {
     return (
       <Paper
@@ -134,6 +147,9 @@ const Header = ({ item, id, setData, id_pregunta }) => {
             onClick={() => setShowAnswers(!showAnswers)}
           >
             <Typography>{item.enunciado}</Typography>
+            <Typography variant="caption" color="text.secondary">
+              {getCategory()}
+            </Typography>
           </Stack>
         </Box>
         <Box display="flex" gap={0.5} alignItems="center">
@@ -145,6 +161,7 @@ const Header = ({ item, id, setData, id_pregunta }) => {
                   onClick={() => handleCharts(icon)}
                   color={charts[`${icon}`] ? 'primary' : ''}
                   tooltip={getTooltip(icon)}
+                  disabled={isDisabled(icon, item.tipo_pregunta)}
                 />
               </Box>
             );
@@ -159,23 +176,22 @@ const Header = ({ item, id, setData, id_pregunta }) => {
         <Stack spacing={1} p="2%">
           {item.tipo_pregunta === 'cq' && (
             <>
-              <Divider />
               <Typography variant="h6">Respuestas</Typography>
+              <Divider />
             </>
           )}
           {Object.values(item.respuestas).map((answer, index) => {
             return (
-              <>
-                <Divider />
+              <Box key={index}>
+                {index !== 0 && <Divider />}
                 <MyAnswers
-                  key={index}
                   answer={answer}
                   setData={setData}
                   id={index}
                   id_pregunta={id_pregunta}
                   type="respuestas"
                 />
-              </>
+              </Box>
             );
           })}
           {item.tipo_pregunta === 'cq' && (
@@ -184,17 +200,16 @@ const Header = ({ item, id, setData, id_pregunta }) => {
               <Typography variant="h6">Categorías</Typography>
               {Object.values(item.categorias).map((category, index) => {
                 return (
-                  <>
+                  <Box key={index}>
                     <Divider />
                     <MyAnswers
-                      key={index}
                       answer={category}
                       setData={setData}
                       id={index}
                       id_pregunta={id_pregunta}
                       type="categorias"
                     />
-                  </>
+                  </Box>
                 );
               })}
             </>

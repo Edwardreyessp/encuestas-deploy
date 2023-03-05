@@ -6,7 +6,7 @@ import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import AddIcon from '@mui/icons-material/Add';
 import { IconButton, Tooltip } from '@mui/material';
 
-const StyledIcon = ({ icon, onClick, color, tooltip }) => {
+const StyledIcon = ({ icon, onClick, color, tooltip, disabled }) => {
   const getIcon = () => {
     if (icon === 'barras') return <BarChartRoundedIcon color={color} />;
     if (icon === 'barrasO')
@@ -33,6 +33,12 @@ const StyledIcon = ({ icon, onClick, color, tooltip }) => {
   };
 
   if (!onClick) return getIcon();
+  if (disabled)
+    return (
+      <IconButton onClick={onClick} disabled={disabled}>
+        {getIcon()}
+      </IconButton>
+    );
   return (
     <Tooltip title={tooltip}>
       <IconButton onClick={onClick}>{getIcon()}</IconButton>

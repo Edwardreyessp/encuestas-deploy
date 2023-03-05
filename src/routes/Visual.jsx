@@ -1,7 +1,6 @@
 import { Box, Stack } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { getQuestions } from '../services/Index';
-import Navbar from '../components/utils/Navbar';
 import Header from '../components/visualizacion/Header';
 import ConfigCharts from '../components/visualizacion/ConfigCharts';
 
@@ -44,32 +43,29 @@ const Visual = () => {
   }
 
   return (
-    <>
-      <Navbar current={'visualizacion'} />
-      <Box p="2%" display="flex" justifyContent="space-between">
-        <Stack spacing={2} maxWidth="80%">
-          {Object.values(data.preguntas).map((item, index) => {
-            return (
-              <Header
-                key={index}
-                item={item}
-                id={index}
-                setData={setData}
-                id_pregunta={Object.keys(data.preguntas)[index]}
-              />
-            );
-          })}
-        </Stack>
-        <Box width="18%">
-          <ConfigCharts
-            data={data}
-            setData={setData}
-            progress={progress}
-            setProgress={setProgress}
-          />
-        </Box>
+    <Box p="2%" display="flex" justifyContent="space-between" width="100%">
+      <Stack spacing={2} maxWidth="80%">
+        {Object.values(data.preguntas).map((item, index) => {
+          return (
+            <Header
+              key={index}
+              item={item}
+              id={index}
+              setData={setData}
+              id_pregunta={Object.keys(data.preguntas)[index]}
+            />
+          );
+        })}
+      </Stack>
+      <Box width="18%">
+        <ConfigCharts
+          data={data}
+          setData={setData}
+          progress={progress}
+          setProgress={setProgress}
+        />
       </Box>
-    </>
+    </Box>
   );
 };
 

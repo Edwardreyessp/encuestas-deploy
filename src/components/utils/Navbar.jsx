@@ -38,8 +38,6 @@ const Navbar = ({ current }) => {
           </Typography>
           <Link to={'/muestreo'} style={{ textDecoration: 'none' }}>
             <StyledChip
-              component="a"
-              // href="/muestreo"
               label="Muestreo"
               sx={{
                 backgroundColor: current === 'muestreo' ? '#005cb8' : 'inherit',
@@ -48,8 +46,6 @@ const Navbar = ({ current }) => {
           </Link>
           <Link to={'/posestratificacion'} style={{ textDecoration: 'none' }}>
             <StyledChip
-              component="a"
-              // href="/posestratificacion"
               label="Posestratificación"
               sx={{
                 backgroundColor:
@@ -59,8 +55,6 @@ const Navbar = ({ current }) => {
           </Link>
           <Link to={'/visualizacion'} style={{ textDecoration: 'none' }}>
             <StyledChip
-              component="a"
-              // href="/visualizacion"
               label="Visualización"
               sx={{
                 backgroundColor:

@@ -20,10 +20,6 @@ import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { useEffect } from 'react';
 
 const ConfigCharts = ({ data, setData }) => {
-  const [download, setDownload] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [progress, setProgress] = useState(-10);
-
   const text = [
     { key: 'sizeBarText', value: 'Barra' },
     { key: 'sizeChartText', value: 'Dentro de la gráfica' },
@@ -36,6 +32,48 @@ const ConfigCharts = ({ data, setData }) => {
     { key: 'colorSecondary', value: 'Secundario' },
     { key: 'colorTerceary', value: 'Terciario' },
   ];
+
+  return (
+    <Stack spacing={4} sx={{ position: 'fixed', width: '200px' }}>
+      <SendInfo data={data} />
+      <Paper elevation={3} sx={{ p: '10%' }}>
+        <Stack spacing={2}>
+          <Typography variant="h6" textAlign="center">
+            Tamaños de texto
+          </Typography>
+          {text.map((item, index) => {
+            return (
+              <TextConfig
+                key={index}
+                item={item}
+                data={data}
+                setData={setData}
+              />
+            );
+          })}
+          <Typography variant="h6" textAlign="center">
+            Colores
+          </Typography>
+          {colores.map((item, index) => {
+            return (
+              <ColorConfig
+                key={index}
+                item={item}
+                data={data}
+                setData={setData}
+              />
+            );
+          })}
+        </Stack>
+      </Paper>
+    </Stack>
+  );
+};
+
+const SendInfo = ({ data }) => {
+  const [download, setDownload] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [progress, setProgress] = useState(-10);
 
   useEffect(() => {
     setProgress(-10);
@@ -70,52 +108,6 @@ const ConfigCharts = ({ data, setData }) => {
     }
   };
 
-  return (
-    <Stack spacing={14}>
-      <SendInfo
-        anchorEl={anchorEl}
-        setAnchorEl={setAnchorEl}
-        handleCreateCharts={handleCreateCharts}
-        progress={progress}
-        download={download}
-      />
-      <Paper elevation={3} sx={{ p: '10%' }}>
-        <Stack spacing={2}>
-          <Typography variant="h6">Tamaños de texto</Typography>
-          {text.map((item, index) => {
-            return (
-              <TextConfig
-                key={index}
-                item={item}
-                data={data}
-                setData={setData}
-              />
-            );
-          })}
-          <Typography variant="h6">Colores</Typography>
-          {colores.map((item, index) => {
-            return (
-              <ColorConfig
-                key={index}
-                item={item}
-                data={data}
-                setData={setData}
-              />
-            );
-          })}
-        </Stack>
-      </Paper>
-    </Stack>
-  );
-};
-
-const SendInfo = ({
-  anchorEl,
-  setAnchorEl,
-  handleCreateCharts,
-  progress,
-  download,
-}) => {
   if (progress >= 0 && progress <= 100) {
     return (
       <Stack spacing={2} alignItems="center">
@@ -144,8 +136,6 @@ const SendInfo = ({
     <>
       <Button
         variant="contained"
-        aria-controls="simple-menu"
-        aria-haspopup="true"
         onClick={event => setAnchorEl(event.currentTarget)}
         endIcon={<KeyboardArrowDownIcon />}
       >
@@ -154,9 +144,12 @@ const SendInfo = ({
       <Menu
         id="simple-menu"
         anchorEl={anchorEl}
-        keepMounted
         open={Boolean(anchorEl)}
         onClose={() => setAnchorEl(null)}
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
       >
         <MenuItem onClick={() => handleCreateCharts('L1')}>Layout 1</MenuItem>
         <MenuItem onClick={() => handleCreateCharts('L2')}>Layout 2</MenuItem>
@@ -184,7 +177,7 @@ const ColorConfig = ({ item, data, setData }) => {
 
   const handleClose = () => {
     setColor(data.config[`${item.key}`]);
-    setColorText(data.config[`${item.key}`]);
+    setColorText(contrastColor(data.config[`${item.key}`]));
     setOpen(false);
   };
 
