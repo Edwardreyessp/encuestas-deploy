@@ -11,7 +11,7 @@ import { useState } from 'react';
 import StyledIcon from '../Styled/StyledIcon';
 import MyAnswers from './ListHeader';
 
-const Header = ({ item, id, setData, id_pregunta }) => {
+const Header = ({ item, id, data, setData }) => {
   const options = ['barras', 'barrasO', 'barrasH', 'barrasHO', 'pila'];
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.enunciado);
@@ -60,8 +60,8 @@ const Header = ({ item, id, setData, id_pregunta }) => {
         ...prev,
         preguntas: {
           ...prev.preguntas,
-          [id_pregunta]: {
-            ...prev.preguntas[id_pregunta],
+          [item.id]: {
+            ...prev.preguntas[item.id],
             enunciado: editedText,
           },
         },
@@ -89,6 +89,43 @@ const Header = ({ item, id, setData, id_pregunta }) => {
     if (item.tipo_pregunta === 'bq') return 'Basic Question';
     if (item.tipo_pregunta === 'cq') return 'Category Question';
     if (item.tipo_pregunta === 'moq') return 'Multi Option Question';
+  };
+
+  const getNewId = () => {
+    let newId = item.id.split('Q')[0];
+    let num = 0;
+    Object.keys(data.preguntas).forEach(id => {
+      if (id.includes(newId)) {
+        if (isNaN(id.split('_')[3])) num = 1;
+        else num = parseInt(id.split('_')[3]) + 1;
+      }
+    });
+
+    return `${item.id.split('_')[0]}_${item.id.split('_')[1]}_${
+      item.id.split('_')[2]
+    }_${num}`;
+  };
+
+  const handleCreateCopy = () => {
+    let newId = getNewId();
+    setData(prev => {
+      return {
+        ...prev,
+        preguntas: {
+          ...prev.preguntas,
+          [newId]: {
+            ...prev.preguntas[item.id],
+            id: newId,
+          },
+        },
+      };
+    });
+  };
+
+  const getVisualId = () => {
+    if (item.id.split('_')[3])
+      return `${item.id.split('Q')[0]}_${item.id.split('_')[3]}`;
+    return item.id.split('Q')[0];
   };
 
   if (isEditing) {
@@ -138,7 +175,7 @@ const Header = ({ item, id, setData, id_pregunta }) => {
           height="100%"
           width="100%"
         >
-          <Typography>{id + 1}</Typography>
+          <Typography>{getVisualId()}</Typography>
           <Stack
             justifyContent="center"
             height="100%"
@@ -169,7 +206,11 @@ const Header = ({ item, id, setData, id_pregunta }) => {
           <Divider orientation="vertical" flexItem />
           <StyledIcon icon="edit" onClick={() => setIsEditing(true)} />
           <Divider orientation="vertical" flexItem />
-          <StyledIcon icon="add" onClick={() => {}} tooltip="Crear copia" />
+          <StyledIcon
+            icon="add"
+            onClick={handleCreateCopy}
+            tooltip="Crear copia"
+          />
         </Box>
       </Box>
       <Collapse in={showAnswers}>
@@ -188,7 +229,7 @@ const Header = ({ item, id, setData, id_pregunta }) => {
                   answer={answer}
                   setData={setData}
                   id={index}
-                  id_pregunta={id_pregunta}
+                  id_pregunta={item.id}
                   type="respuestas"
                 />
               </Box>
@@ -206,7 +247,7 @@ const Header = ({ item, id, setData, id_pregunta }) => {
                       answer={category}
                       setData={setData}
                       id={index}
-                      id_pregunta={id_pregunta}
+                      id_pregunta={item.id}
                       type="categorias"
                     />
                   </Box>

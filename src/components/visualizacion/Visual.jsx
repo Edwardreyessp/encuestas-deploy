@@ -45,17 +45,20 @@ const Visual = () => {
   return (
     <Box p="2%" display="flex" justifyContent="space-between" width="100%">
       <Stack spacing={2} maxWidth="80%">
-        {Object.values(data.preguntas).map((item, index) => {
-          return (
-            <Header
-              key={index}
-              item={item}
-              id={index}
-              setData={setData}
-              id_pregunta={Object.keys(data.preguntas)[index]}
-            />
-          );
-        })}
+        {Object.values(data.preguntas)
+          // .sort((a, b) => (a.id > b.id ? 1 : -1))
+          .map((item, index) => {
+            return (
+              <Header
+                key={index}
+                item={item}
+                id={index}
+                data={data}
+                setData={setData}
+                id_pregunta={Object.keys(data.preguntas)[index]}
+              />
+            );
+          })}
       </Stack>
       <Box width="18%">
         <ConfigCharts
