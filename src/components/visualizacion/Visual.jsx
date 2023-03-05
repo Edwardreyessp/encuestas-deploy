@@ -46,7 +46,7 @@ const Visual = () => {
     <Box p="2%" display="flex" justifyContent="space-between" width="100%">
       <Stack spacing={2} maxWidth="80%">
         {Object.values(data.preguntas)
-          // .sort((a, b) => (a.id > b.id ? 1 : -1))
+          .sort((a, b) => (a.id > b.id ? 1 : -1))
           .map((item, index) => {
             return (
               <Header key={index} item={item} data={data} setData={setData} />
