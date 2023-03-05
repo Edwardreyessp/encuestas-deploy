@@ -8,7 +8,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import StyledIcon from '../utils/StyledIcon';
+import StyledIcon from '../Styled/StyledIcon';
 import MyAnswers from './ListHeader';
 
 const Header = ({ item, id, setData, id_pregunta }) => {

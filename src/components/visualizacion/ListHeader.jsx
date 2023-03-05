@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { ChromePicker } from 'react-color';
-import StyledIcon from '../utils/StyledIcon';
+import StyledIcon from '../Styled/StyledIcon';
 
 const MyAnswers = ({ answer, setData, id, id_pregunta, type }) => {
   const [open, setOpen] = useState(false);

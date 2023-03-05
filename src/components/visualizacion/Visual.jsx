@@ -1,8 +1,8 @@
 import { Box, Stack } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { getQuestions } from '../services/Index';
-import Header from '../components/visualizacion/Header';
-import ConfigCharts from '../components/visualizacion/ConfigCharts';
+import { getQuestions } from '../../services/Index';
+import Header from './Header';
+import ConfigCharts from './ConfigCharts';
 
 const Visual = () => {
   const [data, setData] = useState(null);
