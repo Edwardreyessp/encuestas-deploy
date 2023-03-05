@@ -18,7 +18,7 @@ import MixStratumsComponent from '../components/utils/MixStratumsComponent';
 import { v4 as uuidv4 } from 'uuid';
 import InputsList from '../components/utils/InputsList';
 import { axiosPost } from '../services/Index';
-const PATH = 'muestro/core';
+const PATH = 'muestreo/core';
 
 // TODO: investigar como renderizar un csv
 // TODO: lógica para regresar a configurar la proporción de los estratos
@@ -302,7 +302,7 @@ const Muestreo = () => {
                 0: (
                   <FileUploader
                     numberOfFiles={1}
-                    path={PATH}
+                    path="files"
                     fileTypes={fileTypes}
                   />
                 ),
