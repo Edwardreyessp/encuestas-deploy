@@ -18,6 +18,7 @@ import MixStratumsComponent from '../components/utils/MixStratumsComponent';
 import { v4 as uuidv4 } from 'uuid';
 import InputsList from '../components/utils/InputsList';
 import { axiosPost } from '../services/Index';
+import { useUrl } from '../components/context/BaseUrl';
 const PATH = 'muestreo/core';
 
 // TODO: investigar como renderizar un csv
@@ -27,6 +28,7 @@ const Muestreo = () => {
   /**
    * ===========States================
    */
+  const { url } = useUrl();
 
   /**
    * Page config
@@ -151,7 +153,7 @@ const Muestreo = () => {
       setStep(curr => ++curr);
     } else if (step === 5) {
       const payload = buildPayload();
-      axiosPost(payload, PATH);
+      axiosPost(payload, `${url}/${PATH}`);
     }
     setStep(curr => ++curr);
   }
@@ -269,7 +271,7 @@ const Muestreo = () => {
   async function requestUniques() {
     const stratumsIds = data.variables.map(v => v.label);
     const payload = { Estratos_Ids: stratumsIds };
-    const res = await axiosPost(payload, PATH);
+    const res = await axiosPost(payload, `${url}/${PATH}`);
 
     const stratums = stratumsIds.map(id => {
       return {
@@ -302,7 +304,7 @@ const Muestreo = () => {
                 0: (
                   <FileUploader
                     numberOfFiles={1}
-                    path="files"
+                    path={`${url}/files`}
                     fileTypes={fileTypes}
                   />
                 ),

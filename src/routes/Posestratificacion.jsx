@@ -11,6 +11,7 @@ import ConfigEstratos, {
 } from '../components/utils/ConfigEstratos';
 import { axiosPost } from '../services/Index';
 import { Typography } from '@mui/material';
+import { useUrl } from '../components/context/BaseUrl';
 
 /**
  * Module 5
@@ -45,13 +46,14 @@ const Posestratificacion = () => {
   const [data, setData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [urlDownload, setUrlDownload] = useState('');
+  const { url } = useUrl();
 
   /**
    * Envía la configuración
    * @function
    */
   const sendToBackendConfig = async () => {
-    const response = await axiosPost(data, 'post/conf');
+    const response = await axiosPost(data, `${url}post/conf`);
     setOpciones(response.data);
     setIsLoading(false);
   };
@@ -66,7 +68,7 @@ const Posestratificacion = () => {
     const sendData = {
       Estratos: dataEstratos,
     };
-    const response = await axiosPost(sendData, 'post/data');
+    const response = await axiosPost(sendData, `${url}post/data`);
     setUrlDownload(response.data);
   };
 
@@ -137,7 +139,7 @@ const Posestratificacion = () => {
                     <FileUploader
                       fileTypes={fileTypes[0]}
                       numberOfFiles={1}
-                      path="files"
+                      path={`${url}/files`}
                     />
                     <Typography variant="h6">
                       Archivo de Participación
@@ -145,13 +147,13 @@ const Posestratificacion = () => {
                     <FileUploader
                       fileTypes={fileTypes[1]}
                       numberOfFiles={1}
-                      path="files"
+                      path={`${url}/files`}
                     />
                     <Typography variant="h6">Archivo Muestra</Typography>
                     <FileUploader
                       fileTypes={fileTypes[2]}
                       numberOfFiles={1}
-                      path="files"
+                      path={`${url}/files`}
                     />
                   </Stack>
                 ),

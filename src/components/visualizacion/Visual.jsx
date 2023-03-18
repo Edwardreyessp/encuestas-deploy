@@ -3,11 +3,13 @@ import { useState, useEffect } from 'react';
 import { getQuestions } from '../../services/Index';
 import Header from './Header';
 import ConfigCharts from './ConfigCharts';
+import { useUrl } from '../context/BaseUrl';
 
 const Visual = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(-10);
+  const { url } = useUrl();
 
   useEffect(() => {
     setProgress(-10);
@@ -15,7 +17,7 @@ const Visual = () => {
 
   useEffect(() => {
     async function loadData() {
-      const response = await getQuestions();
+      const response = await getQuestions(url);
 
       if (response.status === 200) {
         setData({
@@ -36,7 +38,7 @@ const Visual = () => {
       }
     }
     loadData();
-  }, [isLoading]);
+  }, [url]);
 
   if (isLoading) {
     return <Box>Loading...</Box>;

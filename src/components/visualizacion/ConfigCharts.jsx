@@ -18,6 +18,7 @@ import { axiosPost } from '../../services/Index';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { useEffect } from 'react';
+import { useUrl } from '../context/BaseUrl';
 
 const ConfigCharts = ({ data, setData }) => {
   const text = [
@@ -74,6 +75,7 @@ const SendInfo = ({ data }) => {
   const [download, setDownload] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [progress, setProgress] = useState(-10);
+  const { url } = useUrl();
 
   useEffect(() => {
     setProgress(-10);
@@ -102,7 +104,7 @@ const SendInfo = ({ data }) => {
       layout: layout,
     };
 
-    const response = await axiosPost(allData, 'questions');
+    const response = await axiosPost(allData, `${url}/questions`);
     if (response.status === 200) {
       setDownload(response.data);
     }
