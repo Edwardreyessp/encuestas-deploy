@@ -53,7 +53,7 @@ const Posestratificacion = () => {
    * @function
    */
   const sendToBackendConfig = async () => {
-    const response = await axiosPost(data, `${url}post/conf`);
+    const response = await axiosPost(data, `${url}/post/conf`);
     setOpciones(response.data);
     setIsLoading(false);
   };
@@ -68,7 +68,7 @@ const Posestratificacion = () => {
     const sendData = {
       Estratos: dataEstratos,
     };
-    const response = await axiosPost(sendData, `${url}post/data`);
+    const response = await axiosPost(sendData, `${url}/post/data`);
     setUrlDownload(response.data);
   };
 
