@@ -10,7 +10,7 @@ export const useUrl = () => {
 };
 
 export const UrlProvider = ({ children }) => {
-  const [url, setUrl] = useState('http://127.0.0.1:4000');
+  const [url, setUrl] = useState('http://34.74.36.230');
 
   return (
     <urlContext.Provider value={{ url, setUrl }}>
