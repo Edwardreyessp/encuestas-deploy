@@ -24,6 +24,7 @@ const Visual = () => {
           preguntas: { ...response.data },
           charts: {},
           config: {
+            font: 'Arial',
             sizeBarText: '9',
             sizeChartText: '9',
             sizeAxisText: '9',
