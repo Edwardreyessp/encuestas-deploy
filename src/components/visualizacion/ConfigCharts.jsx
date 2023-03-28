@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   CircularProgress,
@@ -18,8 +19,10 @@ import { axiosPost } from '../../services/Index';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { useEffect } from 'react';
+import { useUrl } from '../context/BaseUrl';
 
 const ConfigCharts = ({ data, setData }) => {
+  const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
   const text = [
     { key: 'sizeBarText', value: 'Barra' },
     { key: 'sizeChartText', value: 'Dentro de la gráfica' },
@@ -34,10 +37,34 @@ const ConfigCharts = ({ data, setData }) => {
   ];
 
   return (
-    <Stack spacing={4} sx={{ position: 'fixed', width: '200px' }}>
+    <Stack spacing={4} sx={{ position: 'fixed', width: '250px' }}>
       <SendInfo data={data} />
       <Paper elevation={3} sx={{ p: '10%' }}>
         <Stack spacing={2}>
+          <Autocomplete
+            size="small"
+            blurOnSelect
+            options={fonts}
+            renderOption={(props, option) => (
+              <li key={option} {...props}>
+                <Typography style={{ fontFamily: option }}>{option}</Typography>
+              </li>
+            )}
+            value={data.config.font}
+            onChange={(event, newValue) => {
+              setData({ ...data, config: { ...data.config, font: newValue } });
+            }}
+            renderInput={params => (
+              <TextField
+                {...params}
+                label="Fuente"
+                inputProps={{
+                  ...params.inputProps,
+                  style: { fontFamily: data.config.font },
+                }}
+              />
+            )}
+          />
           <Typography variant="h6" textAlign="center">
             Tamaños de texto
           </Typography>
@@ -74,6 +101,7 @@ const SendInfo = ({ data }) => {
   const [download, setDownload] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [progress, setProgress] = useState(-10);
+  const { url } = useUrl();
 
   useEffect(() => {
     setProgress(-10);
@@ -102,7 +130,7 @@ const SendInfo = ({ data }) => {
       layout: layout,
     };
 
-    const response = await axiosPost(allData, 'questions');
+    const response = await axiosPost(allData, `${url}/questions`);
     if (response.status === 200) {
       setDownload(response.data);
     }

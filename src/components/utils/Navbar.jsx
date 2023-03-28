@@ -5,6 +5,8 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import { useUrl } from '../context/BaseUrl';
+import { Button } from '@mui/material';
 
 /**
  * Represents the Navbar.
@@ -12,6 +14,7 @@ import { Link } from 'react-router-dom';
  * @param {string} current - Name of the current route.
  */
 const Navbar = ({ current }) => {
+  const { url, setUrl } = useUrl();
   /**
    * Represents the Style of a Chip component.
    * @constructor
@@ -29,6 +32,14 @@ const Navbar = ({ current }) => {
     };
   });
 
+  const handleUrl = () => {
+    if (url === 'https://encuestas1.herokuapp.com') {
+      setUrl('https://34.74.36.230');
+    } else {
+      setUrl('https://encuestas1.herokuapp.com');
+    }
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -36,6 +47,9 @@ const Navbar = ({ current }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Nombre de la empresa
           </Typography>
+          <Button onClick={handleUrl} color="secondary">
+            {url}
+          </Button>
           <Link to={'/muestreo'} style={{ textDecoration: 'none' }}>
             <StyledChip
               label="Muestreo"

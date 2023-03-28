@@ -4,6 +4,7 @@ import FileUploader from '../components/utils/FileUploader';
 import { Button, Box, Stack } from '@mui/material';
 import { useState } from 'react';
 import Visual from '../components/visualizacion/Visual';
+import { useUrl } from '../components/context/BaseUrl';
 
 /**
  * Módulo visualización
@@ -17,6 +18,7 @@ const Visualizacion = () => {
     excel: ['csv', 'Rda', 'rda'],
     power: ['pptx'],
   };
+  const { url } = useUrl();
 
   return (
     <>
@@ -33,7 +35,7 @@ const Visualizacion = () => {
                   <FileUploader
                     fileTypes={fileTypes}
                     numberOfFiles={3}
-                    path="files"
+                    path={`${url}/files`}
                   />
                   <Button
                     size="medium"
