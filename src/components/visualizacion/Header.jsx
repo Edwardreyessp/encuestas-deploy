@@ -196,7 +196,7 @@ const Header = ({ item, data, setData }) => {
                 <StyledIcon
                   icon={icon}
                   onClick={() => handleCharts(icon)}
-                  color={charts[`${icon}`] ? 'primary' : ''}
+                  color={charts[icon] ? 'primary' : 'inherit'}
                   tooltip={getTooltip(icon)}
                   disabled={isDisabled(icon, item.tipo_pregunta)}
                 />
