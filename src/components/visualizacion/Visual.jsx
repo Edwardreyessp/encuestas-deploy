@@ -8,12 +8,7 @@ import { useUrl } from '../context/BaseUrl';
 const Visual = () => {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(-10);
   const { url } = useUrl();
-
-  useEffect(() => {
-    setProgress(-10);
-  }, [data]);
 
   useEffect(() => {
     async function loadData() {
@@ -45,6 +40,16 @@ const Visual = () => {
     return <Box>Loading...</Box>;
   }
 
+  if (!Object.values(data.preguntas)[0].enunciado) {
+    console.log({ data: data.preguntas });
+    return (
+      <Stack spacing={2} alignItems="center">
+        <Box>No se recibió la respuesta esperada de servidor</Box>
+        <Box>Revisar consola para más info</Box>
+      </Stack>
+    );
+  }
+
   return (
     <Box p="2%" display="flex" justifyContent="space-between" width="100%">
       <Stack spacing={2} maxWidth="80%">
@@ -57,12 +62,7 @@ const Visual = () => {
           })}
       </Stack>
       <Box width="18%">
-        <ConfigCharts
-          data={data}
-          setData={setData}
-          progress={progress}
-          setProgress={setProgress}
-        />
+        <ConfigCharts data={data} setData={setData} />
       </Box>
     </Box>
   );
