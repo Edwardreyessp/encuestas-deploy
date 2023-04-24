@@ -122,6 +122,32 @@ const Posestratificacion = () => {
     { muestra: ['csv', 'Rda', 'xlsx', 'rda'] },
   ];
 
+  if (Object.keys(opciones)[0] !== 'array') {
+    return (
+      <>
+        <Navbar current={'posestratificacion'} />
+        <Box width={'100%'} display={'flex'} justifyContent={'center'}>
+          <Stack>
+            <Box margin={'36px 0'} width={'880px'}>
+              <MyStepper steps={steps} activeStep={step} setStep={setStep} />
+            </Box>
+            <Stack spacing={2} alignItems="center">
+              <Box>Respuesta inesperada del servidor</Box>
+              <Box>Ver consola para más info</Box>
+              <Box>
+                <Box sx={{ mb: 2 }}>Respuesta esperada:</Box>
+                <Box>{`{`}</Box>
+                <Box>&nbsp;&nbsp;{`array: ['a', 'b', 'c'],`}</Box>
+                <Box>&nbsp;&nbsp;{`array2: ['d', 'e', 'f']`}</Box>
+                <Box>{`}`}</Box>
+              </Box>
+            </Stack>
+          </Stack>
+        </Box>
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar current={'posestratificacion'} />
