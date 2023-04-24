@@ -137,8 +137,8 @@ const Posestratificacion = () => {
               <Box>
                 <Box sx={{ mb: 2 }}>Respuesta esperada:</Box>
                 <Box>{`{`}</Box>
-                <Box>{`array: ['a', 'b', 'c'],`}</Box>
-                <Box>{`array2: ['d', 'e', 'f']`}</Box>
+                <Box>&nbsp;&nbsp;{`array: ['a', 'b', 'c'],`}</Box>
+                <Box>&nbsp;&nbsp;{`array2: ['d', 'e', 'f']`}</Box>
                 <Box>{`}`}</Box>
               </Box>
             </Stack>
