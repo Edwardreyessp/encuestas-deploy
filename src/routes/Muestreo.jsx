@@ -9,6 +9,7 @@ import {
   Select,
   Stack,
   FormControl,
+  CircularProgress,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
@@ -38,6 +39,7 @@ const Muestreo = () => {
    * Step 1 config
    */
   const [data, setData] = useState({});
+  const [isLoadingUniques, setIsLoadingUniques] = useState(true);
   /**
    * Step 2 config
    */
@@ -153,7 +155,7 @@ const Muestreo = () => {
       setStep(curr => ++curr);
     } else if (step === 5) {
       const payload = buildPayload();
-      axiosPost(payload, `${url}/${PATH}`);
+      axiosPost(payload, `${url}/muestreo/step_2`);
     }
     setStep(curr => ++curr);
   }
@@ -272,20 +274,22 @@ const Muestreo = () => {
     const stratumsIds = data.variables.map(v => v.label);
     const payload = { Estratos_Ids: stratumsIds };
     const res = await axiosPost(payload, `${url}/${PATH}`);
+    const uniques = res.data.uniques;
 
     const stratums = stratumsIds.map(id => {
       return {
         id: id,
-        uniques: getUniquesValues(id, res),
+        uniques: getUniquesValues(id, uniques),
       };
     });
 
     setOpciones(stratums[0].uniques);
     if (stratums[1]) setOpcionesDos(stratums[1].uniques);
+    setIsLoadingUniques(false);
   }
 
   function getUniquesValues(variableID, uniques) {
-    const variable = uniques.find(item => variableID === item.id_variable);
+    const variable = uniques.find(item => variableID === item.name);
     return variable.values;
   }
 
@@ -322,15 +326,21 @@ const Muestreo = () => {
                       ? data.variables.map((option, index) => {
                           return (
                             <Box key={index} mb={3}>
-                              <Estratos
-                                estratos={index === 0 ? estratos : estratos2}
-                                setEstratos={
-                                  index === 0 ? setEstratos : setEstratos2
-                                }
-                                opciones={index === 0 ? opciones : opcionesDos}
-                                numEstratos={option.value}
-                                nombre={option.label}
-                              />
+                              {isLoadingUniques ? (
+                                <CircularProgress />
+                              ) : (
+                                <Estratos
+                                  estratos={index === 0 ? estratos : estratos2}
+                                  setEstratos={
+                                    index === 0 ? setEstratos : setEstratos2
+                                  }
+                                  opciones={
+                                    index === 0 ? opciones : opcionesDos
+                                  }
+                                  numEstratos={option.value}
+                                  nombre={option.label}
+                                />
+                              )}
                             </Box>
                           );
                         })
