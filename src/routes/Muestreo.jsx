@@ -20,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InputsList from '../components/utils/InputsList';
 import { axiosPost } from '../services/Index';
 import { useUrl } from '../components/context/BaseUrl';
+import CreateTable from '../../CreateTable';
 const PATH = 'muestreo/core';
 
 // TODO: investigar como renderizar un csv
@@ -133,7 +134,6 @@ const Muestreo = () => {
   ];
   /**
    * Step 2 config
-   * TODO: recibir respuesta del backed y organizar por estrato
    */
   const [opciones, setOpciones] = useState([]);
   const [opcionesDos, setOpcionesDos] = useState([]);
@@ -154,8 +154,8 @@ const Muestreo = () => {
     } else if (step === 4 && !(sampleType === 'custom')) {
       setStep(curr => ++curr);
     } else if (step === 5) {
-      const payload = buildPayload();
-      axiosPost(payload, `${url}/muestreo/step_2`);
+      // const payload = buildPayload();
+      // axiosPost(payload, `${url}/muestreo/step_2`);
     }
     setStep(curr => ++curr);
   }
@@ -360,6 +360,7 @@ const Muestreo = () => {
                     inputHandler={handleStepFiveInput}
                   />
                 ),
+                6: <CreateTable />,
               }[step]
             }
           </Grid>
