@@ -41,6 +41,7 @@ const Muestreo = () => {
    */
   const [data, setData] = useState({});
   const [isLoadingUniques, setIsLoadingUniques] = useState(true);
+  const [isLoadingResults, setIsLoadingResults] = useState(true);
   /**
    * Step 2 config
    */
@@ -154,7 +155,8 @@ const Muestreo = () => {
     } else if (step === 4 && !(sampleType === 'custom')) {
       setStep(curr => ++curr);
     } else if (step === 5) {
-      // const payload = buildPayload();
+      const payload = buildPayload();
+      requestResults(payload);
       // axiosPost(payload, `${url}/muestreo/step_2`);
     }
     setStep(curr => ++curr);
@@ -293,6 +295,16 @@ const Muestreo = () => {
     return variable.values;
   }
 
+  let tableData = {};
+  let urlImage = '';
+  async function requestResults(payload) {
+    const res = await axiosPost(payload, `${url}/muestreo/step_2`);
+    const results = res.data;
+    tableData = results.tabla;
+    urlImage = results.url_image;
+    setIsLoadingResults(false);
+  }
+
   return (
     <>
       <Navbar current="muestreo" />
@@ -360,7 +372,18 @@ const Muestreo = () => {
                     inputHandler={handleStepFiveInput}
                   />
                 ),
-                6: <CreateTable />,
+                6: (
+                  <Stack>
+                    {isLoadingResults ? (
+                      <CircularProgress />
+                    ) : (
+                      <>
+                        <CreateTable data={tableData} />
+                        <img src={urlImage} alt="result" />
+                      </>
+                    )}
+                  </Stack>
+                ),
               }[step]
             }
           </Grid>
