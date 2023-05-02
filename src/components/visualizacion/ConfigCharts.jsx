@@ -101,10 +101,16 @@ const SendInfo = ({ data }) => {
   const [download, setDownload] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [progress, setProgress] = useState(-10);
+  const [timeInterval, setTimeInterval] = useState(800);
   const { url } = useUrl();
 
   useEffect(() => {
     setProgress(-10);
+    // console.log(data.charts);
+    // console.log(Object.keys(data.preguntas));
+    // console.log(Object.keys(data.preguntas).length);
+    setTimeInterval(800 * Object.keys(data.preguntas).length);
+    setDownload(null);
   }, [data]);
 
   useEffect(() => {
@@ -114,12 +120,13 @@ const SendInfo = ({ data }) => {
           setProgress(prevProgress => prevProgress + 10);
         }
       },
-      download ? 300 : 800
+      download ? 100 : timeInterval
+      // download ? timeInterval : 100
     );
     return () => {
       clearInterval(timer);
     };
-  }, [progress, download]);
+  }, [progress, download, timeInterval]);
 
   const handleCreateCharts = async layout => {
     setAnchorEl(null);

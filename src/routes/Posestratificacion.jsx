@@ -21,8 +21,8 @@ const Posestratificacion = () => {
   const [step, setStep] = useState(0);
   const steps = ['Subir archivos', 'Configurar estratos', 'Llenar estratos'];
   const [opciones, setOpciones] = useState({
-    a: ['a', 'b', 'c'],
-    b: ['d', 'e', 'f'],
+    array: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
+    arry2: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'],
   });
   const niveles = [
     'Nacional',
@@ -64,7 +64,7 @@ const Posestratificacion = () => {
    * @param {json} dataEstratos - Json de esratos, nombres y sub estratos
    */
   const sendToBackendEstratos = async dataEstratos => {
-    console.log('dataEstratos');
+    // console.log({ dataEstratos });
     const sendData = {
       Estratos: dataEstratos,
     };
@@ -174,15 +174,19 @@ const Posestratificacion = () => {
                       data.variables.map((option, index) => {
                         return (
                           <Box key={index} mb={3}>
-                            <Estratos
-                              estratos={index === 0 ? estratos : estratos2}
-                              setEstratos={
-                                index === 0 ? setEstratos : setEstratos2
-                              }
-                              opciones={Object.values(opciones)[index]}
-                              numEstratos={option.value}
-                              nombre={option.label}
-                            />
+                            {Array.isArray(Object.values(opciones)[0]) ? (
+                              <Estratos
+                                estratos={index === 0 ? estratos : estratos2}
+                                setEstratos={
+                                  index === 0 ? setEstratos : setEstratos2
+                                }
+                                opciones={Object.values(opciones)[index]}
+                                numEstratos={option.value}
+                                nombre={option.label}
+                              />
+                            ) : (
+                              <ErrorMessage />
+                            )}
                           </Box>
                         );
                       })}
@@ -194,9 +198,15 @@ const Posestratificacion = () => {
           <Box display={'flex'} justifyContent={'flex-end'} mr={8} mb={3}>
             {step === 2 ? (
               urlDownload === '' ? (
-                <Button size="medium" variant="contained" onClick={handleStep}>
-                  Enviar datos
-                </Button>
+                Array.isArray(Object.values(opciones)[0]) && (
+                  <Button
+                    size="medium"
+                    variant="contained"
+                    onClick={handleStep}
+                  >
+                    Enviar datos
+                  </Button>
+                )
               ) : (
                 <Button
                   size="medium"
@@ -218,6 +228,22 @@ const Posestratificacion = () => {
         </Stack>
       </Box>
     </>
+  );
+};
+
+const ErrorMessage = () => {
+  return (
+    <Stack spacing={2} alignItems="center">
+      <Box>Respuesta inesperada del servidor</Box>
+      <Box>Ver consola para más info</Box>
+      <Box>
+        <Box sx={{ mb: 2 }}>Respuesta esperada:</Box>
+        <Box>{`{`}</Box>
+        <Box>&nbsp;&nbsp;{`array: ['a', 'b', 'c'],`}</Box>
+        <Box>&nbsp;&nbsp;{`array2: ['d', 'e', 'f']`}</Box>
+        <Box>{`}`}</Box>
+      </Box>
+    </Stack>
   );
 };
 
