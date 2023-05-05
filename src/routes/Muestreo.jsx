@@ -107,8 +107,7 @@ const Muestreo = () => {
     'Configurar muestras',
     'Tipo de muestreo',
     'Proporción de Muestreo',
-    'Gráfica',
-    'Tabla',
+    'Resultados',
   ];
 
   /**
@@ -152,8 +151,6 @@ const Muestreo = () => {
   function handleNextStep() {
     if (step === 1) {
       requestUniques();
-    } else if (step === 4 && !(sampleType === 'custom')) {
-      setStep(curr => ++curr);
     } else if (step === 5) {
       const payload = buildPayload();
       requestResults(payload);
