@@ -9,6 +9,7 @@ import {
   Select,
   Stack,
   FormControl,
+  CircularProgress,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useState } from 'react';
@@ -19,6 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InputsList from '../components/utils/InputsList';
 import { axiosPost } from '../services/Index';
 import { useUrl } from '../components/context/BaseUrl';
+import CreateTable from '../../CreateTable';
 const PATH = 'muestreo/core';
 
 // TODO: investigar como renderizar un csv
@@ -38,6 +40,8 @@ const Muestreo = () => {
    * Step 1 config
    */
   const [data, setData] = useState({});
+  const [isLoadingUniques, setIsLoadingUniques] = useState(true);
+  const [isLoadingResults, setIsLoadingResults] = useState(true);
   /**
    * Step 2 config
    */
@@ -103,8 +107,7 @@ const Muestreo = () => {
     'Configurar muestras',
     'Tipo de muestreo',
     'Proporción de Muestreo',
-    'Gráfica',
-    'Tabla',
+    'Resultados',
   ];
 
   /**
@@ -131,7 +134,6 @@ const Muestreo = () => {
   ];
   /**
    * Step 2 config
-   * TODO: recibir respuesta del backed y organizar por estrato
    */
   const [opciones, setOpciones] = useState([]);
   const [opcionesDos, setOpcionesDos] = useState([]);
@@ -149,11 +151,10 @@ const Muestreo = () => {
   function handleNextStep() {
     if (step === 1) {
       requestUniques();
-    } else if (step === 4 && !(sampleType === 'custom')) {
-      setStep(curr => ++curr);
     } else if (step === 5) {
       const payload = buildPayload();
-      axiosPost(payload, `${url}/${PATH}`);
+      requestResults(payload);
+      // axiosPost(payload, `${url}/muestreo/step_2`);
     }
     setStep(curr => ++curr);
   }
@@ -272,21 +273,33 @@ const Muestreo = () => {
     const stratumsIds = data.variables.map(v => v.label);
     const payload = { Estratos_Ids: stratumsIds };
     const res = await axiosPost(payload, `${url}/${PATH}`);
+    const uniques = res.data.uniques;
 
     const stratums = stratumsIds.map(id => {
       return {
         id: id,
-        uniques: getUniquesValues(id, res),
+        uniques: getUniquesValues(id, uniques),
       };
     });
 
     setOpciones(stratums[0].uniques);
     if (stratums[1]) setOpcionesDos(stratums[1].uniques);
+    setIsLoadingUniques(false);
   }
 
   function getUniquesValues(variableID, uniques) {
-    const variable = uniques.find(item => variableID === item.id_variable);
+    const variable = uniques.find(item => variableID === item.name);
     return variable.values;
+  }
+
+  let tableData = {};
+  let urlImage = '';
+  async function requestResults(payload) {
+    const res = await axiosPost(payload, `${url}/muestreo/step_2`);
+    const results = res.data;
+    tableData = results.tabla;
+    urlImage = results.url_image;
+    setIsLoadingResults(false);
   }
 
   return (
@@ -322,15 +335,21 @@ const Muestreo = () => {
                       ? data.variables.map((option, index) => {
                           return (
                             <Box key={index} mb={3}>
-                              <Estratos
-                                estratos={index === 0 ? estratos : estratos2}
-                                setEstratos={
-                                  index === 0 ? setEstratos : setEstratos2
-                                }
-                                opciones={index === 0 ? opciones : opcionesDos}
-                                numEstratos={option.value}
-                                nombre={option.label}
-                              />
+                              {isLoadingUniques ? (
+                                <CircularProgress />
+                              ) : (
+                                <Estratos
+                                  estratos={index === 0 ? estratos : estratos2}
+                                  setEstratos={
+                                    index === 0 ? setEstratos : setEstratos2
+                                  }
+                                  opciones={
+                                    index === 0 ? opciones : opcionesDos
+                                  }
+                                  numEstratos={option.value}
+                                  nombre={option.label}
+                                />
+                              )}
                             </Box>
                           );
                         })
@@ -349,6 +368,18 @@ const Muestreo = () => {
                     stratumsArr={stepFiveArr}
                     inputHandler={handleStepFiveInput}
                   />
+                ),
+                6: (
+                  <Stack>
+                    {isLoadingResults ? (
+                      <CircularProgress />
+                    ) : (
+                      <>
+                        <CreateTable data={tableData} />
+                        <img src={urlImage} alt="result" />
+                      </>
+                    )}
+                  </Stack>
                 ),
               }[step]
             }
