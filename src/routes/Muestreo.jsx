@@ -85,6 +85,8 @@ const Muestreo = () => {
     setStepFiveArr(newArr);
   }, [estratos, estratos2]);
 
+  const [tableData, setTableData] = useState({});
+  const [urlImage, setUrlImage] = useState('initial');
   /**
    * Sample types
    */
@@ -292,13 +294,25 @@ const Muestreo = () => {
     return variable.values;
   }
 
-  let tableData = {};
-  let urlImage = '';
+  // let tableData = {};
+  // let urlImage = '';
   async function requestResults(payload) {
     const res = await axiosPost(payload, `${url}/muestreo/step_2`);
     const results = res.data;
-    tableData = results.datos;
-    urlImage = results.grafica;
+    setUrlImage(results.grafica);
+    const data = results.datos;
+    const headers = Object.keys(data);
+    const rowsLenght = Object.values(data)[0].length;
+
+    const rows = [];
+    for (let i = 0; i < rowsLenght; i++) {
+      const rowValues = [];
+      for (let header of headers) {
+        rowValues.push(data[header][i]);
+      }
+      rows.push(rowValues);
+    }
+    setTableData({ headers, rows });
     setIsLoadingResults(false);
   }
 
@@ -375,7 +389,10 @@ const Muestreo = () => {
                       <CircularProgress />
                     ) : (
                       <>
-                        <CreateTable data={tableData} />
+                        <CreateTable
+                          rows={tableData.rows}
+                          headers={tableData.headers}
+                        />
                         <img src={urlImage} alt="result" />
                       </>
                     )}
