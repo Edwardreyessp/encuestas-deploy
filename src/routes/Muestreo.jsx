@@ -297,8 +297,8 @@ const Muestreo = () => {
   async function requestResults(payload) {
     const res = await axiosPost(payload, `${url}/muestreo/step_2`);
     const results = res.data;
-    tableData = results.tabla;
-    urlImage = results.url_image;
+    tableData = results.datos;
+    urlImage = results.grafica;
     setIsLoadingResults(false);
   }
 
