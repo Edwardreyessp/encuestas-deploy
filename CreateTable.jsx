@@ -6,18 +6,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-const CreateTable = data => {
-  const headers = Object.keys(data);
-  const rowsLenght = Object.values(data)[0].length;
-
-  const rows = [];
-  for (let i = 0; i < rowsLenght; i++) {
-    const rowValues = [];
-    for (let header of headers) {
-      rowValues.push(data[header][i]);
-    }
-    rows.push(rowValues);
-  }
+const CreateTable = ({ headers, rows }) => {
   console.log(rows);
   console.log(headers);
   function visualRows(rowsArr) {
