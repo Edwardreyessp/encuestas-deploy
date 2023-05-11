@@ -20,7 +20,7 @@ import { v4 as uuidv4 } from 'uuid';
 import InputsList from '../components/utils/InputsList';
 import { axiosPost } from '../services/Index';
 import { useUrl } from '../components/context/BaseUrl';
-import CreateTable from '../../CreateTable';
+import CreateTable from '../components/utils/CreateTable';
 const PATH = 'muestreo/core';
 
 // TODO: investigar como renderizar un csv
@@ -86,7 +86,8 @@ const Muestreo = () => {
   }, [estratos, estratos2]);
 
   const [tableData, setTableData] = useState({});
-  const [urlImage, setUrlImage] = useState('initial');
+  const [urlImage, setUrlImage] = useState('#');
+  const [downloadUrl, setDownloadUrl] = useState('#');
   /**
    * Sample types
    */
@@ -300,6 +301,7 @@ const Muestreo = () => {
     const res = await axiosPost(payload, `${url}/muestreo/step_2`);
     const results = res.data;
     setUrlImage(results.grafica);
+    setDownloadUrl(results.replicas_url);
     const data = results.datos;
     const headers = Object.keys(data);
     const rowsLenght = Object.values(data)[0].length;
@@ -393,7 +395,14 @@ const Muestreo = () => {
                           rows={tableData.rows}
                           headers={tableData.headers}
                         />
-                        <img src={urlImage} alt="result" />
+                        <Button
+                          href={downloadUrl}
+                          variant="contained"
+                          sx={{ margin: '1rem' }}
+                        >
+                          Descargar tabla
+                        </Button>
+                        <img id="chart" src={urlImage} alt="result" />
                       </>
                     )}
                   </Stack>
