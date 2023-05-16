@@ -157,7 +157,8 @@ const Muestreo = () => {
     } else if (step === 5) {
       const payload = buildPayload();
       requestResults(payload);
-      // axiosPost(payload, `${url}/muestreo/step_2`);
+    } else if (step === 6) {
+      setStep(3);
     }
     setStep(curr => ++curr);
   }
@@ -298,6 +299,7 @@ const Muestreo = () => {
   // let tableData = {};
   // let urlImage = '';
   async function requestResults(payload) {
+    setIsLoadingResults(true);
     const res = await axiosPost(payload, `${url}/muestreo/step_2`);
     const results = res.data;
     setUrlImage(results.grafica);
@@ -417,7 +419,7 @@ const Muestreo = () => {
               sx={{ margin: '1rem' }}
               onClick={handleNextStep}
             >
-              Siguiente
+              {step === 6 ? 'Reconfigurar' : 'Siguiente'}
             </Button>
           </Grid>
         </Grid>
