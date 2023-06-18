@@ -109,7 +109,7 @@ const SendInfo = ({ data }) => {
     // console.log(data.charts);
     // console.log(Object.keys(data.preguntas));
     // console.log(Object.keys(data.preguntas).length);
-    setTimeInterval(1800 * Object.keys(data.preguntas).length);
+    setTimeInterval(60 * Object.keys(data.preguntas).length);
     setDownload(null);
   }, [data]);
 
