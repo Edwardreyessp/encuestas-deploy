@@ -148,9 +148,9 @@ const SendInfo = ({ data }) => {
       lotes.push(keys.slice(i, i + loteSize));
     }
 
+    console.log('lotes', lotes);
+
     for (let i = 0; i < lotes.length; i++) {
-      // const lote = lotes[i];
-      // console.log({ [i]: lote });
       const lote = lotes[i];
       const sendingCharts = {};
 
@@ -158,13 +158,14 @@ const SendInfo = ({ data }) => {
         sendingCharts[key] = data.charts[key];
       }
 
-      console.log(sendingCharts);
-
       const allData = {
         ...data,
         charts: sendingCharts,
         layout: layout,
+        final: i + 1 < lotes.length ? 'false' : 'true',
       };
+
+      // Se recibe un string "true" si aún no está en la última iteración
 
       console.log(allData);
 
