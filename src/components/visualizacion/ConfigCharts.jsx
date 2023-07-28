@@ -139,7 +139,7 @@ const SendInfo = ({ data }) => {
 
     // console.log(allData);
 
-    const loteSize = 50;
+    const loteSize = 2;
     const lotes = [];
     const keys = Object.keys(data.charts);
 
@@ -147,8 +147,6 @@ const SendInfo = ({ data }) => {
       // lotes.push(Object.values(data.charts).slice(i, i + loteSize));
       lotes.push(keys.slice(i, i + loteSize));
     }
-
-    console.log('lotes', lotes);
 
     for (let i = 0; i < lotes.length; i++) {
       const lote = lotes[i];
@@ -170,7 +168,7 @@ const SendInfo = ({ data }) => {
       console.log(allData);
 
       const response = await axiosPost(allData, `${url}/questions`);
-      if (response.status === 200) {
+      if (response.status === 200 && i + 1 >= lotes.length) {
         setDownload(response.data);
       }
     }
