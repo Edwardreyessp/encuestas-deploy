@@ -168,7 +168,7 @@ const SendInfo = ({ data }) => {
 
       console.log(allData);
 
-      await postRealtime(allData, 'questions');
+      await postRealtime(allData, 'visualizacion');
       const response = await axiosPost(allData, `${url}/questions`);
       if (response.status === 200 && i + 1 >= lotes.length) {
         setDownload(response.data);
