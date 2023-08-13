@@ -20,6 +20,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { useEffect } from 'react';
 import { useUrl } from '../context/BaseUrl';
+import { postRealtime } from '../../firebase/config';
 
 const ConfigCharts = ({ data, setData }) => {
   const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
@@ -139,7 +140,7 @@ const SendInfo = ({ data }) => {
 
     // console.log(allData);
 
-    const loteSize = 2;
+    const loteSize = 50;
     const lotes = [];
     const keys = Object.keys(data.charts);
 
@@ -167,6 +168,7 @@ const SendInfo = ({ data }) => {
 
       console.log(allData);
 
+      await postRealtime(allData, 'visualizacion');
       const response = await axiosPost(allData, `${url}/questions`);
       if (response.status === 200 && i + 1 >= lotes.length) {
         setDownload(response.data);

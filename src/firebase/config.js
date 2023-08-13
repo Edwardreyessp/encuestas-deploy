@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-// import { getDatabase, ref as dataRef, child, get } from "firebase/database";
+import { getDatabase, ref as dataRef, set } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD0FKu0dmU_rm13CD_rOYXxI-rMEN8Eqc0',
@@ -18,7 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 const auth = getAuth(app);
-// const database = getDatabase(app);
+const database = getDatabase(app);
 
 export const uploadFile = async (file, fileName) => {
   const storageRef = ref(storage, fileName);
@@ -31,17 +31,10 @@ export const createUserWithEmail = async (email, password) => {
   await createUserWithEmailAndPassword(auth, email, password);
 };
 
-// export const getQuestions = () => {
-//   const dbRef = dataRef(database);
-//   get(child(dbRef, `questions`))
-//     .then((snapshot) => {
-//       if (snapshot.exists()) {
-//         console.log(snapshot.val());
-//       } else {
-//         console.log("No data available");
-//       }
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//     });
-// };
+export const postRealtime = async (data, path) => {
+  try {
+    await set(dataRef(database, path), data);
+  } catch (error) {
+    console.log(error);
+  }
+}
