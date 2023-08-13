@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { getQuestions } from '../../services/Index';
 import Header from './Header';
@@ -46,7 +46,7 @@ const Visual = () => {
       <Stack spacing={2} alignItems="center">
         <Box>No se recibió la respuesta esperada de servidor</Box>
         <Box>Revisar consola para más info</Box>
-        <Box>Respuesta esperada: ?Depende del tipo de pregunta</Box>
+        <Box>Respuesta esperada: Depende del tipo de pregunta</Box>
         <Box>
           <Box>{'{'}</Box>
           <Box>&nbsp;&nbsp;{'  "001Q_3_1": {'}</Box>
@@ -104,20 +104,22 @@ const Visual = () => {
   }
 
   return (
-    <Box p="2%" display="flex" justifyContent="space-between" width="100%">
-      <Stack spacing={2} maxWidth="80%">
-        {Object.values(data.preguntas)
-          .sort((a, b) => (a.id > b.id ? 1 : -1))
-          .map((item, index) => {
-            return (
-              <Header key={index} item={item} data={data} setData={setData} />
-            );
-          })}
-      </Stack>
-      <Box width="18%">
+    <Grid container spacing={2} px={2}>
+      <Grid item xs={9}>
+        <Stack spacing={2}>
+          {Object.values(data.preguntas)
+            .sort((a, b) => (a.id > b.id ? 1 : -1))
+            .map((item, index) => {
+              return (
+                <Header key={index} item={item} data={data} setData={setData} />
+              );
+            })}
+        </Stack>
+      </Grid>
+      <Grid item xs={2}>
         <ConfigCharts data={data} setData={setData} />
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -20,6 +20,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { useEffect } from 'react';
 import { useUrl } from '../context/BaseUrl';
+import { postRealtime } from '../../firebase/config';
 
 const ConfigCharts = ({ data, setData }) => {
   const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
@@ -132,14 +133,46 @@ const SendInfo = ({ data }) => {
     setAnchorEl(null);
     setProgress(0);
 
-    const allData = {
-      ...data,
-      layout: layout,
-    };
+    // const allData = {
+    //   ...data,
+    //   layout: layout,
+    // };
 
-    const response = await axiosPost(allData, `${url}/questions`);
-    if (response.status === 200) {
-      setDownload(response.data);
+    // console.log(allData);
+
+    const loteSize = 50;
+    const lotes = [];
+    const keys = Object.keys(data.charts);
+
+    for (let i = 0; i < keys.length; i += loteSize) {
+      // lotes.push(Object.values(data.charts).slice(i, i + loteSize));
+      lotes.push(keys.slice(i, i + loteSize));
+    }
+
+    for (let i = 0; i < lotes.length; i++) {
+      const lote = lotes[i];
+      const sendingCharts = {};
+
+      for (const key of lote) {
+        sendingCharts[key] = data.charts[key];
+      }
+
+      const allData = {
+        ...data,
+        charts: sendingCharts,
+        layout: layout,
+        final: i + 1 < lotes.length ? 'false' : 'true',
+      };
+
+      // Se recibe un string "true" si aún no está en la última iteración
+
+      console.log(allData);
+
+      await postRealtime(allData, 'visualizacion');
+      const response = await axiosPost(allData, `${url}/questions`);
+      if (response.status === 200 && i + 1 >= lotes.length) {
+        setDownload(response.data);
+      }
     }
   };
 

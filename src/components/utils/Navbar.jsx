@@ -34,7 +34,7 @@ const Navbar = ({ current }) => {
 
   const handleUrl = () => {
     if (url === 'https://encuestas1.herokuapp.com') {
-      setUrl('https://34.74.36.230');
+      setUrl('https://defoebedevelop.com');
     } else {
       setUrl('https://encuestas1.herokuapp.com');
     }
