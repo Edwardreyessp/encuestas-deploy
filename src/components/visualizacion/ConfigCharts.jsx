@@ -20,7 +20,6 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { useEffect } from 'react';
 import { useUrl } from '../context/BaseUrl';
-import { postRealtime } from '../../firebase/config';
 
 const ConfigCharts = ({ data, setData }) => {
   const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
@@ -52,7 +51,7 @@ const ConfigCharts = ({ data, setData }) => {
               </li>
             )}
             value={data.config.font}
-            onChange={(event, newValue) => {
+            onChange={(_event, newValue) => {
               setData({ ...data, config: { ...data.config, font: newValue } });
             }}
             renderInput={params => (
@@ -133,47 +132,62 @@ const SendInfo = ({ data }) => {
     setAnchorEl(null);
     setProgress(0);
 
-    // const allData = {
-    //   ...data,
-    //   layout: layout,
-    // };
-
-    // console.log(allData);
-
-    const loteSize = 50;
-    const lotes = [];
+    const loteSize = 5;
     const keys = Object.keys(data.charts);
+    const chartsArr = buildData(keys, Object.values(data.charts));
+    const chartsPayloadArr = createChartBatches(chartsArr, loteSize);
+    const payloadBatches = createPayloadBatches(chartsPayloadArr, data);
 
-    for (let i = 0; i < keys.length; i += loteSize) {
-      // lotes.push(Object.values(data.charts).slice(i, i + loteSize));
-      lotes.push(keys.slice(i, i + loteSize));
+    function createChartBatches(data, size) {
+      let payloadArr = [];
+      let chartCounter = 0;
+      let payload = {};
+
+      for (let i = 0; i < data.length; i++) {
+        if (chartCounter + data[i].chartLength <= size) {
+          payload[data[i].key] = data[i].value;
+          chartCounter += data[i].chartLength;
+          if (i === data.length - 1) payloadArr.push(payload);
+        } else {
+          payloadArr.push(payload);
+          payload = {};
+          chartCounter = 0;
+          i--;
+        }
+      }
+      return payloadArr;
     }
 
-    for (let i = 0; i < lotes.length; i++) {
-      const lote = lotes[i];
-      const sendingCharts = {};
-
-      for (const key of lote) {
-        sendingCharts[key] = data.charts[key];
+    // Crear array de lotes de 10 graficas
+    function buildData(keys, values) {
+      const data = [];
+      for (let i = 0; i < keys.length; i++) {
+        data.push({
+          key: keys[i],
+          value: values[i],
+          chartLength: values[i].length,
+        });
       }
-
-      const allData = {
-        ...data,
-        charts: sendingCharts,
-        layout: layout,
-        final: i + 1 < lotes.length ? 'false' : 'true',
-      };
-
-      // Se recibe un string "true" si aún no está en la última iteración
-
-      console.log(allData);
-
-      await postRealtime(allData, 'visualizacion');
-      const response = await axiosPost(allData, `${url}/questions`);
-      if (response.status === 200 && i + 1 >= lotes.length) {
-        setDownload(response.data);
-      }
+      return data;
     }
+
+    function createPayloadBatches(batches, data) {
+      const payloadBatches = [];
+      for (let i = 0; i < batches.length; i++) {
+        const payload = {
+          ...data,
+          charts: batches[i],
+          layout: layout,
+          final: i < batches.length - 1 ? 'false' : 'true',
+        };
+        payloadBatches.push(payload);
+      }
+      return payloadBatches;
+    }
+
+    Promise.all(
+      payloadBatches.map(payload => axiosPost(payload, `${url}/questions`))
+    ).then(responses => setDownload(responses[responses.length - 1].data));
   };
 
   if (progress >= 0 && progress <= 100) {
