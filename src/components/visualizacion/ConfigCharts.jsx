@@ -132,7 +132,7 @@ const SendInfo = ({ data }) => {
     setAnchorEl(null);
     setProgress(0);
 
-    const loteSize = 5;
+    const loteSize = 50;
     const keys = Object.keys(data.charts);
     const chartsArr = buildData(keys, Object.values(data.charts));
     const chartsPayloadArr = createChartBatches(chartsArr, loteSize);
