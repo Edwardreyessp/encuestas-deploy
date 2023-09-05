@@ -417,6 +417,13 @@ const Muestreo = () => {
             <Button
               variant="contained"
               sx={{ margin: '1rem' }}
+              onClick={() => setStep(curr => --curr)}
+            >
+              Anterior
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ margin: '1rem' }}
               onClick={handleNextStep}
             >
               {step === 6 ? 'Reconfigurar' : 'Siguiente'}
