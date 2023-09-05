@@ -90,7 +90,7 @@ const ConfigEstratos = ({ niveles, estratos, data, setData }) => {
               fullWidth
               type={'number'}
               size="small"
-              label={label}
+              label={`Total de ${label}`}
               InputProps={{ inputProps: { min: 0, max: 100 } }}
               onChange={value => handleAmount(label, value, index)}
             />
