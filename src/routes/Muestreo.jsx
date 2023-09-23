@@ -88,7 +88,7 @@ const Muestreo = () => {
   /**
    * Sample types
    */
-  const [sampleType, setSampleType] = useState(null);
+  const [sampleType, setSampleType] = useState('');
 
   function handleSampleTypeChange(e) {
     setSampleType(e.target.value);
@@ -103,9 +103,6 @@ const Muestreo = () => {
   const steps = [
     'Subir archivos',
     'Configurar muestreo',
-    'Configurar estratos',
-    'Configurar muestras',
-    'Tipo de muestreo',
     'Proporción de Muestreo',
     'Resultados',
   ];
@@ -151,7 +148,7 @@ const Muestreo = () => {
   function handleNextStep() {
     if (step === 1) {
       requestUniques();
-    } else if (step === 5) {
+    } else if (step === 2) {
       const payload = buildPayload();
       requestResults(payload);
     } else if (step === 6) {
@@ -375,15 +372,7 @@ const Muestreo = () => {
                     />
                   </Stack>
                 ),
-                3: <div>hi</div>,
-                4: <SampleType handleChange={handleSampleTypeChange} />,
-                5: (
-                  <MixStratumsComponent
-                    stratumsArr={stepFiveArr}
-                    inputHandler={handleStepFiveInput}
-                  />
-                ),
-                6: (
+                3: (
                   <Stack>
                     {isLoadingResults ? (
                       <CircularProgress />
