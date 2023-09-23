@@ -23,9 +23,6 @@ import { useUrl } from '../components/context/BaseUrl';
 import CreateTable from '../components/utils/CreateTable';
 const PATH = 'muestreo/core';
 
-// TODO: investigar como renderizar un csv
-// TODO: lógica para regresar a configurar la proporción de los estratos
-
 const Muestreo = () => {
   /**
    * ===========States================
@@ -372,14 +369,13 @@ const Muestreo = () => {
                           );
                         })
                       : ''}
+                    <InputsList
+                      inputsArr={stepFourArr}
+                      handleInput={handleStepFourInput}
+                    />
                   </Stack>
                 ),
-                3: (
-                  <InputsList
-                    inputsArr={stepFourArr}
-                    handleInput={handleStepFourInput}
-                  />
-                ),
+                3: <div>hi</div>,
                 4: <SampleType handleChange={handleSampleTypeChange} />,
                 5: (
                   <MixStratumsComponent
