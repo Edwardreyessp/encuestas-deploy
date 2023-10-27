@@ -11,7 +11,7 @@ import { useState } from 'react';
 import StyledIcon from '../Styled/StyledIcon';
 import MyAnswers from './ListHeader';
 
-const Header = ({ item, data, setData }) => {
+const Header = ({ item, data, setData, handlePayload }) => {
   const options = ['barras', 'barrasO', 'barrasH', 'barrasHO', 'pila'];
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(item.enunciado);
@@ -25,27 +25,7 @@ const Header = ({ item, data, setData }) => {
   });
 
   const handleCharts = value => {
-    setData(prev => {
-      if (!prev.charts[`${item.id}`]) {
-        return { ...prev, charts: { ...prev.charts, [item.id]: [value] } };
-      }
-      if (prev.charts[`${item.id}`].includes(value))
-        return {
-          ...prev,
-          charts: {
-            ...prev.charts,
-            [item.id]: prev.charts[item.id].filter(chart => chart !== value),
-          },
-        };
-      return {
-        ...prev,
-        charts: {
-          ...prev.charts,
-          [item.id]: [...prev.charts[item.id], value],
-        },
-      };
-    });
-
+    handlePayload(value, item);
     setCharts(prev => {
       return {
         ...prev,

@@ -1,14 +1,45 @@
 import { Box, Grid, Stack } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getQuestions } from '../../services/Index';
 import Header from './Header';
 import ConfigCharts from './ConfigCharts';
 import { useUrl } from '../context/BaseUrl';
 
 const Visual = () => {
-  const [data, setData] = useState(null);
+  const data = useRef({});
+  // const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { url } = useUrl();
+  let payload = useRef({ charts: {} });
+
+  function handlePayload(value, item) {
+    if (!payload.current.charts[`${item.id}`]) {
+      payload.current = {
+        ...payload.current,
+        charts: { ...payload.current.charts, [item.id]: [value] },
+      };
+    } else if (payload.current.charts[`${item.id}`].includes(value)) {
+      payload.current = {
+        ...payload.current,
+        charts: {
+          ...payload.current.charts,
+          [item.id]: payload.current.charts[item.id].filter(
+            chart => chart !== value
+          ),
+        },
+      };
+    } else {
+      payload.current = {
+        ...payload.current,
+        charts: {
+          ...payload.current.charts,
+          [item.id]: [...payload.current.charts[item.id], value],
+        },
+      };
+    }
+    // setCharts(payload.current.charts);
+    console.log(payload.current);
+  }
 
   useEffect(() => {
     async function loadData() {
@@ -111,13 +142,19 @@ const Visual = () => {
             .sort((a, b) => (a.id > b.id ? 1 : -1))
             .map((item, index) => {
               return (
-                <Header key={index} item={item} data={data} setData={setData} />
+                <Header
+                  key={index}
+                  item={item}
+                  data={data}
+                  setData={setData}
+                  handlePayload={handlePayload}
+                />
               );
             })}
         </Stack>
       </Grid>
       <Grid item xs={2}>
-        <ConfigCharts data={data} setData={setData} />
+        <ConfigCharts data={data} setData={setData} charts={payload.charts} />
       </Grid>
     </Grid>
   );

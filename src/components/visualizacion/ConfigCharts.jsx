@@ -21,7 +21,7 @@ import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
 import { useEffect } from 'react';
 import { useUrl } from '../context/BaseUrl';
 
-const ConfigCharts = ({ data, setData }) => {
+const ConfigCharts = ({ data, setData, charts }) => {
   const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
   const text = [
     { key: 'sizeBarText', value: 'Barra' },
@@ -38,7 +38,7 @@ const ConfigCharts = ({ data, setData }) => {
 
   return (
     <Stack spacing={4} sx={{ position: 'fixed', width: '250px' }}>
-      <SendInfo data={data} />
+      <SendInfo data={data} charts={charts} />
       <Paper elevation={3} sx={{ p: '10%' }}>
         <Stack spacing={2}>
           <Autocomplete
@@ -97,7 +97,7 @@ const ConfigCharts = ({ data, setData }) => {
   );
 };
 
-const SendInfo = ({ data }) => {
+const SendInfo = ({ data, charts }) => {
   const [download, setDownload] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [progress, setProgress] = useState(-10);
@@ -133,8 +133,8 @@ const SendInfo = ({ data }) => {
     setProgress(0);
 
     const loteSize = 50;
-    const keys = Object.keys(data.charts);
-    const chartsArr = buildData(keys, Object.values(data.charts));
+    const keys = Object.keys(charts);
+    const chartsArr = buildData(keys, Object.values(charts));
     const chartsPayloadArr = createChartBatches(chartsArr, loteSize);
     const payloadBatches = createPayloadBatches(chartsPayloadArr, data);
 
