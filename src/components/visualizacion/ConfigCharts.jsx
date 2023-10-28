@@ -15,13 +15,17 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { ChromePicker } from 'react-color';
-import { axiosPost } from '../../services/Index';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
-import { useEffect } from 'react';
-import { useUrl } from '../context/BaseUrl';
 
-const ConfigCharts = ({ data, setData, charts }) => {
+const ConfigCharts = ({
+  data,
+  setData,
+  charts,
+  download,
+  handleCreateCharts,
+  loadingCharts,
+}) => {
   const fonts = ['Arial', 'Century Gothic', 'Times New Roman'];
   const text = [
     { key: 'sizeBarText', value: 'Barra' },
@@ -38,7 +42,13 @@ const ConfigCharts = ({ data, setData, charts }) => {
 
   return (
     <Stack spacing={4} sx={{ position: 'fixed', width: '250px' }}>
-      <SendInfo data={data} charts={charts} />
+      <SendInfo
+        data={data}
+        charts={charts}
+        download={download}
+        handleCreateCharts={handleCreateCharts}
+        loading={loadingCharts}
+      />
       <Paper elevation={3} sx={{ p: '10%' }}>
         <Stack spacing={2}>
           <Autocomplete
@@ -97,109 +107,14 @@ const ConfigCharts = ({ data, setData, charts }) => {
   );
 };
 
-const SendInfo = ({ data, charts }) => {
-  const [download, setDownload] = useState(null);
+const SendInfo = ({ download, handleCreateCharts, loading }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [progress, setProgress] = useState(-10);
-  const [timeInterval, setTimeInterval] = useState(800);
-  const { url } = useUrl();
 
-  useEffect(() => {
-    setProgress(-10);
-    // console.log(data.charts);
-    // console.log(Object.keys(data.preguntas));
-    // console.log(Object.keys(data.preguntas).length);
-    setTimeInterval(800 * Object.keys(data.preguntas).length);
-    setDownload(null);
-  }, [data]);
-
-  useEffect(() => {
-    const timer = setInterval(
-      () => {
-        if (progress <= 100 && progress >= 0) {
-          setProgress(prevProgress => prevProgress + 10);
-        }
-      },
-      download ? 100 : timeInterval
-      // download ? timeInterval : 100
-    );
-    return () => {
-      clearInterval(timer);
-    };
-  }, [progress, download, timeInterval]);
-
-  const handleCreateCharts = async layout => {
-    setAnchorEl(null);
-    setProgress(0);
-
-    const loteSize = 50;
-    const keys = Object.keys(charts);
-    const chartsArr = buildData(keys, Object.values(charts));
-    const chartsPayloadArr = createChartBatches(chartsArr, loteSize);
-    const payloadBatches = createPayloadBatches(chartsPayloadArr, data);
-
-    function createChartBatches(data, size) {
-      let payloadArr = [];
-      let chartCounter = 0;
-      let payload = {};
-
-      for (let i = 0; i < data.length; i++) {
-        if (chartCounter + data[i].chartLength <= size) {
-          payload[data[i].key] = data[i].value;
-          chartCounter += data[i].chartLength;
-          if (i === data.length - 1) payloadArr.push(payload);
-        } else {
-          payloadArr.push(payload);
-          payload = {};
-          chartCounter = 0;
-          i--;
-        }
-      }
-      return payloadArr;
-    }
-
-    // Crear array de lotes de 10 graficas
-    function buildData(keys, values) {
-      const data = [];
-      for (let i = 0; i < keys.length; i++) {
-        data.push({
-          key: keys[i],
-          value: values[i],
-          chartLength: values[i].length,
-        });
-      }
-      return data;
-    }
-
-    function createPayloadBatches(batches, data) {
-      const payloadBatches = [];
-      for (let i = 0; i < batches.length; i++) {
-        const payload = {
-          ...data,
-          charts: batches[i],
-          layout: layout,
-          final: i < batches.length - 1 ? 'false' : 'true',
-        };
-        payloadBatches.push(payload);
-      }
-      return payloadBatches;
-    }
-
-    Promise.all(
-      payloadBatches.map(payload => axiosPost(payload, `${url}/questions`))
-    ).then(responses => setDownload(responses[responses.length - 1].data));
-  };
-
-  if (progress >= 0 && progress <= 100) {
-    return (
-      <Stack spacing={2} alignItems="center">
-        <Typography variant="h6">Creando gráficas...</Typography>
-        <CircularProgressLabel value={progress} />
-      </Stack>
-    );
+  if (loading) {
+    return <CircularProgress />;
   }
 
-  if (progress === 110) {
+  if (download) {
     return (
       <Button
         variant="contained"

@@ -1,16 +1,81 @@
 import { Box, Grid, Stack } from '@mui/material';
 import { useState, useEffect, useRef } from 'react';
-import { getQuestions } from '../../services/Index';
+import { axiosPost, getQuestions } from '../../services/Index';
 import Header from './Header';
 import ConfigCharts from './ConfigCharts';
 import { useUrl } from '../context/BaseUrl';
 
 const Visual = () => {
-  const data = useRef({});
-  // const [data, setData] = useState(null);
+  const displayedData = useRef({});
+  const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [download, setDownload] = useState(null);
   const { url } = useUrl();
   let payload = useRef({ charts: {} });
+  const [loadingCharts, setloadingCharts] = useState(false);
+
+  async function handleCreateCharts(layout) {
+    setloadingCharts(true);
+    const loteSize = 50;
+    const keys = Object.keys(payload.current.charts);
+    const chartsArr = buildData(keys, Object.values(payload.current.charts));
+    const chartsPayloadArr = createChartBatches(chartsArr, loteSize);
+    const payloadBatches = createPayloadBatches(chartsPayloadArr, data);
+
+    function createChartBatches(data, size) {
+      let payloadArr = [];
+      let chartCounter = 0;
+      let payload = {};
+
+      for (let i = 0; i < data.length; i++) {
+        if (chartCounter + data[i].chartLength <= size) {
+          payload[data[i].key] = data[i].value;
+          chartCounter += data[i].chartLength;
+          if (i === data.length - 1) payloadArr.push(payload);
+        } else {
+          payloadArr.push(payload);
+          payload = {};
+          chartCounter = 0;
+          i--;
+        }
+      }
+      return payloadArr;
+    }
+
+    // Crear array de lotes de 10 graficas
+    function buildData(keys, values) {
+      const data = [];
+      for (let i = 0; i < keys.length; i++) {
+        data.push({
+          key: keys[i],
+          value: values[i],
+          chartLength: values[i].length,
+        });
+      }
+      return data;
+    }
+
+    function createPayloadBatches(batches, data) {
+      const payloadBatches = [];
+      for (let i = 0; i < batches.length; i++) {
+        const payload = {
+          ...data,
+          charts: batches[i],
+          layout: layout,
+          final: i < batches.length - 1 ? 'false' : 'true',
+        };
+        payloadBatches.push(payload);
+      }
+      return payloadBatches;
+    }
+
+    Promise.all(
+      payloadBatches.map(payload => axiosPost(payload, `${url}/questions`))
+    ).then(responses => {
+      setDownload(responses[responses.length - 1].data);
+      setloadingCharts(false);
+    });
+  }
 
   function handlePayload(value, item) {
     if (!payload.current.charts[`${item.id}`]) {
@@ -61,6 +126,21 @@ const Visual = () => {
             colorTerceary: '#000000',
           },
         });
+        displayedData.current = {
+          preguntas: { ...response.data },
+          charts: {},
+          config: {
+            font: 'Arial',
+            sizeBarText: '9',
+            sizeChartText: '9',
+            sizeAxisText: '9',
+            sizeLegendText: '9',
+            colorText: '#000000',
+            colorPrimary: '#000000',
+            colorSecondary: '#000000',
+            colorTerceary: '#000000',
+          },
+        };
         setIsLoading(false);
       }
     }
@@ -154,7 +234,14 @@ const Visual = () => {
         </Stack>
       </Grid>
       <Grid item xs={2}>
-        <ConfigCharts data={data} setData={setData} charts={payload.charts} />
+        <ConfigCharts
+          data={data}
+          setData={setData}
+          charts={payload.current.charts}
+          download={download}
+          handleCreateCharts={handleCreateCharts}
+          loadingCharts={loadingCharts}
+        />
       </Grid>
     </Grid>
   );
