@@ -23,6 +23,15 @@ const Visual = () => {
     const payloadBatches = createPayloadBatches(chartsPayloadArr, data);
 
     function createChartBatches(data, size) {
+      data = data.sort((a, b) => {
+        if (a.key > b.key) {
+          return 1;
+        }
+        if (a.key < b.key) {
+          return -1;
+        }
+        return 0;
+      });
       let payloadArr = [];
       let chartCounter = 0;
       let payload = {};
